@@ -1,0 +1,111 @@
+= Anforderungen
+
+.Eigenschaften: SMART
+* Specific
+* Measurable
+* Achievable
+* Relevant
+* Traceable
+
+.Dimensionen
+. Funktional (F) / Qualität (Q) / Rahmenbedingung ++(R)++
+. Muss (M) / Kann (K)
+. Relevanzbereich
++
+--
+`COM`:: Gesamt (common)
+`ARC`:: Softwarearchitektur
+`GUI`:: GUI
+`CLI`:: CLI
+`PAR`:: Parser Grammatik
+`ENG`:: Engine
+`ALG`:: Algorithmik
+`VIS`:: Visualisierung
+--
+
+.Versionen
+* v0.1: Prototyp
+* v1.0: Mindestversion der Abgabe
+
+.Identifier (Dn bezeichnet entsprechendes Label aus Dimension n)
+----
+{D1}-{D3}{-{D2}{version}}+-{number}
+----
+
+[cols="15m,~"]
+.Tabellarische Auflistung
+|===
+| Identifier | Beschreibung
+
+| Q-COM-Mv0.1-0
+| Der Quellcode ist modular aufgebaut und gut lesbar.
+
+| Q-COM-Kv1.0-0
+| Die Anwendung ist leicht in einem Rahmenprogramm einbindbar.
+
+| Q-COM-Mv1.0-0
+| Die Anwendung deckt relevante Themen aus der Lehre ab.
+
+| Q-GUI-Mv1.0-0
+| Intuitive Benutzeroberfläche.
+
+| Q-ARC-Mv0.1-0
+| Die Softwarearchitektur ist objektorientert und erweiterbar.
+
+| Q-CLI-Kv0.1-0
+| Die Hauptfunktionen des Programms können Kommandozeilenorientiert ausgeführt werden.
+Dies dient der einfacheren Integration in ein Rahmenprogramm.
+
+| Q-VIS-Kv1.0-0
+| Die Visualisierungen sind ansprechend und einheitlich gestaltet.
+
+| Q-VIS-Mv1.0-1
+| Visualisierte Objekte werden mit einer sinnvollen Darstellungsart visualisiert.
+
+| F-COM-Mv1.0-0
+| Die zu verwendende Grammatik kann über eine in der Lehre verwendete Syntax definiert werden.
+
+| F-COM-Mv0.1-0
+| Es kann ein Wort eingegeben werden.
+
+| F-COM-Mv0.1-1
+| Alle Produktionen eines eingegebenen Worts in der definierte Grammatik werden ausgegeben.
+
+| F-ALG-Kv1.0-0
+| Auf die definierte Grammatik kann eine LL(k) Analyse angewendet werden.
+
+| F-ALG-Kv1.0-1
+| Auf die definierte Grammatik kann das Pumping Lemma für kontextfreie Sprachen angewendet werden.
+
+| F-ALG-Kv1.0-2
+| Auf die definierte Grammatik können verschiedenen Parsestrategien angewendet werden.
+
+| F-ALG-Kv1.0-3
+| Die definierte Grammatik kann in CNF transformiert werden.
+
+| F-VIS-Kv1.0-0
+| Wortproduktionen werden als Syntaxbaum visualisiert.
+
+| F-VIS-Kv1.0-2
+| Wortproduktionen werden als schrittweise Entwicklung visualisiert.
+
+| F-VIS-Kv1.0-3
+| Der angewendete Parsealgorithmus kann visualisiert werden.
+
+| F-VIS-Kv1.0-4
+| Der angewendete Transformationsalgorithmus kann visualisiert werden.
+
+| F-VIS-Kv1.0-0
+| Die hintergründige Datenstruktur einer Visualisierung kann in einem geeigneten Dateiformat auf einem geeigneten Ausgabekanal ausgegeben werden.
+
+| F-VIS-Kv1.0-2
+| Eine Visualisierung kann in einem gängigen Rastergraphik-Dateiformat gespeichert werden.
+
+| F-VIS-Kv1.0-3
+| Eine Visualisierung kann in einem gängigen Vektorgraphik-Dateiformat gespeichert werden.
+
+// TODO(patrick): Parser, Engine, Rahmenbedingungen
+|===
+
+// vim:spelllang=de,en_gb:filetype=asciidoc
+
