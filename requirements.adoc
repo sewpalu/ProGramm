@@ -49,6 +49,9 @@
 | Q-GUI-Mv1.0-0
 | Intuitive Benutzeroberfläche.
 
+| Q-GUI-Mv1.0-1
+| Die GUI muss innerhalb eines vordefinierten Zeitintervalls (1/15s)aktualisiert werden.
+
 | Q-ARC-Mv0.1-0
 | Die Softwarearchitektur ist objektorientert und erweiterbar.
 
