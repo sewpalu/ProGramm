@@ -14,6 +14,6 @@ void CLIActions::visualiseProduction(const std::string& word)
     syntax_tree.accept(visualisation);
 
     std::cout << "---" << std::endl;
-    std::cout << visualisation.to_string() << std::endl;
+    std::cout << visualisation.toString() << std::endl;
   }
 }
