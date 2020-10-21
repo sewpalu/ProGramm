@@ -6,7 +6,9 @@
 class Nonterminal : public Symbol
 {
 public:
-  explicit Nonterminal(const std::string& identifier);
+  explicit Nonterminal(const std::string& identifier) : Symbol(identifier)
+  {
+  }
 };
 
 #endif /* NONTERMINAL_H */

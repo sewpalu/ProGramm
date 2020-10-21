@@ -8,7 +8,7 @@ class Symbol
   const std::string m_identifier;
 
 public:
-  virtual ~Symbol();
+  virtual ~Symbol() = default;
 
   const std::string& identifier() const
   {

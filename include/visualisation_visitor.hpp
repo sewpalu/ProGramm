@@ -1,8 +1,8 @@
 #ifndef VISUALISATION_VISITOR_H
 #define VISUALISATION_VISITOR_H
 
-#include "cyk_visualiser.hpp"
-#include "st_visualiser.hpp"
+class CYKVisualiser;
+class STVisualiser;
 
 class VisualisationVisitor
 {
