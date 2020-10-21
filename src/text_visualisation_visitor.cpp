@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #include "cyk_visualiser.hpp"
+#include "st_node.hpp"
 #include "st_visualiser.hpp"
 
 #include <iostream>
@@ -110,7 +111,22 @@ void TextVisualisationVisitor::visitCYKVisualiser(
   m_text += pretty_grid_string(grid_top, grid_mid, grid_bot, grid_rows);
 }
 
+static std::string subtree_printer(const STNode& node,
+                                   const std::size_t indentation = 0)
+{
+  using namespace std::literals;
+  auto result =
+      (indentation ? repeat<std::string>("│  ", indentation - 1) + "└──"
+                   : ""s) +
+      node.value->identifier() + "\n";
+  for (const auto& child : node.children)
+    result += subtree_printer(child, indentation + 1);
+
+  return result;
+}
+
 void TextVisualisationVisitor::visitSTVisualiser(const STVisualiser& visualiser)
 {
-  (void)visualiser;
+  const auto& tree = visualiser.root_node();
+  m_text = subtree_printer(tree);
 }
