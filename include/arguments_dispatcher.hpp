@@ -14,10 +14,10 @@ private:
 
 public:
   ArgumentsDispatcher(int argc, char** argv);
-  void dispatch();
+  void dispatch() const;
 
 private:
-  void print_help(const std::string& context);
+  void print_help(const std::string& context) const;
 };
 
 #endif /* ARGUMENTS_DISPATCHER_H */

@@ -8,14 +8,14 @@ void CLIActions::visualiseProduction(const std::string& word)
 {
   std::cout << "Syntax productions" << std::endl;
 
-  m_engine.setGrammar({});
+  m_engine.setGrammarParser({});
 
-  for (const auto& syntax_tree : m_engine.parseWord(word))
+  for (const auto& syntax_tree : m_engine.parseWord({}, word))
   {
-    auto visualisation = std::make_shared(TextVisualisationVisitor{});
-    syntax_tree.accept(visualisation);
+    auto visualisation = std::make_unique<TextVisualisationVisitor>();
+    syntax_tree.visualiser().accept(*visualisation);
 
     std::cout << "---" << std::endl;
-    std::cout << visualisation.toString() << std::endl;
+    std::cout << visualisation->toString() << std::endl;
   }
 }

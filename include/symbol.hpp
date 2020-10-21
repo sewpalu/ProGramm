@@ -1,14 +1,17 @@
 #ifndef SYMBOL_H
 #define SYMBOL_H
 
+#include <memory>
 #include <string>
 
 class Symbol
 {
-  const std::string m_identifier;
+  std::string m_identifier;
 
 public:
   virtual ~Symbol() = default;
+
+  virtual std::unique_ptr<Symbol> clone() = 0;
 
   const std::string& identifier() const
   {
@@ -16,7 +19,7 @@ public:
   }
 
 protected:
-  Symbol(const std::string& identifier) : m_identifier(identifier)
+  explicit Symbol(const std::string& identifier) : m_identifier(identifier)
   {
   }
 };

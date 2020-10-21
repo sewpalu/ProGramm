@@ -13,7 +13,7 @@ protected:
 public:
   virtual ~Visualisable() = default;
 
-  const Visualiser& visualiser()
+  const Visualiser& visualiser() const
   {
     return *m_visualiser;
   }

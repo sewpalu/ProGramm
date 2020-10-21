@@ -3,15 +3,19 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <memory>
+
+#include "cli_actions.hpp"
+#include "dummy_grammar_parser.hpp"
 
 ArgumentsDispatcher::ArgumentsDispatcher(int argc, char** argv)
 {
   m_argv.reserve(argc);
   for (auto i = 0; i < argc; ++i)
-    m_argv.push_back(argv[i]);
+    m_argv.push_back(std::string{argv[i]});
 }
 
-void ArgumentsDispatcher::dispatch()
+void ArgumentsDispatcher::dispatch() const
 {
   // Temporary implementation!
 
@@ -26,7 +30,7 @@ void ArgumentsDispatcher::dispatch()
     switch (m_settings.syntax)
     {
     case Settings::Syntax::dummy:
-      grammar_parser = std::make_unique<GrammarParser>(DummySyntax);
+      grammar_parser = std::unique_ptr<GrammarParser>(new DummyGrammarParser{});
       break;
     case Settings::Syntax::bnf:
       throw std::runtime_error{"BNF not yet implemented!"};
@@ -41,7 +45,7 @@ void ArgumentsDispatcher::dispatch()
   }
 }
 
-void ArgumentsDispatcher::print_help(const std::string& context)
+void ArgumentsDispatcher::print_help(const std::string& context) const
 {
   std::cout << "Wrong! " << context << std::endl;
   std::cout << std::endl;

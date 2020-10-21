@@ -4,13 +4,18 @@
 #include "formal_grammar.hpp"
 #include "grammar_parser.hpp"
 
-class DummyGrammarParser : GrammarParser
+class DummyGrammarParser : public GrammarParser
 {
 private:
   static const FormalGrammar demo_grammar;
   static const Production demo_production;
 
 public:
+  std::unique_ptr<GrammarParser> clone() const override
+  {
+    return std::make_unique<DummyGrammarParser>(*this);
+  }
+
   Production parseProduction(const std::string& input) const override
   {
     (void)input;

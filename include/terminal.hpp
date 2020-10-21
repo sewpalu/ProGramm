@@ -15,6 +15,11 @@ public:
   {
   }
 
+  std::unique_ptr<Symbol> clone() override
+  {
+    return std::make_unique<Terminal>(*this);
+  }
+
   const std::string& value() const;
 };
 
