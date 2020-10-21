@@ -1,0 +1,6 @@
+﻿  FormalGrammar.cpp
+  STNode.cpp
+C:\Users\felix\source\repos\FormalGrammar\STNode.cpp(24,19): warning C4018: "<": Konflikt zwischen "signed" und "unsigned"
+  Symbol.cpp
+  Code wird generiert...
+  FormalGrammar.vcxproj -> C:\Users\felix\source\repos\FormalGrammar\Debug\FormalGrammar.exe

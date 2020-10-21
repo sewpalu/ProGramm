@@ -1,0 +1,2 @@
+C:\Users\felix\source\repos\FormalGrammar\Debug\FormalGrammar.exe
+C:\Users\felix\source\repos\FormalGrammar\Debug\FormalGrammar.pdb
