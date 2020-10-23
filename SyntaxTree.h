@@ -12,6 +12,7 @@ private:
 public:
 	SyntaxTree(STNode root_input);
 	~SyntaxTree();
+	SyntaxTree();
 
 	STNode getRoot();
 	std::vector<STNode> getChildren();

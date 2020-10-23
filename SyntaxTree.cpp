@@ -9,6 +9,10 @@ SyntaxTree::~SyntaxTree()
 {
 }
 
+SyntaxTree::SyntaxTree()
+{
+}
+
 STNode SyntaxTree::getRoot()
 {
 	return this->root;
