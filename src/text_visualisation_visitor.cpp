@@ -56,10 +56,20 @@ void TextVisualisationVisitor::visitCYKVisualiser(
   for (auto& column : columns)
     column.resize(height);
 
+  auto highlighted_cells =
+      m_highlighted_cell
+          ? matrix[m_highlighted_cell->at(0)][m_highlighted_cell->at(1)]
+                  [m_highlighted_cell->at(2)]
+                      .productions
+          : decltype(matrix[0][0][0].productions){};
+
   for (auto m = std::size_t{}; m < height; ++m)
     for (auto n = std::size_t{}; n < width; ++n)
     {
       auto cell = ""s;
+      for (const auto& highlighted_cell : highlighted_cells)
+        if (highlighted_cell.first == m && highlighted_cell.second == n)
+          cell += "* "s;
       for (const auto& symbol : matrix[m][n])
       {
         const auto& id = symbol.root.identifier();
@@ -112,15 +122,23 @@ void TextVisualisationVisitor::visitCYKVisualiser(
 }
 
 static std::string subtree_printer(const STNode& node,
-                                   const std::size_t indentation = 0)
+                                   const std::string pre_indentation = {},
+                                   const std::string indentation = {},
+                                   const bool last = false)
 {
   using namespace std::literals;
   auto result =
-      (indentation ? repeat<std::string>("│  ", indentation - 1) + "└──"
-                   : ""s) +
+      (indentation.empty() ? ""s : pre_indentation + (last ? "└──"s : "├──"s)) +
       node.value->identifier() + "\n";
-  for (const auto& child : node.children)
-    result += subtree_printer(child, indentation + 1);
+  if (node.children.empty())
+    return result;
+
+  auto rtail = decltype(node.children){node.children.begin(),
+                                       std::prev(node.children.end())};
+  for (const auto& child : rtail)
+    result += subtree_printer(child, indentation, indentation + "│  "s);
+  result += subtree_printer(node.children.back(), indentation,
+                            indentation + "   "s, true);
 
   return result;
 }
