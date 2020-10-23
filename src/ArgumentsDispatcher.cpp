@@ -1,12 +1,12 @@
-#include "arguments_dispatcher.hpp"
+#include "ArgumentsDispatcher.hpp"
 
 #include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <memory>
 
-#include "cli_actions.hpp"
-#include "dummy_grammar_parser.hpp"
+#include "CLIActions.hpp"
+#include "DummyGrammarParser.hpp"
 
 ArgumentsDispatcher::ArgumentsDispatcher(int argc, char** argv)
 {

@@ -1,7 +1,7 @@
 #ifndef VISUALISER_H
 #define VISUALISER_H
 
-#include "visualisation_visitor.hpp"
+#include "VisualisationVisitor.hpp"
 
 class Visualiser
 {

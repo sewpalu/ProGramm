@@ -1,8 +1,8 @@
 #ifndef DUMMY_GRAMMAR_PARSER_H
 #define DUMMY_GRAMMAR_PARSER_H
 
-#include "formal_grammar.hpp"
-#include "grammar_parser.hpp"
+#include "FormalGrammar.hpp"
+#include "GrammarParser.hpp"
 
 class DummyGrammarParser : public GrammarParser
 {

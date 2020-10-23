@@ -4,10 +4,10 @@
 #include <memory>
 #include <utility>
 
-#include "formal_grammar.hpp"
-#include "grammar_parser.hpp"
-#include "syntax_tree.hpp"
-#include "word_parser.hpp"
+#include "FormalGrammar.hpp"
+#include "GrammarParser.hpp"
+#include "SyntaxTree.hpp"
+#include "WordParser.hpp"
 
 class EngineFacade
 {

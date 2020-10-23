@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "terminal.hpp"
+#include "Terminal.hpp"
 
 struct Word
 {

@@ -5,8 +5,8 @@
 #include <memory>
 #include <vector>
 
-#include "nonterminal.hpp"
-#include "symbol.hpp"
+#include "Nonterminal.hpp"
+#include "Symbol.hpp"
 
 struct Production
 {

@@ -3,8 +3,8 @@
 
 #include <vector>
 
-#include "nonterminal.hpp"
-#include "production.hpp"
+#include "Nonterminal.hpp"
+#include "Production.hpp"
 
 struct FormalGrammar
 {

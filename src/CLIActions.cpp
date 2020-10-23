@@ -1,8 +1,8 @@
-#include "cli_actions.hpp"
+#include "CLIActions.hpp"
 
 #include <iostream>
 
-#include "text_visualisation_visitor.hpp"
+#include "TextVisualisationVisitor.hpp"
 
 void CLIActions::visualiseProduction(const std::string& word)
 {

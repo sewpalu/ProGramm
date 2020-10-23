@@ -5,7 +5,7 @@
 #include <optional>
 #include <string>
 
-#include "visualisation_visitor.hpp"
+#include "VisualisationVisitor.hpp"
 
 class TextVisualisationVisitor : public VisualisationVisitor
 {

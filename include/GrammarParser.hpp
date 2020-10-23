@@ -4,9 +4,9 @@
 #include <memory>
 #include <string>
 
-#include "formal_grammar.hpp"
-#include "production.hpp"
-#include "word.hpp"
+#include "FormalGrammar.hpp"
+#include "Production.hpp"
+#include "Word.hpp"
 
 class GrammarParser
 {

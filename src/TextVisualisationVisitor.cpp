@@ -1,10 +1,10 @@
-#include "text_visualisation_visitor.hpp"
+#include "TextVisualisationVisitor.hpp"
 
 #include <algorithm>
 
-#include "cyk_visualiser.hpp"
-#include "st_node.hpp"
-#include "st_visualiser.hpp"
+#include "CYKVisualiser.hpp"
+#include "STNode.hpp"
+#include "STVisualiser.hpp"
 
 #include <iostream>
 

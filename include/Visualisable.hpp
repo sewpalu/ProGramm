@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#include "visualiser.hpp"
+#include "Visualiser.hpp"
 
 class Visualisable
 {

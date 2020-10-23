@@ -1,4 +1,4 @@
-#include "dummy_grammar_parser.hpp"
+#include "DummyGrammarParser.hpp"
 
 const auto DummyGrammarParser::demo_grammar =
     FormalGrammar{{}, Nonterminal{{}}};

@@ -1,7 +1,7 @@
 #ifndef NONTERMINAL_H
 #define NONTERMINAL_H
 
-#include "symbol.hpp"
+#include "Symbol.hpp"
 
 class Nonterminal : public Symbol
 {

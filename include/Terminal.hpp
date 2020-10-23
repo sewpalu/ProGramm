@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "symbol.hpp"
+#include "Symbol.hpp"
 
 class Terminal : public Symbol
 {

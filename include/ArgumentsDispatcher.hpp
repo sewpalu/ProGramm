@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "settings.hpp"
+#include "Settings.hpp"
 
 class ArgumentsDispatcher
 {
