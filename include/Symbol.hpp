@@ -1,27 +1,24 @@
-#ifndef SYMBOL_H
-#define SYMBOL_H
+#pragma once
 
-#include <memory>
 #include <string>
+#include <memory>
 
-class Symbol
+struct Symbol
 {
-  std::string m_identifier;
 
 public:
-  virtual ~Symbol() = default;
+	std::string identifier;
 
-  virtual std::unique_ptr<Symbol> clone() = 0;
+	Symbol();
+	virtual ~Symbol();
 
-  const std::string& identifier() const
-  {
-    return m_identifier;
-  }
+	virtual std::unique_ptr<Symbol> clone() = 0;
+
+	std::string getIdentifier();
 
 protected:
-  explicit Symbol(const std::string& identifier) : m_identifier(identifier)
-  {
-  }
+	explicit Symbol(std::string identifier_input);
+
+
 };
 
-#endif /* SYMBOL_H */

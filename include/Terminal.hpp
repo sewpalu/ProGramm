@@ -1,26 +1,22 @@
-#ifndef TERMINAL_H
-#define TERMINAL_H
+#pragma once
+#include "Symbol.hpp"
 
 #include <string>
 
-#include "Symbol.hpp"
-
-class Terminal : public Symbol
+struct Terminal :
+    public Symbol
 {
-  const std::string m_value;
 
 public:
-  Terminal(const std::string& value, const std::string& identifier)
-      : Symbol(identifier), m_value(value)
-  {
-  }
+    std::string value;
 
-  std::unique_ptr<Symbol> clone() override
-  {
-    return std::make_unique<Terminal>(*this);
-  }
+    Terminal(std::string identifier_input, std::string value_input);
+    Terminal();
+    ~Terminal();
 
-  const std::string& value() const;
+    std::unique_ptr<Symbol> clone() override
+    {
+      return std::make_unique<Terminal>(*this);
+    }
 };
 
-#endif /* TERMINAL_H */

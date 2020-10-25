@@ -1,19 +1,20 @@
-#ifndef NONTERMINAL_H
-#define NONTERMINAL_H
-
+#pragma once
 #include "Symbol.hpp"
 
-class Nonterminal : public Symbol
-{
-public:
-  explicit Nonterminal(const std::string& identifier) : Symbol(identifier)
-  {
-  }
+#include <string>
 
-  std::unique_ptr<Symbol> clone() override
-  {
-    return std::make_unique<Nonterminal>(*this);
-  }
+struct Nonterminal :
+    public Symbol
+{
+
+public:
+    explicit Nonterminal(std::string identifier_input);
+    Nonterminal();
+    ~Nonterminal();
+
+    std::unique_ptr<Symbol> clone() override
+    {
+      return std::make_unique<Nonterminal>(*this);
+    }
 };
 
-#endif /* NONTERMINAL_H */

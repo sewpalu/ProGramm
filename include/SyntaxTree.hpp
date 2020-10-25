@@ -1,16 +1,19 @@
 #pragma once
 
-#include "STNode.h"
 #include <vector>
 
-class SyntaxTree
+#include "STNode.hpp"
+#include "STVisualiser.hpp"
+#include "Visualisable.hpp"
+
+class SyntaxTree : public Visualisable
 {
 
 private:
 	STNode root;
 
 public:
-	SyntaxTree(STNode root_input);
+	explicit SyntaxTree(STNode root_input);
 	~SyntaxTree();
 	SyntaxTree();
 

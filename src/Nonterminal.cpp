@@ -1,4 +1,4 @@
-#include "Nonterminal.h"
+#include "Nonterminal.hpp"
 
 Nonterminal::Nonterminal(std::string identifier_input)
 {

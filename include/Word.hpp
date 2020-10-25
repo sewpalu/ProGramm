@@ -1,5 +1,4 @@
-#ifndef WORD_H
-#define WORD_H
+#pragma once
 
 #include <vector>
 
@@ -7,7 +6,17 @@
 
 struct Word
 {
-  std::vector<Terminal> content;
+
+public:
+	std::vector<Terminal> content;
+
+	unsigned int getSize();
+
+	Terminal at(int position);
+
+	Word();
+	explicit Word(std::vector<Terminal> content_input);
+	~Word();
+
 };
 
-#endif /* WORD_H */

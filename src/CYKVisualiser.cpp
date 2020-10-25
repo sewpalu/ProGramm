@@ -1,4 +1,4 @@
-#include "CYKVisualiser.h"
+#include "CYKVisualiser.hpp"
 
 CYKVisualiser::CYKVisualiser(unsigned int wordlength)
 {
@@ -94,7 +94,7 @@ void CYKVisualiser::dumpContent(unsigned int coordinate1, unsigned int coordinat
 
 	std::cout << "Visualiser Content: \n";
 
-	for (int i = this->matrix.size() - 1; i >= 0; i--)
+	for (unsigned int i = this->matrix.size() - 1; i >= 0; i--)
 	{
 		for (unsigned int j = 0; j < this->matrix.at(i).size() - i; j++)
 		{

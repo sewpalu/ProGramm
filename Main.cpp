@@ -1,21 +1,22 @@
-#include "CYKVisualiser.h"
-#include "Production.h"
-#include "Nonterminal.h"
-#include "Terminal.h"
-#include "Symbol.h"
-#include "Word.h"
-#include "FormalGrammar.h"
-#include "CYKAlgorithm.h"
-#include "SyntaxTree.h"
+#include "CYKVisualiser.hpp"
+#include "Production.hpp"
+#include "Nonterminal.hpp"
+#include "Terminal.hpp"
+#include "Symbol.hpp"
+#include "Word.hpp"
+#include "FormalGrammar.hpp"
+#include "CYKAlgorithm.hpp"
+#include "SyntaxTree.hpp"
 
 #include <iostream>
+#include <memory>
 #include <vector>
 #include <chrono>
 
 
 typedef std::chrono::high_resolution_clock Clock;
 
-void main()
+int main()
 {
 	//Test 1
 	/*//Define Nonterminals for testing
@@ -64,22 +65,33 @@ void main()
 	Terminal c("termC", "c");
 
 	//Define right hand sides of production rules
-	std::vector<Symbol> rhs1 = {nonA, nonB};
-	std::vector<Symbol> rhs2 = {nonB, nonC};
-	std::vector<Symbol> rhs3 = {nonB, nonC};
-	std::vector<Symbol> rhs4 = {nonC, nonA};
-	std::vector<Symbol> rhs5 = {a};
-	std::vector<Symbol> rhs6 = {b};
-	std::vector<Symbol> rhs7 = {c};
+	std::vector<std::unique_ptr<Symbol>> rhs1{};
+        rhs1.push_back(nonA.clone());
+        rhs1.push_back(nonB.clone());
+	std::vector<std::unique_ptr<Symbol>> rhs2{};
+        rhs2.push_back(nonB.clone());
+        rhs2.push_back(nonC.clone());
+	std::vector<std::unique_ptr<Symbol>> rhs3{};
+        rhs3.push_back(nonB.clone());
+        rhs3.push_back(nonC.clone());
+	std::vector<std::unique_ptr<Symbol>> rhs4{};
+        rhs4.push_back(nonC.clone());
+        rhs4.push_back(nonA.clone());
+	std::vector<std::unique_ptr<Symbol>> rhs5{};
+        rhs5.push_back(a.clone());
+	std::vector<std::unique_ptr<Symbol>> rhs6{};
+        rhs6.push_back(b.clone());
+	std::vector<std::unique_ptr<Symbol>> rhs7{};
+        rhs6.push_back(c.clone());
 
 	//Combine Nonterminals and right hand side vectors to production rules
-	Production prod1(nonS, rhs1);
-	Production prod2(nonA, rhs2);
-	Production prod3(nonB, rhs3);
-	Production prod4(nonC, rhs4);
-	Production prod5(nonA, rhs5);
-	Production prod6(nonB, rhs6);
-	Production prod7(nonC, rhs7);
+	Production prod1(nonS, std::move(rhs1));
+	Production prod2(nonA, std::move(rhs2));
+	Production prod3(nonB, std::move(rhs3));
+	Production prod4(nonC, std::move(rhs4));
+	Production prod5(nonA, std::move(rhs5));
+	Production prod6(nonB, std::move(rhs6));
+	Production prod7(nonC, std::move(rhs7));
 
 	//Combine production rules to vector
 	std::vector<Production> productionRules = {prod1, prod2, prod3, prod4, prod5, prod6, prod7};
@@ -98,7 +110,7 @@ void main()
 
 	//execute parse of CYKAlgorithm and take time
 	auto start_time = Clock::now();
-	CYKVisualiser cykVis = cykTest.parse(testGrammar, testWord);
+        auto cykVis = cykTest.parse(testGrammar, testWord);
 	auto end_time = Clock::now();
 	std::cout << "Laufzeit: " << std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count() << "Mikrosekunden" << std::endl;
 
@@ -129,7 +141,7 @@ void main()
 				std::string nonterminalIdentifier;
 				std::cin >> nonterminalIdentifier;
 
-				cykVis.dumpContent(firstCoordinate, secondCoordinate, nonterminalIdentifier);
+                                dynamic_cast<CYKVisualiser*>(cykVis.get())->dumpContent(firstCoordinate, secondCoordinate, nonterminalIdentifier);
 
 			}
 			catch(...)

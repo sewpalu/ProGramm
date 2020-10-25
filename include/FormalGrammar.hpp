@@ -1,20 +1,20 @@
-#ifndef FORMAL_GRAMMAR_H
-#define FORMAL_GRAMMAR_H
+#pragma once
 
 #include <vector>
 
-#include "Nonterminal.hpp"
 #include "Production.hpp"
+#include "Nonterminal.hpp"
 
 struct FormalGrammar
 {
-  std::vector<Production> productions;
-  Nonterminal start;
 
-  FormalGrammar(std::vector<Production> productions, Nonterminal start)
-      : productions(productions), start(start)
-  {
-  }
+public:
+	std::vector<Production> rules;
+
+	Nonterminal start;
+
+	FormalGrammar(Nonterminal start_input, std::vector<Production> rules);
+	~FormalGrammar();
+
 };
 
-#endif /* FORMAL_GRAMMAR_H */

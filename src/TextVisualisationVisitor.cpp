@@ -41,7 +41,7 @@ void TextVisualisationVisitor::visitCYKVisualiser(
     const CYKVisualiser& visualiser)
 {
   using namespace std::literals;
-  const auto& matrix = visualiser.matrix();
+  const auto& matrix = visualiser.matrix;
 
   if (matrix.empty() || matrix[0].empty())
     return;
@@ -72,7 +72,7 @@ void TextVisualisationVisitor::visitCYKVisualiser(
           cell += "* "s;
       for (const auto& symbol : matrix[m][n])
       {
-        const auto& id = symbol.root.identifier();
+        const auto& id = symbol.root.identifier;
         cell += std::string{id.begin(), id.end()} + ","s;
       }
       if (cell.size() >= 2)
@@ -129,7 +129,7 @@ static std::string subtree_printer(const STNode& node,
   using namespace std::literals;
   auto result =
       (indentation.empty() ? ""s : pre_indentation + (last ? "└──"s : "├──"s)) +
-      node.value->identifier() + "\n";
+      node.value->identifier + "\n";
   if (node.children.empty())
     return result;
 

@@ -1,6 +1,7 @@
-#include "CYKAlgorithm.h"
+#include "CYKAlgorithm.hpp"
+#include <memory>
 
-CYKVisualiser CYKAlgorithm::parse(FormalGrammar grammar, Word input) //FormalGrammar grammar, Word input
+std::unique_ptr<Visualiser> CYKAlgorithm::parse(FormalGrammar grammar, Word input) //FormalGrammar grammar, Word input
 {
 	std::pair<unsigned int, unsigned int> position1 = { 0,0 };
 	std::pair<unsigned int, unsigned int> position2 = { 1,1 };
@@ -36,7 +37,7 @@ CYKVisualiser CYKAlgorithm::parse(FormalGrammar grammar, Word input) //FormalGra
 			if (grammar.rules.at(rulePos).rhs.size() == 1)
 			{
 				//See Symbol (it's known this is a Terminal) has same Terminal in word
-				if (grammar.rules.at(rulePos).rhs.at(0).identifier == testTerminal.identifier)
+				if (grammar.rules.at(rulePos).rhs.at(0)->identifier == testTerminal.identifier)
 				{
 					productionPositions.push_back( { rulePos, wordPos });
 					CYKLink terminalLink(grammar.rules.at(rulePos).lhs, productionPositions);
@@ -78,8 +79,8 @@ CYKVisualiser CYKAlgorithm::parse(FormalGrammar grammar, Word input) //FormalGra
 				searchSymbolLeft.clear();
 				searchSymbolRight.clear();
 				
-				int test1 = solution.matrix.at(combination).at(cykCol).size();
-				int test2 = solution.matrix.at(cykLine - combination - 1).at(cykCol + combination).size();
+				//int test1 = solution.matrix.at(combination).at(cykCol).size();
+				//int test2 = solution.matrix.at(cykLine - combination - 1).at(cykCol + combination).size();
 
 				for (unsigned int nonterminal = 0; nonterminal < solution.matrix.at(combination).at(cykCol).size(); nonterminal++)
 				{
@@ -109,11 +110,11 @@ CYKVisualiser CYKAlgorithm::parse(FormalGrammar grammar, Word input) //FormalGra
 						
 						for (unsigned int numberOfLeftNonterminal = 0; numberOfLeftNonterminal < numberOfLeftNonterminals; numberOfLeftNonterminal++)
 						{
-							if (grammar.rules.at(prodCounter).rhs.at(0).getIdentifier() == searchSymbolLeft.at(numberOfLeftNonterminal).getIdentifier())
+							if (grammar.rules.at(prodCounter).rhs.at(0)->getIdentifier() == searchSymbolLeft.at(numberOfLeftNonterminal).getIdentifier())
 							{
 								for(unsigned int numberOfRightNonterminal = 0; numberOfRightNonterminal < numberOfRightNonterminals; numberOfRightNonterminal++)
 								{
-									if (grammar.rules.at(prodCounter).rhs.at(1).getIdentifier() == searchSymbolRight.at(numberOfRightNonterminal).getIdentifier())
+									if (grammar.rules.at(prodCounter).rhs.at(1)->getIdentifier() == searchSymbolRight.at(numberOfRightNonterminal).getIdentifier())
 									{
 										tempResult.setRoot(grammar.rules.at(prodCounter).lhs);
 										tempPositions = { { combination, cykCol }, { cykLine - combination - 1, cykCol + combination + 1 } };
@@ -155,7 +156,7 @@ CYKVisualiser CYKAlgorithm::parse(FormalGrammar grammar, Word input) //FormalGra
 		std::cout << "Better luck next time!\n";
 	}
 
-	return solution;
+	return std::make_unique<CYKVisualiser>(solution);
 }
 
 CYKAlgorithm::CYKAlgorithm()

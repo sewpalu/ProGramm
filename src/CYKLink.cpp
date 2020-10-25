@@ -1,4 +1,4 @@
-#include "CYKLink.h"
+#include "CYKLink.hpp"
 
 Nonterminal CYKLink::getRoot()
 {
@@ -49,7 +49,7 @@ bool CYKLink::isEmpty()
     bool result = false;
     if (this->root.identifier != "")
     {
-        result == true;
+        result = true;
     }
     return result;
 }

@@ -1,4 +1,4 @@
-#include "FormalGrammar.h"
+#include "FormalGrammar.hpp"
 
 FormalGrammar::FormalGrammar(Nonterminal start_input, std::vector<Production> rules_input)
 {

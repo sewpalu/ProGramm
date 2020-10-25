@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Symbol.h"
-#include "Nonterminal.h"
+#include "Symbol.hpp"
+#include "Nonterminal.hpp"
 #include <vector>
 
-class CYKLink
+struct CYKLink
 {
 
-private:
+public: // Theres no invariant! (CPP-Core Guidelines Rule C.2)
 	Nonterminal root;
 	std::vector<std::pair<unsigned, unsigned int>> productions;
 

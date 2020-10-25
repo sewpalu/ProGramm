@@ -46,7 +46,7 @@ public:
     throw std::runtime_error{"Parsing productions not implemented yet"};
   }
 
-  std::vector<SyntaxTree> parseWord(std::unique_ptr<WordParser> word_parser,
+  std::unique_ptr<Visualiser> parseWord(std::unique_ptr<WordParser> word_parser,
                                     const std::string& word) const
   {
     if (m_grammar && word_parser)
