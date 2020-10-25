@@ -6,12 +6,13 @@
 
 #include "TextVisualisationVisitor.hpp"
 #include "CYKAlgorithm.hpp"
+#include "DummyGrammarParser.hpp"
 
 void CLIActions::visualiseProduction(const std::string& word)
 {
   std::cout << "Syntax productions" << std::endl;
 
-  m_engine.setGrammarParser({});
+  m_engine.setGrammarParser(std::make_unique<DummyGrammarParser>());
 
   const auto visualiser = m_engine.parseWord(std::make_unique<CYKAlgorithm>(), word);
   

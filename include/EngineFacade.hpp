@@ -38,6 +38,9 @@ public:
   void setGrammarParser(std::unique_ptr<GrammarParser> grammar_parser)
   {
     m_grammar_parser = std::move(grammar_parser);
+
+    // FIXME Temporary
+    m_grammar = m_grammar_parser->parseGrammar({});
   }
 
   void addProduction(const std::string& production)
