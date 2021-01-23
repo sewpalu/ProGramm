@@ -1,7 +1,7 @@
 #include "DummyGrammarParser.hpp"
 #include <initializer_list>
 
-const auto DummyGrammarParser::demo_grammar = FormalGrammar{
+const FormalGrammar DummyGrammarParser::demo_grammar = FormalGrammar{
     Nonterminal{"S"},
     {
         {Nonterminal{"S"}, {{new Nonterminal{"A"}, new Nonterminal{"B"}}}},
@@ -16,5 +16,5 @@ const auto DummyGrammarParser::demo_grammar = FormalGrammar{
          {std::initializer_list<Symbol*>{new Terminal{"c", "c"}}}},
     }};
 
-const auto DummyGrammarParser::demo_production =
+const Production DummyGrammarParser::demo_production =
     Production{Nonterminal{{}}, {}};

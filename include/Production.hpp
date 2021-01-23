@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <memory>
+#include <algorithm>
 
 #include "Symbol.hpp"
 #include "Nonterminal.hpp"

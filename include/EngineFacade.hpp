@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <utility>
+#include <stdexcept>
 
 #include "FormalGrammar.hpp"
 #include "GrammarParser.hpp"
