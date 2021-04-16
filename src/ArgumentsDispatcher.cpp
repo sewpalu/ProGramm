@@ -9,46 +9,41 @@
 #include "DummyGrammarParser.hpp"
 
 ArgumentsDispatcher::ArgumentsDispatcher(int argc, char** argv)
+    : m_argv([=] {
+        auto init = std::vector<std::string>{};
+        init.reserve(argc);
+        for (auto i = 1; i < argc; ++i)
+          init.push_back(std::string{argv[i]});
+        return init;
+      }())
 {
-  m_argv.reserve(argc);
-  for (auto i = 0; i < argc; ++i)
-    m_argv.push_back(std::string{argv[i]});
 }
 
 void ArgumentsDispatcher::dispatch() const
 {
-  // Temporary implementation!
 
-  if (m_argv.size() != 2)
-  {
-    print_help("Invalid number of arguments.");
-    return;
-  }
+  auto args = docopt::docopt(s_usage, m_argv);
 
-  {
-    auto grammar_parser = std::unique_ptr<GrammarParser>{nullptr};
-    switch (m_settings.syntax)
-    {
-    case Settings::Syntax::dummy:
-      grammar_parser = std::unique_ptr<GrammarParser>(new DummyGrammarParser{});
-      break;
-    case Settings::Syntax::bnf:
-      throw std::runtime_error{"BNF not yet implemented!"};
-      break;
-    case Settings::Syntax::fahr:
-      throw std::runtime_error{"Fahr notation not yet implemented!"};
-      break;
-    }
+  auto engine = std::unique_ptr<EngineFacade>{};
 
-    CLIActions{EngineFacade{std::move(grammar_parser)}}.visualiseProduction(
-        m_argv[1]);
-  }
+  // TODO Parse common options
+
+  if (args["gui"])
+    dispatch_gui(args, std::move(engine));
+  else if (args["parse"])
+    dispatch_parse(args, std::move(engine));
 }
 
-void ArgumentsDispatcher::print_help(const std::string& context) const
+void ArgumentsDispatcher::dispatch_gui(const docopt::Options& args, std::unique_ptr<EngineFacade> engine) const
 {
-  std::cout << "Wrong! " << context << std::endl;
-  std::cout << std::endl;
-  std::cout << "Expected Usage:" << std::endl;
-  std::cout << "    " << m_argv[0] << " <word>" << std::endl;
+  // TODO
+  (void)args;
+  (void)engine;
+}
+
+void ArgumentsDispatcher::dispatch_parse(const docopt::Options& args, std::unique_ptr<EngineFacade> engine) const
+{
+  // TODO
+  (void)args;
+  (void)engine;
 }
