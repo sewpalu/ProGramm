@@ -1,0 +1,7 @@
+.*
+!.gitignore
+!.clang-format
+build/
+out/
+Debug/
+*.user
