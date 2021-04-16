@@ -1,11 +1,12 @@
 [submodule "depend/docopt"]
 	path = depend/docopt
 	url = https://github.com/docopt/docopt.cpp
+	branch = v0.6.3
+[submodule "depend/wxWidgets"]
+	path = depend/wxWidgets
+	url = https://github.com/wxWidgets/wxWidgets.git
+	branch = v3.1.5
 [submodule "depend/googletest"]
 	path = depend/googletest
 	url = https://github.com/google/googletest
 	branch = release-1.10.0
-[submodule "depend/wxWidgets"]
-	path = depend/wxWidgets
-	url = https://github.com/wxWidgets/wxWidgets
-	branch = v3.1.5
