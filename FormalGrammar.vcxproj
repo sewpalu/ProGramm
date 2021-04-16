@@ -99,17 +99,35 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CYKAlgorithm.cpp" />
-    <ClCompile Include="formalgrammar\FormalGrammar.cpp" />
+    <ClCompile Include="CYKLink.cpp" />
+    <ClCompile Include="CYKVisualiser.cpp" />
+    <ClCompile Include="EarleyChart.cpp" />
+    <ClCompile Include="EarleyParser.cpp" />
+    <ClCompile Include="FormalGrammar.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Nonterminal.cpp" />
+    <ClCompile Include="Production.cpp" />
     <ClCompile Include="STNode.cpp" />
     <ClCompile Include="Symbol.cpp" />
     <ClCompile Include="SyntaxTree.cpp" />
+    <ClCompile Include="Terminal.cpp" />
+    <ClCompile Include="Word.cpp" />
     <ClCompile Include="WordParser.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CYKAlgorithm.h" />
+    <ClInclude Include="CYKLink.h" />
+    <ClInclude Include="CYKVisualiser.h" />
+    <ClInclude Include="EarleyChart.h" />
+    <ClInclude Include="EarleyParser.h" />
+    <ClInclude Include="FormalGrammar.h" />
+    <ClInclude Include="Nonterminal.h" />
+    <ClInclude Include="Production.h" />
     <ClInclude Include="STNode.h" />
     <ClInclude Include="Symbol.h" />
     <ClInclude Include="SyntaxTree.h" />
+    <ClInclude Include="Terminal.h" />
+    <ClInclude Include="Word.h" />
     <ClInclude Include="WordParser.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

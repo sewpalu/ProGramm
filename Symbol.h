@@ -12,5 +12,7 @@ public:
 	~Symbol();
 	Symbol(std::string identifier_input);
 
+	std::string getIdentifier();
+
 };
 

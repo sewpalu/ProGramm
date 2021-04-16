@@ -2,6 +2,11 @@
 
 #include "Symbol.h"
 #include <vector>
+#include <typeinfo>
+#include <iostream>
+
+#include "Terminal.h"
+#include "Nonterminal.h"
 
 class STNode
 {
@@ -16,6 +21,14 @@ public:
 	STNode(Symbol value_input, std::vector<STNode> children);
 
 	void addChildren(std::vector<STNode> children_input);
+
+	bool onlyOneChild();
+
+	bool noChildren();
+
+	bool allTerminalLeaves();
+
+	void clearChildren();
 
 };
 

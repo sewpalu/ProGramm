@@ -1,0 +1,245 @@
+#include "CYKVisualiser.h"
+
+CYKVisualiser::CYKVisualiser(unsigned int wordlength)
+{
+	std::vector<std::vector<std::vector<CYKLink>>> outerVector;
+	std::vector<std::vector<CYKLink>> innerVector1;
+	std::vector<CYKLink> innerVector2;
+	CYKLink content;
+	for (unsigned int i = 0; i < wordlength; i++)
+	{
+		innerVector2.push_back(content);
+	}
+	for (unsigned int i = 0; i < wordlength; i++)
+	{
+		innerVector1.push_back(innerVector2);
+	}
+	for (unsigned int i = 0; i < wordlength; i++)
+	{
+		outerVector.push_back(innerVector1);
+	}
+	this->matrix = outerVector;
+}
+
+CYKVisualiser::CYKVisualiser()
+{
+}
+
+CYKVisualiser::~CYKVisualiser()
+{
+}
+
+void CYKVisualiser::setResult(std::pair<unsigned int, unsigned int> position, std::vector<CYKLink> productions) //
+{
+	for (unsigned int i = 0; i < productions.size(); i++)
+	{
+		this->matrix.at(position.first).at(position.second).push_back(productions.at(i));
+	}
+}
+
+void CYKVisualiser::dumpContent()
+{
+	//std::cout << "Visualiser Content: \n";
+
+	for (int i = this->matrix.size() - 1; i >= 0; i--)
+	{
+		for (unsigned int j = 0; j < this->matrix.at(i).size() - i; j++)
+		{
+			std::string displayPlace = "";
+			for (unsigned int k = 0; k < this->matrix.at(i).at(j).size(); k++)
+			{
+				try {
+					if (!(displayPlace.find(this->matrix.at(i).at(j).at(k).getRoot().getIdentifier()) != std::string::npos)) {
+						if (displayPlace.size() > 0)
+						{
+							displayPlace = displayPlace + ", ";
+						}
+						displayPlace = displayPlace + this->matrix.at(i).at(j).at(k).getRoot().getIdentifier();
+					}
+				}
+				catch (...) {
+					std::cout << "Error when writing!\n";
+					std::cout << "Matrix size i: " << this->matrix.size() << "\n";
+					std::cout << "Matrix size j: " << this->matrix.at(i).size() << "\n";
+					std::cout << "Matrix size k: " << this->matrix.at(i).at(j).size() << "\n";
+					std::cout << "i: " << i << "j: " << j << "k: " << k << "\n";
+				}
+			}
+			std::cout << displayPlace;
+			std::cout << " | ";
+		}
+		std::cout << "\n";
+	}
+	std::cout << "-----------\n";
+}
+
+void CYKVisualiser::dumpAll()
+{
+	std::cout << "Dump All" << "\n";
+	for (int i = this->matrix.size() - 1; i >= 0; i--)
+	{
+		for (unsigned int j = 0; j < this->matrix.at(i).size() - i; j++)
+		{
+			std::string displayPlace = "";
+			for (unsigned int k = 0; k < this->matrix.at(i).at(j).size(); k++)
+			{
+				try {
+					//if (!(displayPlace.find(this->matrix.at(i).at(j).at(k).getRoot().getIdentifier()) != std::string::npos)) {
+						if (displayPlace.size() > 0)
+						{
+							displayPlace = displayPlace + ", ";
+						}
+						displayPlace = displayPlace + this->matrix.at(i).at(j).at(k).getRoot().getIdentifier();
+					//}
+				}
+				catch (...) {
+					std::cout << "Error when writing!\n";
+					std::cout << "Matrix size i: " << this->matrix.size() << "\n";
+					std::cout << "Matrix size j: " << this->matrix.at(i).size() << "\n";
+					std::cout << "Matrix size k: " << this->matrix.at(i).at(j).size() << "\n";
+					std::cout << "i: " << i << "j: " << j << "k: " << k << "\n";
+				}
+			}
+			std::cout << displayPlace;
+			std::cout << " | ";
+		}
+		std::cout << "\n";
+	}
+	std::cout << "-----------\n";
+}
+
+void CYKVisualiser::dumpContent(unsigned int coordinate1, unsigned int coordinate2, std::string nonterminalIdentifier)
+{
+	//std::cout << "Visualiser Content: \n";
+	std::cout << "Highlighting: (" << coordinate1 << "/" << coordinate2 << ") for Nonterminal " << nonterminalIdentifier << "\n";
+
+	std::pair<unsigned int, unsigned int> dependency1Coordinates;
+	std::pair<unsigned int, unsigned int> dependency2Coordinates;
+
+
+	for (unsigned int i = 0; i < this->matrix.at(coordinate1).at(coordinate2).size(); i++)
+	{
+
+		if (this->matrix.at(coordinate1).at(coordinate2).at(i).getRoot().getIdentifier() == nonterminalIdentifier)
+		{
+			dependency1Coordinates.first = this->matrix.at(coordinate1).at(coordinate2).at(i).getProductions().at(0).first.first;
+			dependency1Coordinates.second = this->matrix.at(coordinate1).at(coordinate2).at(i).getProductions().at(0).first.second;
+			dependency2Coordinates.first = this->matrix.at(coordinate1).at(coordinate2).at(i).getProductions().at(1).first.first;
+			dependency2Coordinates.second = this->matrix.at(coordinate1).at(coordinate2).at(i).getProductions().at(1).first.second;
+
+			break;
+		}
+	}
+
+	std::cout << "Visualiser Content: \n";
+
+	for (int i = this->matrix.size() - 1; i >= 0; i--)
+	{
+		for (unsigned int j = 0; j < this->matrix.at(i).size() - i; j++)
+		{
+			if (dependency1Coordinates.first == i)
+			{
+				if (dependency1Coordinates.second == j)
+				{
+					std::cout << "P1: ";
+				}
+			}
+
+			if (dependency2Coordinates.first == i)
+			{
+				if (dependency2Coordinates.second == j)
+				{
+					std::cout << "P2: ";
+				}
+			}
+
+			std::string displayPlace = "";
+			for (unsigned int k = 0; k < this->matrix.at(i).at(j).size(); k++)
+			{
+				try {
+					if (!(displayPlace.find(this->matrix.at(i).at(j).at(k).getRoot().getIdentifier()) != std::string::npos)) {
+						if (displayPlace.size() > 0)
+						{
+							displayPlace = displayPlace + ", ";
+						}
+						displayPlace = displayPlace + this->matrix.at(i).at(j).at(k).getRoot().getIdentifier();
+					}
+				}
+				catch (...) {
+					std::cout << "Error when writing!\n";
+					std::cout << "Matrix size i: " << this->matrix.size() << "\n";
+					std::cout << "Matrix size j: " << this->matrix.at(i).size() << "\n";
+					std::cout << "Matrix size k: " << this->matrix.at(i).at(j).size() << "\n";
+					std::cout << "i: " << i << "j: " << j << "k: " << k << "\n";
+				}
+			}
+			std::cout << displayPlace;
+			std::cout << " | ";
+		}
+		std::cout << "\n";
+	}
+	std::cout << "-----------\n";
+}
+
+std::vector<SyntaxTree> CYKVisualiser::convertToSyntaxTree(FormalGrammar grammar)
+{
+	unsigned int wordLength = this->matrix.size();
+
+	std::vector<unsigned int> startPositions;
+
+	for (unsigned int i = 0; i < this->matrix.at(wordLength - 1).at(0).size(); i++)
+	{
+		//std::cout << this->matrix.at(wordLength - 1).at(0).at(i).getRoot().getIdentifier() << " : " << grammar.start.getIdentifier();
+		if (this->matrix.at(wordLength - 1).at(0).at(i).getRoot().getIdentifier() == grammar.start.getIdentifier())
+		{
+			//std::cout << " - This is a match!";
+			startPositions.push_back(i);
+		}
+		//std::cout << "\n";
+	}
+
+	std::vector<SyntaxTree> resultTrees;
+
+	this->dumpAll();
+
+	//Loop through all possible trees ( for each one there is a start symbol in CYK matrix root)
+	for (unsigned int treeNumber = 0; treeNumber < startPositions.size(); treeNumber++)
+	{
+		STNode root_node(grammar.start);
+		//Mark that this part of the matrix has been used for the produciton
+		this->matrix.at(0).at(wordLength - 1).at(0).setUsed();
+
+
+
+		resultTrees.push_back(SyntaxTree(root_node));
+	}
+
+
+	return resultTrees;
+}
+
+STNode CYKVisualiser::addChildNotesFromMatrix(STNode input_node, std::pair<std::pair<std::pair<unsigned int, unsigned int>, Symbol>, std::pair<std::pair<unsigned int, unsigned int>, Symbol>> productions)
+{
+	std::vector<STNode> children;
+
+	STNode child;
+	for (unsigned int prodCounter = 0; prodCounter < this->matrix.at(productions.first.first.first).at(productions.first.first.second).size(); prodCounter++)
+	{
+		child.addChildren();
+		children.push_back(this->matrix.at(productions.first.first.first).at(productions.first.first.second).at(prodCounter).getProductions);
+	}
+	
+
+
+	input_node.clearChildren();
+	input_node.addChildren(children);
+
+	return STNode();
+}
+
+
+/*std::pair<std::pair<std::pair<unsigned int, unsigned int>, std::pair<unsigned int, unsigned int>>, std::pair<Symbol, Symbol>> CYKVisualiser::getProductionSource()
+{
+	return std::pair<std::pair<std::pair<unsigned int, unsigned int>, std::pair<unsigned int, unsigned int>>, std::pair<Symbol, Symbol>>();
+}*/
+
