@@ -1,35 +1,32 @@
 #pragma once
 
-#include <vector>
-#include <memory>
-
 #include "Symbol.hpp"
+#include <memory>
+#include <vector>
 
-struct STNode
+class STNode
 {
 
 public:
-	std::vector<STNode> children;
-        std::unique_ptr<Symbol> value;
+  std::vector<STNode> children;
+  std::unique_ptr<Symbol> value;
 
-	STNode();
-	~STNode();
-	explicit STNode(std::unique_ptr<Symbol> value_input);
-	STNode(std::unique_ptr<Symbol> value_input, std::vector<STNode> children);
+  STNode();
+  ~STNode();
+  explicit STNode(std::unique_ptr<Symbol> value_input);
+  STNode(std::unique_ptr<Symbol> value_input, std::vector<STNode> children);
 
-	STNode(const STNode& other)
-	{
-	  *this = other;
-	}
-	
-	STNode& operator=(const STNode& other)
-	{
-	  children = other.children;
-	  value = other.value->clone();
-	  return *this;
-	}
+  STNode(const STNode& other)
+  {
+    *this = other;
+  }
 
-	void addChildren(std::vector<STNode> children_input);
+  STNode& operator=(const STNode& other)
+  {
+    children = other.children;
+    value = other.value->clone();
+    return *this;
+  }
 
+  void addChildren(std::vector<STNode> children_input);
 };
-

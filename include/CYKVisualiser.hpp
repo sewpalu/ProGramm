@@ -1,38 +1,52 @@
 #pragma once
 
-#include <vector>
 #include <iostream>
 #include <string>
+#include <typeinfo>
+#include <vector>
 
 #include "CYKLink.hpp"
-#include "Visualiser.hpp"
+#include "FormalGrammar.hpp"
+#include "STNode.hpp"
+#include "SyntaxTree.hpp"
 
-class CYKVisualiser
-: public Visualiser
+class CYKVisualiser : public Visualiser
 {
 
 public:
-	using Matrix = std::vector<std::vector<std::vector<CYKLink>>>;
+  std::vector<std::vector<std::vector<CYKLink>>> matrix;
 
-public:
-        // FIXME Why is this public
-	Matrix matrix;
+  CYKVisualiser(unsigned int wordlength);
+  CYKVisualiser();
+  ~CYKVisualiser();
 
-public:
+  void setResult(std::pair<unsigned int, unsigned int> position,
+                 std::vector<CYKLink> production);
 
-	CYKVisualiser(unsigned int wordlength);
-	~CYKVisualiser();
+  void dumpContent();
 
-	void accept(VisualisationVisitor& visitor) const override
-	{
-	  visitor.visitCYKVisualiser(*this);
-	}
+  void dumpAll();
 
-	void setResult(std::pair<unsigned int, unsigned int> position, std::vector<CYKLink> production);
+  void dumpContent(unsigned int coordinate1, unsigned int coordinate2,
+                   std::string nonterminalIdentifier);
 
-	void dumpContent();
+  std::vector<SyntaxTree> convertToSyntaxTree(FormalGrammar grammar);
 
-	void dumpContent(unsigned int coordinate1, unsigned int coordinate2, std::string nonterminalIdentifier);
+  // std::pair<std::pair<std::pair<unsigned int, unsigned int>,
+  // std::pair<unsigned int, unsigned int>>, std::pair<Symbol, Symbol>>
+  // getProductionSource();
+
+  void accept(VisualisationVisitor& visitor) const override
+  {
+    visitor.visitCYKVisualiser(*this);
+  }
+
+  std::unique_ptr<Visualiser> clone() override
+  {
+    return std::make_unique<CYKVisualiser>(*this);
+  }
+
+private:
+  std::vector<STNode> addChildrenFromLink(CYKLink inputLink);
 
 };
-

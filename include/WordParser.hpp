@@ -1,17 +1,18 @@
 #pragma once
 
-#include <algorithm>
+#include <memory>
 #include <vector>
 
 #include "SyntaxTree.hpp"
-#include "FormalGrammar.hpp"
 #include "Word.hpp"
+#include "FormalGrammar.hpp"
 
 class WordParser
 {
 
 public:
-	virtual std::unique_ptr<Visualiser> parse(FormalGrammar grammar, Word input) = 0;
+	virtual std::pair<std::vector<SyntaxTree>, std::shared_ptr<Visualiser>> parse(FormalGrammar grammar, Word input) = 0;
+
 	WordParser();
 	virtual ~WordParser();
 

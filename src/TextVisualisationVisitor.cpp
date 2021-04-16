@@ -60,19 +60,19 @@ void TextVisualisationVisitor::visitCYKVisualiser(
       m_highlighted_cell
           ? matrix[m_highlighted_cell->at(0)][m_highlighted_cell->at(1)]
                   [m_highlighted_cell->at(2)]
-                      .productions
-          : decltype(matrix[0][0][0].productions){};
+                      .getProductions()
+          : decltype(matrix[0][0][0].getProductions()){};
 
   for (auto m = std::size_t{}; m < height; ++m)
     for (auto n = std::size_t{}; n < width; ++n)
     {
       auto cell = ""s;
       for (const auto& highlighted_cell : highlighted_cells)
-        if (highlighted_cell.first == m && highlighted_cell.second == n)
+        if (highlighted_cell.first.first == m && highlighted_cell.first.second == n)
           cell += "* "s;
       for (const auto& symbol : matrix[m][n])
       {
-        const auto& id = symbol.root.identifier;
+        const auto& id = symbol.getRoot().identifier;
         cell += std::string{id.begin(), id.end()} + ","s;
       }
       if (cell.size() >= 2)

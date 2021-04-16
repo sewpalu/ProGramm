@@ -4,27 +4,32 @@
 #include "Nonterminal.hpp"
 #include <vector>
 
-struct CYKLink
+class CYKLink
 {
 
-public: // Theres no invariant! (CPP-Core Guidelines Rule C.2)
+private:
 	Nonterminal root;
-	std::vector<std::pair<unsigned, unsigned int>> productions;
+	//This vector will hold either two values or one value, depending on if the right hand side of the rule has two Nonterminals or one Terminal
+	std::vector<std::pair<std::pair<unsigned, unsigned int>, CYKLink>> productions;
+	//bool usedForProduction;
 
 public:
-	Nonterminal getRoot();
-	std::vector<std::pair<unsigned, unsigned int>> getProductions();
+	Nonterminal getRoot() const;
+	std::vector<std::pair<std::pair<unsigned, unsigned int>, CYKLink>> getProductions() const;
 
+	//void setUsed();
 
-	CYKLink(Nonterminal root_input, std::vector<std::pair<unsigned, unsigned int>> productions_input);
+	//bool wasUsed();
+
+	CYKLink(Nonterminal root_input, std::vector<std::pair<std::pair<unsigned, unsigned int>, CYKLink>> productions_input);
 	CYKLink();
+	CYKLink(Nonterminal root_input);
 	~CYKLink();
 
 	void setRoot(Nonterminal root_input);
-	void setProductions(std::vector<std::pair<unsigned, unsigned int>> productions_input);
-	void addProduction(std::pair<unsigned int, unsigned int> production_input);
+	void setProductions(std::vector<std::pair<std::pair<unsigned, unsigned int>, CYKLink>> productions_input);
+	void addProduction(std::pair<std::pair<unsigned int, unsigned int>, CYKLink> production_input);
 	void emptyProductions();
 
 	bool isEmpty();
 };
-

@@ -12,6 +12,10 @@ protected:
 
 public:
   virtual ~Visualisable() = default;
+  Visualisable(const Visualisable& other)
+    : m_visualiser(other.m_visualiser->clone())
+  {
+  }
 
   const Visualiser& visualiser() const
   {

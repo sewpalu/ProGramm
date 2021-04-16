@@ -1,7 +1,7 @@
 .PHONY := run build config test
 
 run: build
-	build/form_lang
+	build/form_lang gui
 
 build: config
 	$(MAKE) -C build

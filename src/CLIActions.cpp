@@ -17,7 +17,7 @@ void CLIActions::visualiseProduction(const std::string& word)
   const auto visualiser = m_engine.parseWord(std::make_unique<CYKAlgorithm>(), word);
   
   auto visualisation = std::make_unique<TextVisualisationVisitor>();
-  visualiser->accept(*visualisation);
+  visualiser.second->accept(*visualisation);
 
   std::cout << "---" << std::endl;
   std::cout << visualisation->toString() << std::endl;

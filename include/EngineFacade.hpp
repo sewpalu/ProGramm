@@ -2,8 +2,9 @@
 #define ENGINE_FACADE_H
 
 #include <memory>
-#include <utility>
+#include <optional>
 #include <stdexcept>
+#include <utility>
 
 #include "FormalGrammar.hpp"
 #include "GrammarParser.hpp"
@@ -50,8 +51,8 @@ public:
     throw std::runtime_error{"Parsing productions not implemented yet"};
   }
 
-  std::unique_ptr<Visualiser> parseWord(std::unique_ptr<WordParser> word_parser,
-                                    const std::string& word) const
+  std::pair<std::vector<SyntaxTree>, std::shared_ptr<Visualiser>> parseWord(
+      std::unique_ptr<WordParser> word_parser, const std::string& word) const
   {
     if (m_grammar && word_parser)
       return word_parser->parse(*m_grammar, m_grammar_parser->parseWord(word));

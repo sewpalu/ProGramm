@@ -1,5 +1,4 @@
 #include "Production.hpp"
-#include <memory>
 
 Production::Production(Nonterminal lhs_input, std::vector<Symbol*> rhs_input)
 {

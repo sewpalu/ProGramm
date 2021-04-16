@@ -2,6 +2,7 @@
 #include "Symbol.hpp"
 
 #include <string>
+#include <memory>
 
 struct Terminal :
     public Symbol
@@ -14,7 +15,7 @@ public:
     Terminal();
     ~Terminal();
 
-    std::unique_ptr<Symbol> clone() override
+    std::unique_ptr<Symbol> clone() //override
     {
       return std::make_unique<Terminal>(*this);
     }

@@ -3,22 +3,17 @@
 #include <string>
 #include <memory>
 
-struct Symbol
+class Symbol
 {
 
 public:
-	std::string identifier;
+  std::string identifier;
 
-	Symbol();
-	virtual ~Symbol();
+  Symbol();
+  ~Symbol();
+  Symbol(std::string identifier_input);
 
-	virtual std::unique_ptr<Symbol> clone() = 0;
+  std::string getIdentifier();
 
-	std::string getIdentifier();
-
-protected:
-	explicit Symbol(std::string identifier_input);
-
-
+  virtual std::unique_ptr<Symbol> clone() = 0;
 };
-
