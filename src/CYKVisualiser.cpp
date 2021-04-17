@@ -48,7 +48,7 @@ void CYKVisualiser::dumpContent()
   // std::cout << "Visualiser Content: \n";
 
   // std::cout << "Info from dump: \n";
-  for (int lineCount = this->matrix.size() - 1; lineCount >= 0; lineCount--)
+  for (int lineCount = static_cast<int>(this->matrix.size()) - 1; lineCount >= 0; lineCount--)
   {
     for (unsigned int colCount = 0;
          colCount < this->matrix.at(lineCount).size(); colCount++)
@@ -103,7 +103,7 @@ void CYKVisualiser::dumpAll()
 {
   std::cout << "Dump All"
             << "\n";
-  for (int i = this->matrix.size() - 1; i >= 0; i--)
+  for (int i = static_cast<int>(this->matrix.size()) - 1; i >= 0; i--)
   {
     for (unsigned int j = 0; j < this->matrix.at(i).size(); j++)
     {
@@ -200,7 +200,7 @@ void CYKVisualiser::dumpContent(unsigned int coordinate1,
 
   std::cout << "Visualiser Content: \n";
 
-  for (int i = this->matrix.size() - 1; i >= 0; i--)
+  for (int i = static_cast<int>(this->matrix.size()) - 1; i >= 0; i--)
   {
     for (unsigned int j = 0; j < this->matrix.at(i).size() - i; j++)
     {
@@ -263,7 +263,7 @@ std::vector<SyntaxTree> CYKVisualiser::convertToSyntaxTree(
 {
   std::cout << "Converting to SyntaxTree: \n";
   // Important to keep track of how often the functions need to be called
-  unsigned int wordLength = this->matrix.size();
+  std::size_t wordLength = this->matrix.size();
 
   // Vector of all starting positions in the first field of the CYKMatrix
   std::vector<unsigned int> startPositions;

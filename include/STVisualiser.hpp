@@ -4,7 +4,7 @@
 #include "Visualiser.hpp"
 #include <memory>
 
-struct STNode;
+class STNode;
 
 class STVisualiser : public Visualiser
 {

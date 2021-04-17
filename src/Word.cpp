@@ -1,6 +1,6 @@
 #include "Word.hpp"
 
-unsigned int Word::getSize()
+std::size_t Word::getSize()
 {
 	return this->content.size();
 }

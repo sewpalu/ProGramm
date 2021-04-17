@@ -10,7 +10,7 @@ struct Word
 public:
 	std::vector<Terminal> content;
 
-	unsigned int getSize();
+	std::size_t getSize();
 
 	Terminal at(int position);
 

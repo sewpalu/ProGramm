@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.9)
+cmake_minimum_required(VERSION 3.13)
 
 project(form_lang VERSION 0.1)
 
@@ -14,9 +14,9 @@ file(GLOB ${PROJECT_NAME}_src "src/*")
 ## BUILD
 ##
 
-add_library(${PROJECT_NAME}lib ${${PROJECT_NAME}_src})
+add_library(${PROJECT_NAME}lib STATIC ${${PROJECT_NAME}_src})
 target_include_directories(${PROJECT_NAME}lib PRIVATE ${PROJECT_SOURCE_DIR}/include)
-target_link_libraries(${PROJECT_NAME}lib docopt wx::core wx::base)
+target_link_libraries(${PROJECT_NAME}lib docopt_s wx::net wx::core wx::base)
 
 add_executable(${PROJECT_NAME} main.cpp)
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/include)
