@@ -8,8 +8,7 @@
 #include "CLIActions.hpp"
 #include "DummyGrammarParser.hpp"
 
-// TODO: Remove once obsolete
-#include "gui_demo.hpp"
+#include "GUIApplication.hpp"
 
 ArgumentsDispatcher::ArgumentsDispatcher(int argc, char** argv)
     : m_argv([=] {
@@ -42,7 +41,8 @@ void ArgumentsDispatcher::dispatch_gui(const docopt::Options& args, std::unique_
   // TODO
   (void)args;
   (void)engine;
-  gui_demo();
+  auto gui = GUIApplication{};
+  gui.run();
 }
 
 void ArgumentsDispatcher::dispatch_parse(const docopt::Options& args, std::unique_ptr<EngineFacade> engine) const
