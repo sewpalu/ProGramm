@@ -6,9 +6,9 @@
 #include "wx/wx.h"
 #endif
 
-class MainWindow: public wxFrame
+class MainWindow : public wxFrame
 {
-  public:
+public:
   MainWindow();
 };
 

@@ -1,6 +1,7 @@
 #include "GUIApplication.hpp"
 
 #include <chrono>
+#include <iostream>
 #include <memory>
 #include <thread>
 
@@ -13,7 +14,8 @@
 
 void GUIApplication::run()
 {
-  wxApp::SetInstance(this);
+  auto app = new GUIApplication{};
+  wxApp::SetInstance(app);
   auto argc = 0;
   auto argv = static_cast<char**>(nullptr);
   wxEntry(argc, argv);
@@ -24,14 +26,13 @@ bool GUIApplication::OnInit()
   if (!wxApp::OnInit())
     return false;
 
-  wxImage::AddHandler(new wxPNGHandler);
+  wxImage::AddHandler(new wxPNGHandler{});
   auto splash = SplashScreen{"resources/splash.png", "Gramma"};
-
   auto delay = TimerDelay::sec(3.14);
 
   init_xrc();
 
-  auto frame = MainWindow{};
+  m_main_window = new MainWindow{};
 
   return true;
 }
@@ -39,5 +40,9 @@ bool GUIApplication::OnInit()
 void GUIApplication::init_xrc() const
 {
   wxXmlResource::Get()->InitAllHandlers();
-  wxXmlResource::Get()->LoadAllFiles("resources/xrc");
+  if (!wxXmlResource::Get()->Load("resources/test.xrc"))
+  {
+    std::cerr << "Failure loading resources\n";
+    return;
+  }
 }

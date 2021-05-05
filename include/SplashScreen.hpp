@@ -16,8 +16,8 @@
 class SplashScreen
 {
   private:
-    wxFrame m_splash_frame;
-    wxSplashScreen m_splash_screen;
+    wxFrame* m_splash_frame;
+    wxSplashScreen* m_splash_screen;
 
 public:
   /**

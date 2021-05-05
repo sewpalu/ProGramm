@@ -2,22 +2,30 @@
 #define GUI_APPLICATION_HPP
 
 #include "wx/wxprec.h"
+#include <memory>
 #ifndef WX_PRECOMP
 #include "wx/wx.h"
 #endif
 
+#include "MainWindow.hpp"
+
 class GUIApplication : public wxApp
 {
+private:
+  MainWindow* m_main_window;
+
 public:
   /**
    * Runs the application
    */
-  void run();
+  static void run();
 
 private:
+  GUIApplication() = default;
+
   /**
-   * Does application wide initialisations, that regard to the GUI.
-   * E.g. XRC system, splash screen, loading MainWindow
+   * Does application wide, GUI related initialisations.
+   * E.g., XRC system, splash screen, loading MainWindow
    */
   bool OnInit() final;
 

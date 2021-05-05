@@ -41,8 +41,7 @@ void ArgumentsDispatcher::dispatch_gui(const docopt::Options& args, std::unique_
   // TODO
   (void)args;
   (void)engine;
-  auto gui = GUIApplication{};
-  gui.run();
+  GUIApplication::run();
 }
 
 void ArgumentsDispatcher::dispatch_parse(const docopt::Options& args, std::unique_ptr<EngineFacade> engine) const
