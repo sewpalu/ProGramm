@@ -1,5 +1,7 @@
 .PHONY := run build config test
 
+default: build
+
 run: build
 	build/form_lang gui
 
