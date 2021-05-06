@@ -12,7 +12,7 @@
 				<option>1</option>
 				<flag>wxALL|wxEXPAND</flag>
 				<border>5</border>
-				<object class="wxPanel" name="grammar_editor" subclass="GrammarEditor">
+				<object class="wxPanel" name="m_panel1" subclass="GrammarEditor">
 					<style>wxTAB_TRAVERSAL</style>
 				</object>
 			</object>
@@ -41,18 +41,6 @@
 								<selected>0</selected>
 								<object class="wxPanel" name="m_panel2" subclass="CYKVisualisationTab">
 									<style>wxTAB_TRAVERSAL</style>
-									<object class="wxBoxSizer">
-										<orient>wxVERTICAL</orient>
-										<object class="sizeritem">
-											<option>0</option>
-											<flag>wxALL</flag>
-											<border>5</border>
-											<object class="wxStaticText" name="m_staticText3">
-												<label>MyLabel</label>
-												<wrap>-1</wrap>
-											</object>
-										</object>
-									</object>
 								</object>
 							</object>
 							<object class="notebookpage">
@@ -60,18 +48,6 @@
 								<selected>0</selected>
 								<object class="wxPanel" name="m_panel4" subclass="STVisualisationTab">
 									<style>wxTAB_TRAVERSAL</style>
-									<object class="wxBoxSizer">
-										<orient>wxVERTICAL</orient>
-										<object class="sizeritem">
-											<option>0</option>
-											<flag>wxALL</flag>
-											<border>5</border>
-											<object class="wxStaticText" name="m_staticText31">
-												<label>MyLabel</label>
-												<wrap>-1</wrap>
-											</object>
-										</object>
-									</object>
 								</object>
 							</object>
 							<object class="notebookpage">
@@ -79,18 +55,6 @@
 								<selected>1</selected>
 								<object class="wxPanel" name="m_panel5" subclass="ManagerTab">
 									<style>wxTAB_TRAVERSAL</style>
-									<object class="wxBoxSizer">
-										<orient>wxVERTICAL</orient>
-										<object class="sizeritem">
-											<option>0</option>
-											<flag>wxALL</flag>
-											<border>5</border>
-											<object class="wxStaticText" name="m_staticText32">
-												<label>MyLabel</label>
-												<wrap>-1</wrap>
-											</object>
-										</object>
-									</object>
 								</object>
 							</object>
 						</object>
@@ -103,23 +67,21 @@
 		<style>wxTAB_TRAVERSAL</style>
 		<object class="wxBoxSizer">
 			<orient>wxVERTICAL</orient>
-			<object class="spacer">
+			<object class="sizeritem">
 				<option>1</option>
-				<flag>wxEXPAND</flag>
+				<flag>wxEXPAND | wxALL</flag>
 				<border>5</border>
-				<size>0,0</size>
+				<object class="wxPanel" name="cyk_steps" subclass="StepsDisplay">
+					<style>wxTAB_TRAVERSAL</style>
+				</object>
 			</object>
 			<object class="sizeritem">
 				<option>1</option>
-				<flag>wxALL|wxALIGN_CENTER_HORIZONTAL</flag>
+				<flag>wxEXPAND | wxALL</flag>
 				<border>5</border>
-				<object class="wxGrid" name="cyk_grid" />
-			</object>
-			<object class="spacer">
-				<option>1</option>
-				<flag>wxEXPAND</flag>
-				<border>5</border>
-				<size>0,0</size>
+				<object class="wxPanel" name="cyk_visualisation" subclass="VisualisationWidget">
+					<style>wxTAB_TRAVERSAL</style>
+				</object>
 			</object>
 			<object class="sizeritem">
 				<option>0</option>
@@ -167,7 +129,7 @@
 				<option>1</option>
 				<flag>wxEXPAND | wxALL</flag>
 				<border>5</border>
-				<object class="wxPanel" name="st_visualisation">
+				<object class="wxPanel" name="st_visualisation" subclass="VisualisationWidget">
 					<style>wxTAB_TRAVERSAL</style>
 				</object>
 			</object>
@@ -175,7 +137,6 @@
 	</object>
 	<object class="wxPanel" name="grammar_editor_panel">
 		<style>wxTAB_TRAVERSAL</style>
-		<size>500,300</size>
 		<object class="wxBoxSizer">
 			<orient>wxVERTICAL</orient>
 			<object class="sizeritem">

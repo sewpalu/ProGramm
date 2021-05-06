@@ -1,7 +1,6 @@
 #include "GrammarEditor.hpp"
 
 #include "wx/html/forcelnk.h"
-#include "wx/stdpaths.h"
 #include "wx/xrc/xmlres.h"
 
 #include <iostream>
@@ -28,7 +27,7 @@ void GrammarEditor::on_create(wxWindowCreateEvent&)
   if (once_flag)
   {
     once_flag = false;
-    if (!wxXmlResource::Get()->LoadPanel(this, "grammar_editor_panel"))
+    if (!wxXmlResource::Get()->LoadPanel(this, "grammar_editor"))
     {
       std::cerr << "Failure loading grammar_editor panel\n";
       return;
