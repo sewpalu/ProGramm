@@ -7,6 +7,8 @@ set(CMAKE_CXX_STANDARD 17)
 add_subdirectory(${PROJECT_SOURCE_DIR}/depend/docopt)
 add_subdirectory(${PROJECT_SOURCE_DIR}/depend/wxWidgets)
 
+set(VS_DEBUGGER_WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+
 file(GLOB ${PROJECT_NAME}_src "src/*")
 
 ##

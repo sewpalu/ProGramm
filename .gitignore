@@ -2,6 +2,9 @@
 !.gitignore
 !.clang-format
 !.ycm_extra_conf.py
+!.vs
+.vs/*
+!.vs/launch.vs.json
 build/
 out/
 Debug/

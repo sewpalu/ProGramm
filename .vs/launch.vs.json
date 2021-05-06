@@ -1,0 +1,22 @@
+{
+  "version": "0.2.1",
+  "defaults": {},
+  "configurations": [
+    {
+      "type": "default",
+      "project": "CMakeLists.txt",
+      "projectTarget": "form_lang.exe (Debug\\form_lang.exe)",
+      "name": "GUI",
+      "args": [
+        "gui"
+      ],
+      "currentDir": "${workspaceRoot}"
+    },
+    {
+      "type": "default",
+      "project": "CMakeLists.txt",
+      "projectTarget": "dummy_test.exe (Debug\\dummy_test.exe)",
+      "name": "dummy_test.exe (Debug\\dummy_test.exe)"
+    }
+  ]
+}
