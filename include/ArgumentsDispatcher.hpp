@@ -16,6 +16,9 @@ class ArgumentsDispatcher
 private:
   const std::vector<std::string> m_argv;
 
+  int m_c_argc;
+  char** m_c_argv;
+
   static constexpr auto s_usage = R"(Formal Grammars.
 
 Usage:

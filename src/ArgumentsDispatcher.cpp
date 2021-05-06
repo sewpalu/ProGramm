@@ -17,7 +17,8 @@ ArgumentsDispatcher::ArgumentsDispatcher(int argc, char** argv)
         for (auto i = 1; i < argc; ++i)
           init.push_back(std::string{argv[i]});
         return init;
-      }())
+      }()),
+    m_c_argc(argc), m_c_argv(argv)
 {
 }
 
@@ -41,7 +42,7 @@ void ArgumentsDispatcher::dispatch_gui(const docopt::Options& args, std::unique_
   // TODO
   (void)args;
   (void)engine;
-  GUIApplication::run();
+  GUIApplication::run(1, m_c_argv);
 }
 
 void ArgumentsDispatcher::dispatch_parse(const docopt::Options& args, std::unique_ptr<EngineFacade> engine) const

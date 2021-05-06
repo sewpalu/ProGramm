@@ -18,3 +18,6 @@ config:
 clean:
 	rm -rf build
 
+justrun:
+	build/form_lang gui
+

@@ -2,7 +2,6 @@
 #define GUI_APPLICATION_HPP
 
 #include "wx/wxprec.h"
-#include <memory>
 #ifndef WX_PRECOMP
 #include "wx/wx.h"
 #endif
@@ -18,7 +17,7 @@ public:
   /**
    * Runs the application
    */
-  static void run();
+  static void run(int argc, char* argv[]);
 
 private:
   GUIApplication() = default;
