@@ -9,7 +9,7 @@
 #include "wx/wx.h"
 #endif
 
-class StepsDisplay : wxPanel
+class StepsDisplay : public wxPanel
 {
   public:
 
@@ -28,7 +28,14 @@ public:
   void show_steps(const std::vector<Step>& steps);
 
 private:
+  /**
+   * Used to load XRC resources.
+   * This is necessary because this wxPanel isn't complete at construction time.
+   */
+  void on_create(wxWindowCreateEvent& evt);
+
   wxDECLARE_DYNAMIC_CLASS(StepsDisplay);
+  wxDECLARE_EVENT_TABLE();
 };
 
 #endif /* ifndef STEPS_DISPLAY_HPP */

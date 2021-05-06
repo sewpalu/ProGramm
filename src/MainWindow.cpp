@@ -8,6 +8,11 @@
 #include "wx/stdpaths.h"
 
 FORCE_LINK(GrammarEditor);
+FORCE_LINK(CYKVisualisationTab);
+FORCE_LINK(STVisualisationTab);
+FORCE_LINK(ManagerTab);
+FORCE_LINK(VisualisationWidget);
+FORCE_LINK(StepsDisplay);
 
 MainWindow::MainWindow()
 {

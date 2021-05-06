@@ -20,14 +20,14 @@ GrammarEditor::GrammarEditor()
 
 void GrammarEditor::on_create(wxWindowCreateEvent&)
 {
-  // Flag to prevent recursively calling the create event handler by creating
+  // Flag to prevent recursively calling the create event handler when creating
   // new children.
   static auto once_flag = true;
 
   if (once_flag)
   {
     once_flag = false;
-    if (!wxXmlResource::Get()->LoadPanel(this, "grammar_editor"))
+    if (!wxXmlResource::Get()->LoadPanel(this, "grammar_editor_panel"))
     {
       std::cerr << "Failure loading grammar_editor panel\n";
       return;
