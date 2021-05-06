@@ -1,5 +1,7 @@
 .PHONY := run build config test
 
+default: build
+
 run: build
 	build/form_lang gui
 
@@ -15,4 +17,7 @@ config:
 
 clean:
 	rm -rf build
+
+justrun:
+	build/form_lang gui
 
