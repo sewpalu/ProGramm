@@ -26,8 +26,9 @@ void StepsDisplay::on_create(wxWindowCreateEvent&)
   {
     once_flag = false;
 
-    auto* sizer = new wxBoxSizer{wxHORIZONTAL};
-    sizer->Add(new wxStaticLine{this}, 1, wxALL | wxEXPAND, 5);
+    auto* sizer = new wxBoxSizer{wxVERTICAL};
+    auto* line = new wxStaticLine{this};
+    sizer->Add(line, 0, wxEXPAND);
     SetSizer(sizer);
 
     once_flag = true;

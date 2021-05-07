@@ -11,6 +11,7 @@ wxIMPLEMENT_DYNAMIC_CLASS(STVisualisationTab, wxPanel);
 
 BEGIN_EVENT_TABLE(STVisualisationTab, wxPanel)
 EVT_WINDOW_CREATE(STVisualisationTab::on_create)
+EVT_CHILD_FOCUS(STVisualisationTab::on_page_changed)
 END_EVENT_TABLE()
 
 STVisualisationTab::STVisualisationTab()
@@ -24,6 +25,11 @@ void STVisualisationTab::update_input(const FormalGrammar& grammar,
   // TODO
 }
 
+void STVisualisationTab::on_page_changed(wxChildFocusEvent&)
+{
+  Layout();
+}
+
 void STVisualisationTab::on_create(wxWindowCreateEvent&)
 {
   // Flag to prevent recursively calling the create event handler when creating
@@ -33,11 +39,9 @@ void STVisualisationTab::on_create(wxWindowCreateEvent&)
   if (once_flag)
   {
     once_flag = false;
-    if (!wxXmlResource::Get()->LoadPanel(this, "st_panel"))
-    {
-      std::cerr << "Failure loading st_panel\n";
-      return;
-    }
-    GetSizer()->Fit(this);
+    auto* sizer = new wxBoxSizer{wxVERTICAL};
+    auto* panel = wxXmlResource::Get()->LoadPanel(this, "st_panel");
+    sizer->Add(panel, 1, wxEXPAND | wxALL, 5);
+    SetSizer(sizer);
   }
 }

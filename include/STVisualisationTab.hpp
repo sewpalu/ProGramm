@@ -25,6 +25,8 @@ private:
    */
   void on_create(wxWindowCreateEvent& evt);
 
+  void on_page_changed(wxChildFocusEvent& evt);
+
   wxDECLARE_DYNAMIC_CLASS(STVisualisationTab);
   wxDECLARE_EVENT_TABLE();
 };
