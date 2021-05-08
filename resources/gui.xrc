@@ -40,7 +40,7 @@
 							<object class="wxNotebook" name="tabs">
 								<object class="notebookpage">
 									<label>CYK</label>
-									<selected>1</selected>
+									<selected>0</selected>
 									<object class="wxPanel" name="m_panel2">
 										<style>wxTAB_TRAVERSAL</style>
 										<object class="wxBoxSizer">
@@ -58,7 +58,7 @@
 								</object>
 								<object class="notebookpage">
 									<label>Ableitungen</label>
-									<selected>0</selected>
+									<selected>1</selected>
 									<object class="wxPanel" name="m_panel4">
 										<style>wxTAB_TRAVERSAL</style>
 										<object class="wxBoxSizer">

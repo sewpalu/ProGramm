@@ -1,10 +1,10 @@
 #ifndef GUI_VISUALISATION_INTERFACE_HPP
 #define GUI_VISUALISATION_INTERFACE_HPP
 
-#include <stddef.h>
-#include <vector>
 #include <functional>
+#include <stddef.h>
 #include <string>
+#include <vector>
 
 class GUIVisualisationInterface
 {
@@ -16,6 +16,16 @@ public:
     std::vector<Tree> children;
     std::string text;
     Callback on_click;
+
+    std::size_t n_leaves() const;
+    std::size_t n_leaves(std::size_t level) const;
+    std::size_t depth() const;
+
+  private:
+    std::size_t n_leaves_level_helper(std::size_t wipLevel, std::size_t level,
+                                      const Tree& workingNode) const;
+    std::size_t depth_helper(const Tree& working_tree,
+                             std::size_t acc_depth) const;
   };
 
   struct Coord

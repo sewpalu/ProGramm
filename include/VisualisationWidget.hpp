@@ -10,6 +10,9 @@
 
 class VisualisationWidget : public wxPanel, public GUIVisualisationInterface
 {
+private:
+  std::function<void()> m_dynamic_paint = {};
+
 public:
   VisualisationWidget();
 
@@ -17,7 +20,11 @@ public:
   void draw_table(const Table& table) final;
 
 private:
+
+  void on_paint(wxPaintEvent& evt);
+
   wxDECLARE_DYNAMIC_CLASS(VisualisationWidget);
+  wxDECLARE_EVENT_TABLE();
 };
 
 #endif /* ifndef VISUALISATION_WIDGET_HPP */
