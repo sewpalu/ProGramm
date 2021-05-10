@@ -15,6 +15,7 @@ BEGIN_EVENT_TABLE(VisualisationWidget, wxPanel)
 EVT_PAINT(VisualisationWidget::on_paint)
 EVT_GRID_CELL_LEFT_CLICK(VisualisationWidget::on_grid_click)
 EVT_GRID_SELECT_CELL(VisualisationWidget::on_grid_click)
+EVT_SIZE(VisualisationWidget::on_resize)
 END_EVENT_TABLE()
 
 VisualisationWidget::VisualisationWidget()
@@ -78,6 +79,12 @@ void VisualisationWidget::on_grid_click(wxGridEvent& evt)
 
   if (handler)
     handler(*this);
+}
+
+void VisualisationWidget::on_resize(wxSizeEvent& evt)
+{
+  Refresh();
+  Layout();
 }
 
 void VisualisationWidget::generate_grid(const Table& table)

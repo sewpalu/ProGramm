@@ -30,6 +30,7 @@ private:
 
   void on_paint(wxPaintEvent& evt);
   void on_grid_click(wxGridEvent& evt);
+  void on_resize(wxSizeEvent& evt);
 
   void generate_grid(const Table& table);
 
