@@ -1,7 +1,6 @@
 #include "GrammarEditor.hpp"
 
 #include "wx/html/forcelnk.h"
-#include "wx/stdpaths.h"
 #include "wx/xrc/xmlres.h"
 
 #include <iostream>
@@ -19,19 +18,14 @@ GrammarEditor::GrammarEditor()
   Show();
 }
 
-void GrammarEditor::on_create(wxWindowCreateEvent&)
+void GrammarEditor::on_create(wxWindowCreateEvent& evt)
 {
-  // Flag to prevent recursively calling the create event handler by creating
-  // new children.
-  static auto once_flag = true;
+  if (evt.GetWindow() != dynamic_cast<wxWindow*>(this))
+    return;
 
-  if (once_flag)
-  {
-    once_flag = false;
-    if (!wxXmlResource::Get()->LoadPanel(this, "grammar_editor_panel"))
-    {
-      std::cerr << "Failure loading grammar_editor panel\n";
-      return;
-    }
-  }
+  auto* sizer = new wxBoxSizer{wxVERTICAL};
+  auto* panel = wxXmlResource::Get()->LoadPanel(this, "grammar_editor_panel");
+  sizer->Add(panel, 1, wxEXPAND | wxALL, 5);
+  SetSizer(sizer);
+  sizer->Layout();
 }

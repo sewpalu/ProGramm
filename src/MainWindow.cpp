@@ -5,9 +5,14 @@
 #include "wx/html/forcelnk.h"
 #include "wx/xrc/xmlres.h"
 
-#include "wx/stdpaths.h"
+#include "VisualisationWidget.hpp"
 
 FORCE_LINK(GrammarEditor);
+FORCE_LINK(CYKVisualisationTab);
+FORCE_LINK(STVisualisationTab);
+FORCE_LINK(ManagerTab);
+FORCE_LINK(VisualisationWidget);
+FORCE_LINK(StepsDisplay);
 
 MainWindow::MainWindow()
 {

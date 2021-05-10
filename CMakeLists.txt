@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 
 project(form_lang VERSION 0.1)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/depend/docopt)
 add_subdirectory(${PROJECT_SOURCE_DIR}/depend/wxWidgets)

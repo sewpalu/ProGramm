@@ -1,15 +1,15 @@
-#ifndef GRAMMAR_EDITOR_HPP
-#define GRAMMAR_EDITOR_HPP
+#ifndef MANAGER_TAB_HPP
+#define MANAGER_TAB_HPP
 
 #include "wx/wxprec.h"
 #ifndef WX_PRECOMP
 #include "wx/wx.h"
 #endif
 
-class GrammarEditor : public wxPanel
+class ManagerTab : public wxPanel
 {
 public:
-  GrammarEditor();
+  ManagerTab();
 
 private:
   /**
@@ -18,8 +18,11 @@ private:
    */
   void on_create(wxWindowCreateEvent& evt);
 
-  wxDECLARE_DYNAMIC_CLASS(GrammarEditor);
+  void on_page_changed(wxChildFocusEvent& evt);
+
+  wxDECLARE_DYNAMIC_CLASS(ManagerTab);
   wxDECLARE_EVENT_TABLE();
 };
 
-#endif /* ifndef GRAMMAR_EDITOR_HPP */
+#endif /* ifndef MANAGER_TAB_HPP */
+
