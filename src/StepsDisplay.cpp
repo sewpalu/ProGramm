@@ -16,23 +16,15 @@ StepsDisplay::StepsDisplay()
   Show();
 }
 
-void StepsDisplay::on_create(wxWindowCreateEvent&)
+void StepsDisplay::on_create(wxWindowCreateEvent& evt)
 {
-  // Flag to prevent recursively calling the create event handler when creating
-  // new children.
-  static auto once_flag = true;
+  if (evt.GetWindow() != dynamic_cast<wxWindow*>(this))
+    return;
 
-  if (once_flag)
-  {
-    once_flag = false;
-
-    auto* sizer = new wxBoxSizer{wxVERTICAL};
-    auto* line = new wxStaticLine{this};
-    sizer->Add(line, 0, wxEXPAND);
-    SetSizer(sizer);
-
-    once_flag = true;
-  }
+  auto* sizer = new wxBoxSizer{wxVERTICAL};
+  auto* line = new wxStaticLine{this};
+  sizer->Add(line, 0, wxEXPAND);
+  SetSizer(sizer);
 }
 
 void StepsDisplay::show_steps(const std::vector<Step>& steps)

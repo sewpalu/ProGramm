@@ -24,18 +24,13 @@ void ManagerTab::on_page_changed(wxChildFocusEvent& evt)
   Layout();
 }
 
-void ManagerTab::on_create(wxWindowCreateEvent&)
+void ManagerTab::on_create(wxWindowCreateEvent& evt)
 {
-  // Flag to prevent recursively calling the create event handler when creating
-  // new children.
-  static auto once_flag = true;
+  if (evt.GetWindow() != dynamic_cast<wxWindow*>(this))
+    return;
 
-  if (once_flag)
-  {
-    once_flag = false;
-    auto* sizer = new wxBoxSizer{wxVERTICAL};
-    auto* panel = wxXmlResource::Get()->LoadPanel(this, "manager_panel");
-    sizer->Add(panel, 1, wxEXPAND | wxALL, 5);
-    SetSizer(sizer);
-  }
+  auto* sizer = new wxBoxSizer{wxVERTICAL};
+  auto* panel = wxXmlResource::Get()->LoadPanel(this, "manager_panel");
+  sizer->Add(panel, 1, wxEXPAND | wxALL, 5);
+  SetSizer(sizer);
 }

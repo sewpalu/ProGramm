@@ -6,6 +6,8 @@
 #include "wx/wx.h"
 #endif
 
+#include "wx/notebook.h"
+
 #include "VisualisationTab.hpp"
 
 class CYKVisualisationTab : public VisualisationTab
@@ -25,7 +27,9 @@ private:
    */
   void on_create(wxWindowCreateEvent& evt);
 
-  void on_page_changed(wxChildFocusEvent& evt);
+  void on_page_changed(wxBookCtrlEvent& evt);
+
+  void update_visualisation();
 
   wxDECLARE_DYNAMIC_CLASS(CYKVisualisationTab);
   wxDECLARE_EVENT_TABLE();

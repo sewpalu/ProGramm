@@ -9,7 +9,7 @@
 class GUIVisualisationInterface
 {
 public:
-  using Callback = std::function<void(const GUIVisualisationInterface&)>;
+  using Callback = std::function<void(GUIVisualisationInterface&)>;
 
   struct Tree
   {
@@ -31,6 +31,8 @@ public:
   struct Coord
   {
     std::size_t x, y;
+
+    bool operator<(const Coord& other) const;
   };
 
   struct Cell
@@ -44,6 +46,7 @@ public:
 
   virtual void draw_tree(const Tree& tree) = 0;
   virtual void draw_table(const Table& table) = 0;
+  virtual void draw_empty() = 0;
 };
 
 #endif /* ifndef GUI_VISUALISATION_INTERFACE_HPP */

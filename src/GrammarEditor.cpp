@@ -18,19 +18,14 @@ GrammarEditor::GrammarEditor()
   Show();
 }
 
-void GrammarEditor::on_create(wxWindowCreateEvent&)
+void GrammarEditor::on_create(wxWindowCreateEvent& evt)
 {
-  // Flag to prevent recursively calling the create event handler when creating
-  // new children.
-  static auto once_flag = true;
+  if (evt.GetWindow() != dynamic_cast<wxWindow*>(this))
+    return;
 
-  if (once_flag)
-  {
-    once_flag = false;
-    auto* sizer = new wxBoxSizer{wxVERTICAL};
-    auto* panel = wxXmlResource::Get()->LoadPanel(this, "grammar_editor_panel");
-    sizer->Add(panel, 1, wxEXPAND | wxALL, 5);
-    SetSizer(sizer);
-    sizer->Layout();
-  }
+  auto* sizer = new wxBoxSizer{wxVERTICAL};
+  auto* panel = wxXmlResource::Get()->LoadPanel(this, "grammar_editor_panel");
+  sizer->Add(panel, 1, wxEXPAND | wxALL, 5);
+  SetSizer(sizer);
+  sizer->Layout();
 }

@@ -8,6 +8,9 @@ TreeRenderer::TreeRenderer(const Tree& tree, wxDC& dc, wxSize size)
 
 void TreeRenderer::render()
 {
+  if (m_size.x < 0 || m_size.y < 0)
+    return;
+
   m_dc.SetBackground(wxBrush(wxColor(255, 255, 255)));
   m_dc.Clear();
 
