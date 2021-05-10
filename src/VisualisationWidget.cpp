@@ -30,7 +30,6 @@ void VisualisationWidget::draw_tree(const Tree& tree)
   m_dynamic_paint = [this, tree]() {
     auto dc = wxBufferedPaintDC{this};
     TreeRenderer{tree, dc, GetSize()}();
-    Refresh();
   };
 }
 

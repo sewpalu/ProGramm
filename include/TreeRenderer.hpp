@@ -1,9 +1,9 @@
 #ifndef TREE_RENDERER_HPP
 #define TREE_RENDERER_HPP
 
-#include "wx/wxprec.h"
-#include <bits/c++config.h>
 #include <vector>
+
+#include "wx/wxprec.h"
 #ifndef WX_PRECOMP
 #include "wx/wx.h"
 #endif

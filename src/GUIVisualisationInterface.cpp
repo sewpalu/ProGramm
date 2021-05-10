@@ -1,5 +1,4 @@
 #include "GUIVisualisationInterface.hpp"
-#include <bits/c++config.h>
 
 std::size_t GUIVisualisationInterface::Tree::n_leaves() const
 {

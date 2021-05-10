@@ -1,5 +1,4 @@
 #include "TreeRenderer.hpp"
-#include <bits/c++config.h>
 
 TreeRenderer::TreeRenderer(const Tree& tree, wxDC& dc, wxSize size)
     : m_tree(tree), m_dc(dc), m_size(size)
