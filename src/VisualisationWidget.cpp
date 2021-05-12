@@ -16,7 +16,32 @@ EVT_PAINT(VisualisationWidget::on_paint)
 EVT_GRID_CELL_LEFT_CLICK(VisualisationWidget::on_grid_click)
 EVT_GRID_SELECT_CELL(VisualisationWidget::on_grid_click)
 EVT_SIZE(VisualisationWidget::on_resize)
+EVT_MOTION(VisualisationWidget::mouseMoved)
 END_EVENT_TABLE()
+
+// When the mouse has been moved,
+void VisualisationWidget::mouseMoved(wxMouseEvent& evt)
+{
+  if (evt.LeftIsDown())
+  {
+    std::cout << "Dragging: " << evt.m_x << " | " << evt.m_y << "\n";
+
+    // Get time since last position entry
+    // If last entry is too old, it might not correspond to the current click
+    std::chrono::duration<double, std::milli> time_span =
+        std::chrono::high_resolution_clock::now() -
+        this->dragStartingPoint.second;
+    if (time_span.count() < 10)
+    {
+      // Adjust the movement according to the change in mouse position
+      this->m_offset.first += evt.GetPosition().x - dragStartingPoint.first.x;
+      this->m_offset.second += evt.GetPosition().y - dragStartingPoint.first.y;
+    }
+    this->dragStartingPoint.first = evt.GetPosition();
+    this->dragStartingPoint.second = std::chrono::high_resolution_clock::now();
+    Refresh();
+  }
+}
 
 VisualisationWidget::VisualisationWidget()
 {
@@ -24,13 +49,13 @@ VisualisationWidget::VisualisationWidget()
   Show();
 }
 
-void VisualisationWidget::draw_tree(const Tree& tree)
+void VisualisationWidget::draw_tree(const SyntaxTree& tree)
 {
   reset();
 
   m_dynamic_paint = [this, tree]() {
     auto dc = wxBufferedPaintDC{this};
-    TreeRenderer{tree, dc, GetSize()}();
+    TreeRenderer{tree, dc, GetSize(), m_offset}();
   };
 }
 

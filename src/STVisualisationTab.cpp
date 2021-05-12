@@ -13,6 +13,8 @@ wxIMPLEMENT_DYNAMIC_CLASS(STVisualisationTab, wxPanel);
 
 BEGIN_EVENT_TABLE(STVisualisationTab, wxPanel)
 EVT_WINDOW_CREATE(STVisualisationTab::on_create)
+
+
 END_EVENT_TABLE()
 
 STVisualisationTab::STVisualisationTab()
@@ -64,13 +66,30 @@ void STVisualisationTab::update_visualisation()
   else
     return;
 
-  auto tree =
+  STNode leaf1(std::unique_ptr<Terminal>(new Terminal("leaf1", "leaf1")));
+  STNode leaf2(std::unique_ptr<Terminal>(new Terminal("leaf2", "leaf2")));
+  STNode leaf3(std::unique_ptr<Terminal>(new Terminal("leaf3", "leaf3")));
+  STNode leaf4(std::unique_ptr<Terminal>(new Terminal("leaf4", "leaf4")));
+
+  STNode node1(std::unique_ptr<Nonterminal>(new Nonterminal("node1")),
+               {leaf1, leaf2});
+  STNode node2(std::unique_ptr<Nonterminal>(new Nonterminal("node2")),
+               {leaf3, leaf4});
+
+  STNode treeRoot(std::unique_ptr<Nonterminal>(new Nonterminal("root")),
+               {node1, node2});
+
+
+  SyntaxTree testTree(treeRoot);
+
+  /*auto tree =
       VisualisationWidget::Tree{.children = {{.text = "leaf"},
                                              {.children = {{.text = "leaf_a"},
                                                            {.text = "leaf_b"},
                                                            {.text = "leaf_c"}},
                                               .text = "node"}},
-                                .text = "root"};
+                                .text = "root",
+                                .root = treeRoot};*/
 
-  m_visualisation->draw_tree(tree);
+  m_visualisation->draw_tree(testTree);
 }

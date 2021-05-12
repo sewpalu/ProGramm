@@ -10,6 +10,8 @@
 
 #include "VisualisationTab.hpp"
 
+#include "SyntaxTree.hpp"
+
 class STVisualisationTab : public VisualisationTab
 {
 public:
