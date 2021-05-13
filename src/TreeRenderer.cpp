@@ -30,27 +30,30 @@ void TreeRenderer::mouseMoved(wxMouseEvent& evt)
     this->m_dragStartingPoint.first = evt.GetPosition();
     this->m_dragStartingPoint.second =
         std::chrono::high_resolution_clock::now();
-    std::cout << "Offset: " << this->m_offset.first << " | "
-              << this->m_offset.second << "\n";
+    //std::cout << "Offset: " << this->m_offset.first << " | "
+    //          << this->m_offset.second << "\n";
   }
 }
 
-TreeRenderer::TreeRenderer(const SyntaxTree& tree, wxDC& dc, wxSize size, std::pair<int, int> offset)
-    : m_tree(tree), m_dc(dc), m_size(size), m_offset(offset)
+TreeRenderer::TreeRenderer(SyntaxTree* tree, wxDC& parent, wxSize size,
+                           std::pair<int, int> offset, int zoomPercent)
+    : m_tree(tree), m_dc(parent), m_size(size), m_offset(offset), m_zoom_percent(zoomPercent)
 {
-  std::cout << "Tree Renderer Constructed\n";
+  // Set background for nodes
+  this->m_dc.SetBrush(wxColor(220, 220, 220));
+  // Set dark grey outline for nodes
+  m_dc.SetPen(wxPen(wxColor(70, 70, 70), 2));
+
+  this->m_size.x *= (double)this->m_zoom_percent / 100;
+  this->m_size.y *= (double)this->m_zoom_percent / 100;
+
+  //std::cout << "Tree Renderer Constructed\n";
 }
 
 void TreeRenderer::render()
-{
+{  
+  m_dc.DrawCircle(wxPoint(50, 50), 10);
 
-  // Set background for nodes
-  m_dc.SetBrush(wxColor(220, 220, 220));
-  // Set dark grey outline for nodes
-  m_dc.SetPen(wxPen(wxColor(70, 70, 70), 2));  
-  
-  std::cout << "Rendering with size: " << this->m_size.x << " | "
-            << this->m_size.y << "\n";
   if (m_size.x < 0 || m_size.y < 0)
     return;
 
@@ -61,21 +64,19 @@ void TreeRenderer::render()
 
   //m_dc.DrawCircle(wxPoint(50, 50), 30);
 
-  int numberOfLeaves = m_tree.getNumberOfLeaves();
+  int numberOfLeaves = m_tree->getNumberOfLeaves();
   int radius = (m_size.x / numberOfLeaves / 2) * 0.8;
   //std::cout << "Radius: " << radius << "\n";
 
-  int verticalRadius = (m_size.y / m_tree.getRoot().getMaxDepth() / 2) * 0.8;
+  int verticalRadius = (m_size.y / m_tree->getRoot().getMaxDepth() / 2) * 0.8;
 
   if (verticalRadius < radius)
     radius = verticalRadius;
 
-  m_dc.SetBrush(*wxGREY_BRUSH);             // green filling
-  m_dc.SetPen(wxPen(wxColor(0, 0, 0), 2));  // 2-pixels-thick black outline
-
   m_numberOfNodesOnLevel.clear();
 
-  render_subtree(m_tree.getRoot(), radius, 0, 0, 0);
+  render_subtree(m_tree->getRoot(), radius, 0, 0, 0);
+  firstRenderingDone = true;
 }
 
 void TreeRenderer::render_subtree(STNode subtree, int radius,
@@ -89,13 +90,11 @@ void TreeRenderer::render_subtree(STNode subtree, int radius,
   // Calculate the coordinates for the current nodes to be printed
   int xCoord =
       1.1 * radius +
-      (((m_size.x / (m_tree.getRoot().getNumberOfNodesOnLevel(depth) + 1)) *
+      (((m_size.x / (m_tree->getRoot().getNumberOfNodesOnLevel(depth) + 1)) *
         1.25) *
        this->m_numberOfNodesOnLevel.at(depth)) + this->m_offset.first;
-  xCoord -= ((m_size.x / (m_tree.getRoot().getNumberOfLeaves() + 1)) * 1.25);
+  xCoord -= ((m_size.x / (m_tree->getRoot().getNumberOfLeaves() + 1)) * 1.25);
   int yCoord = 1.1 * radius + (depth * (radius * 2 * 1.25)) + this->m_offset.second;
-
-  std::cout << "Node coordinates: " << xCoord << " | " << yCoord << "\n";
 
   // If the parent node coordinates are zero, it's the root, so there's no need
   // to print connections
@@ -172,4 +171,19 @@ void TreeRenderer::render_subtree(STNode subtree, int radius,
     render_subtree(subtree.children.at(i), radius, depth, xCoord,
                   yCoord);
   }
+}
+
+void TreeRenderer::updateDimensions(wxSize newSize)
+{
+  this->m_size = newSize;
+}
+
+void TreeRenderer::updateOffset(std::pair<int, int> offset)
+{
+  this->m_offset = offset;
+}
+
+void TreeRenderer::updateTree(SyntaxTree* tree)
+{
+  this->m_tree = tree;
 }

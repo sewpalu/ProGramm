@@ -14,8 +14,35 @@ wxIMPLEMENT_DYNAMIC_CLASS(STVisualisationTab, wxPanel);
 BEGIN_EVENT_TABLE(STVisualisationTab, wxPanel)
 EVT_WINDOW_CREATE(STVisualisationTab::on_create)
 
+EVT_MOTION(STVisualisationTab::mouseMoved)
+
 
 END_EVENT_TABLE()
+
+// When the mouse has been moved,
+void STVisualisationTab::mouseMoved(wxMouseEvent& evt)
+{
+  std::cout << "ST Mouse event\n";
+  /*if (evt.LeftIsDown())
+  {
+    std::cout << "Dragging: " << evt.m_x << " | " << evt.m_y << "\n";
+
+    // Get time since last position entry
+    // If last entry is too old, it might not correspond to the current click
+    std::chrono::duration<double, std::milli> time_span =
+        std::chrono::high_resolution_clock::now() -
+        this->dragStartingPoint.second;
+    if (time_span.count() < 100)
+    {
+      // Adjust the movement according to the change in mouse position
+      this->m_offset.first += evt.GetPosition().x - dragStartingPoint.first.x;
+      this->m_offset.second += evt.GetPosition().y - dragStartingPoint.first.y;
+    }
+    this->dragStartingPoint.first = evt.GetPosition();
+    this->dragStartingPoint.second = std::chrono::high_resolution_clock::now();
+    Refresh();
+  }*/
+}
 
 STVisualisationTab::STVisualisationTab()
 {
@@ -55,6 +82,7 @@ void STVisualisationTab::on_create(wxWindowCreateEvent& evt)
   auto* panel = wxXmlResource::Get()->LoadPanel(this, "st_panel");
   sizer->Add(panel, 1, wxEXPAND | wxALL, 5);
   SetSizer(sizer);
+  
 
   update_visualisation();
 }
@@ -80,7 +108,7 @@ void STVisualisationTab::update_visualisation()
                {node1, node2});
 
 
-  SyntaxTree testTree(treeRoot);
+  SyntaxTree* testTree = new SyntaxTree(treeRoot);
 
   /*auto tree =
       VisualisationWidget::Tree{.children = {{.text = "leaf"},

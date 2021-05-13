@@ -9,6 +9,7 @@
 #endif
 
 #include "wx/dc.h"
+#include "wx/dcbuffer.h"
 
 #include "wx/panel.h"
 
@@ -33,13 +34,15 @@ public:
   using Tree = GUIVisualisationInterface::Tree;
 
 private:
-  const SyntaxTree m_tree;
+  SyntaxTree* m_tree;
   wxDC& m_dc;
-  const wxSize m_size;
+  wxSize& m_size;
   std::vector<int> m_numberOfNodesOnLevel;
   std::pair<int, int> m_offset = {0, 0};
 
   int maxStringLength = 1;
+
+  int m_zoom_percent = 100;
 
 
   // This is the starting point with a detailed time stamp for dragging the
@@ -49,10 +52,12 @@ private:
 
 
 public:
-  TreeRenderer(const SyntaxTree& tree, wxDC& dc, wxSize size,
-               std::pair<int, int> offset);
+  TreeRenderer(SyntaxTree* tree, wxDC& parent, wxSize size,
+               std::pair<int, int> offset, int zoomPercent);
 
   void changeOffset(std::pair<int, int> offset);
+
+  bool firstRenderingDone = false;
 
   void operator()()
   {
@@ -63,9 +68,11 @@ public:
 
   void updateDimensions(wxSize newSize);
   void updateOffset(std::pair<int, int> offset);
+  void updateTree(SyntaxTree* tree);
 
 private:
-  void render_subtree(STNode subtree, int radius, std::size_t depth,
+  void render_subtree(STNode subtree, int radius,
+                      std::size_t depth,
                       int parentX, int parentY);
   void mouseMoved(wxMouseEvent& evt);
 

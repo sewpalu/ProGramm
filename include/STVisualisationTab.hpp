@@ -23,6 +23,7 @@ public:
   void update_input(const FormalGrammar& grammar, const Word& word) final;
 
 private:
+  void mouseMoved(wxMouseEvent& evt);
   /**
    * Used to load XRC resources.
    * This is necessary because this wxPanel isn't complete at construction time.

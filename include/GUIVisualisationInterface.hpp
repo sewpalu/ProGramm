@@ -50,9 +50,10 @@ public:
   };
   using Table = std::vector<Cell>;
 
-  virtual void draw_tree(const SyntaxTree& tree) = 0;
+  virtual void draw_tree(SyntaxTree* tree) = 0;
   virtual void draw_table(const Table& table) = 0;
   virtual void draw_empty() = 0;
+
 };
 
 #endif /* ifndef GUI_VISUALISATION_INTERFACE_HPP */

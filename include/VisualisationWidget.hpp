@@ -32,10 +32,12 @@ private:
   std::pair<wxPoint, std::chrono::high_resolution_clock::time_point>
       dragStartingPoint;
 
+  TreeRenderer* m_tree_renderer = nullptr;
+
 public:
   VisualisationWidget();
 
-  void draw_tree(const SyntaxTree& tree) final;
+  void draw_tree(SyntaxTree* tree) final;
   void draw_table(const Table& table) final;
   void draw_empty() final;
 
@@ -44,10 +46,13 @@ private:
   void on_paint(wxPaintEvent& evt);
   void on_grid_click(wxGridEvent& evt);
   void on_resize(wxSizeEvent& evt);
+  void sliderMoved(wxScrollEvent& evt);
 
   void generate_grid(const Table& table);
 
   void reset();
+
+  wxSlider* m_zoom_slider;
 
   wxDECLARE_DYNAMIC_CLASS(VisualisationWidget);
   wxDECLARE_EVENT_TABLE();

@@ -17,7 +17,14 @@ EVT_GRID_CELL_LEFT_CLICK(VisualisationWidget::on_grid_click)
 EVT_GRID_SELECT_CELL(VisualisationWidget::on_grid_click)
 EVT_SIZE(VisualisationWidget::on_resize)
 EVT_MOTION(VisualisationWidget::mouseMoved)
+EVT_SCROLL(VisualisationWidget::sliderMoved) 
+
 END_EVENT_TABLE()
+
+void VisualisationWidget::sliderMoved(wxScrollEvent& evt)
+{
+  Refresh();
+}
 
 // When the mouse has been moved,
 void VisualisationWidget::mouseMoved(wxMouseEvent& evt)
@@ -31,7 +38,7 @@ void VisualisationWidget::mouseMoved(wxMouseEvent& evt)
     std::chrono::duration<double, std::milli> time_span =
         std::chrono::high_resolution_clock::now() -
         this->dragStartingPoint.second;
-    if (time_span.count() < 10)
+    if (time_span.count() < 100)
     {
       // Adjust the movement according to the change in mouse position
       this->m_offset.first += evt.GetPosition().x - dragStartingPoint.first.x;
@@ -45,17 +52,44 @@ void VisualisationWidget::mouseMoved(wxMouseEvent& evt)
 
 VisualisationWidget::VisualisationWidget()
 {
+  std::cout << "Constructing widget \n";
   draw_empty();
   Show();
 }
 
-void VisualisationWidget::draw_tree(const SyntaxTree& tree)
+void VisualisationWidget::draw_tree(SyntaxTree* tree)
 {
   reset();
 
+  std::cout << "Zoom slider window: " << this->GetSize().x << " | "
+            << this->GetSize().y << "\n";
+  this->m_zoom_slider =
+      new wxSlider(this, wxID_ANY, 100, 50, 500,
+                   wxPoint(0.6 * this->GetSize().x,
+                           this->GetSize().y - 40),
+                   wxSize(0.4 * this->GetSize().x, 40),
+                   wxSL_LABELS, wxDefaultValidator, wxString("Zoom Factor"));
+
   m_dynamic_paint = [this, tree]() {
     auto dc = wxBufferedPaintDC{this};
-    TreeRenderer{tree, dc, GetSize(), m_offset}();
+    this->m_tree_renderer = new TreeRenderer(tree, dc, GetSize(), m_offset, this->m_zoom_slider->GetValue());
+    this->m_zoom_slider->SetPosition(
+        wxPoint(0.6 * this->GetSize().x, this->GetSize().y - 40));
+    this->m_zoom_slider->SetSize(wxSize(0.4 * this->GetSize().x, 40));
+    /*if (this->m_tree_renderer == nullptr)
+    {
+      std::cout << "Making new tree renderer\n";
+    }
+    else  
+    {
+      std::cout << "Updating old tree renderer\n";
+      this->m_tree_renderer->updateDimensions(GetSize());
+      this->m_tree_renderer->updateOffset(m_offset);
+    }*/
+    
+    std::cout << "Starting render\n";
+    m_tree_renderer->render();
+    std::cout << "Finished render\n";
   };
 }
 
