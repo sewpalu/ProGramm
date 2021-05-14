@@ -1,0 +1,84 @@
+
+json = 
+	{
+	grammar1,
+	grammar2,
+	grammar3
+	}
+
+grammar = 
+{
+	"name" : "grammar name",
+	"alphabet" : 
+	{
+		"startterminal" : "Nichtterminal",
+		"nonterminals" : 
+		{
+			"Nichtterminal1",
+			"Nichtterminal2"
+		},
+		"terminals" : 
+		{
+			"Terminal1",
+			"Terminal2"
+		}
+	},
+	"rule" : 
+	{
+		rule1,
+		rule2
+	}
+}
+
+rule = 
+{
+	"LHS" : "Nichtterminal",
+	"RHS" :
+	{
+		"Symbol1",
+		"Symbol2",
+		"Symbol3"
+	}
+}
+
+=============================================================================================================
+
+json = 
+{
+	{
+		"name" : "test grammar 1",
+		"alphabet" : 
+		{
+			"startterminal" : "S",
+			"nonterminals" :
+			{
+				"S",
+				"A",
+				"B"
+			},
+			"terminals" : 
+			{
+				"a",
+				"b"
+			}
+		},
+		"rules" : 
+		{
+			{
+				"LHS" : "S",
+				"RHS" :
+				{
+					"A",
+					"B"
+				}
+			},
+			{
+				"LHS" : "A",
+				"RHS" : 
+				{
+					"a"
+				}
+			}
+		}
+	}
+}

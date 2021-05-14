@@ -33,34 +33,45 @@ void ManagerTab::on_create(wxWindowCreateEvent& evt)
   if (evt.GetWindow() != dynamic_cast<wxWindow*>(this))
     return;
 
-  auto* sizer = new wxBoxSizer{wxVERTICAL};
-  //auto* panel = wxXmlResource::Get()->LoadPanel(this, "manager_panel");
-  //panel->SetBackgroundColour(wxColor(255, 0, 0));
-//  sizer->Add(panel, 1, wxEXPAND | wxALL, 5);
+  this->sizer = new wxBoxSizer{wxVERTICAL};
+  
+  this->grammar_steps =
+      new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxSize(this->GetSize()));
 
-  wxSizer* rule_entry_sizer = new wxGridSizer(3,4, wxSize(0,0));
+  this->alpha_manager = new AlphabetManager(this->grammar_steps, wxID_ANY);
+  
+  wxPanel* testWindow = new wxPanel(this->grammar_steps, wxID_ANY);
 
-  rule_entry_sizer->Add(new wxStaticText(this, wxID_ANY, "Symbol hinzufügen:"));
+  testWindow->SetBackgroundColour(wxColor(255, 0, 0));
 
-  this->symbol_type_selector = new wxComboBox(this, wxID_ANY);
-  symbol_type_selector->Append("Terminal");
-  symbol_type_selector->Append("Nonterminal");
+  //grammar_steps->AddPage(this->alpha_manager, )
 
-  rule_entry_sizer->Add(symbol_type_selector);
+  grammar_steps->AddPage(testWindow,
+                         "Produktionen hinzufügen", true);
+  grammar_steps->AddPage(new wxNotebookPage(this->grammar_steps, wxID_ANY),
+                         "Übersicht", true);
 
-  this->symbol_value_entry = new wxTextCtrl(this, wxID_ANY);
 
-  rule_entry_sizer->Add(symbol_value_entry);
+  this->grammar_steps->Layout();
 
-  wxButton* symbol_entry_button =
-      new wxButton(this, this->add_symbol_button_id, "Symbol hinzufügen!");
+  this->sizer->Add(this->grammar_steps);
 
-  symbol_entry_button->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED, &ManagerTab::add_symbol, this);
+  //this->grammar_steps->AddChild(alpha_manager);
 
-  rule_entry_sizer->Add(symbol_entry_button);
+  //this->sizer->Add(grammar_steps);
 
-  sizer->Add(rule_entry_sizer);
-  SetSizer(sizer);
+/*  wxBoxSizer* rule_entry_sizer = new wxBoxSizer(wxHORIZONTAL);
+
+  this->lhs_selector =
+      new wxComboBox(this, wxID_ANY, "LHS", wxDefaultPosition, wxDefaultSize);
+  rule_entry_sizer->Add(
+      new wxStaticText(this, wxID_ANY, "Produktionsregel eingeben:"));
+  rule_entry_sizer->Add(this->lhs_selector);
+
+  sizer->Add(alphabet_entry_sizer);
+  sizer->Add(alphabet_display_sizer);*/
+  //sizer->Add(rule_entry_sizer);
+  SetSizer(this->sizer);
 }
 
 void ManagerTab::add_symbol(wxCommandEvent& evt)
@@ -74,6 +85,11 @@ void ManagerTab::add_symbol(wxCommandEvent& evt)
   else if (this->symbol_type_selector->GetValue() == "Terminal")
   {
     isNonterminal = false;
+    if (this->start_symbol_selector->GetValue())
+    {
+      wxMessageBox(wxT("Ein Terminal kann kein Startsymbol sein!"));
+      return;
+    }
   }
   else
   {
@@ -107,7 +123,7 @@ void ManagerTab::add_symbol(wxCommandEvent& evt)
   if (isNonterminal)
   {
     this->nonterminal_alphabet.push_back(
-        Nonterminal(this->symbol_value_entry->GetValue().ToStdString()));
+        Nonterminal(this->symbol_value_entry->GetValue().ToStdString(), this->start_symbol_selector->GetValue()));
   }
   else
   {
@@ -124,5 +140,10 @@ void ManagerTab::add_symbol(wxCommandEvent& evt)
 
 void ManagerTab::on_refresh(wxPaintEvent& evt)
 {
-  std::cout << "Refreshing\n";
+  this->grammar_steps->SetSize(this->GetSize());
+ /* this->lhs_selector->Clear();
+  for (unsigned int i = 0; i < this->nonterminal_alphabet.size(); i++)
+  {
+    lhs_selector->AppendString(this->nonterminal_alphabet.at(i).getIdentifier());
+  }*/
 }
