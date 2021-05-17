@@ -20,15 +20,29 @@
 
 #include <wx/notebook.h>
 
+#include <wx/wrapsizer.h>
+
+#include <wx/scrolwin.h>
+
+#include <wx/dataview.h>
+
+#include <wx/checklst.h>
+
+#include <wx/vscroll.h>
+
+#include <wx/vlbox.h>
+
 #include <vector>
 
 #include "FormalGrammar.hpp"
 #include "Terminal.hpp"
 
 
-class AlphabetManager : public wxPanel
+
+class AlphabetManager : public wxScrolledWindow
 {
 public:
+  AlphabetManager();
   AlphabetManager(wxWindow* parent, wxWindowID id);
 
 private:
@@ -61,18 +75,19 @@ private:
   // Checkbox to declare start symbol
   wxCheckBox* start_symbol_selector;
 
-  wxListBox* terminal_display;
-  wxListBox* nonterminal_display;
+  //wxListBox* terminal_display;
+  wxCheckListBox* nonterminal_display;
 
   // Utilities for entering a production
   wxComboBox* lhs_selector;
   std::vector<wxComboBox*> rhs_selectors;
 
+  //wxListCtrl* terminal_display;
+
+  wxCheckListBox* terminal_display;
+
   wxBoxSizer* sizer;
 
-  wxNotebook* grammar_steps;
-
-  AlphabetManager* alpha_manager;
 
   wxDECLARE_DYNAMIC_CLASS(AlphabetManager);
   wxDECLARE_EVENT_TABLE();

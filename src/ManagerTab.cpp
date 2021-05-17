@@ -19,6 +19,9 @@ EVT_PAINT(ManagerTab::on_refresh)
 END_EVENT_TABLE()
 
 ManagerTab::ManagerTab()
+   // : grammar_steps(new wxNotebook(this, wxID_ANY, wxDefaultPosition,
+     //                              wxSize(this->GetSize())))//,
+     // alpha_manager(new AlphabetManager(this->grammar_steps, wxID_ANY))
 {
   Show();
 }
@@ -33,10 +36,11 @@ void ManagerTab::on_create(wxWindowCreateEvent& evt)
   if (evt.GetWindow() != dynamic_cast<wxWindow*>(this))
     return;
 
+  this->grammar_steps = new wxNotebook(this, wxID_ANY, wxDefaultPosition,
+                                       wxSize(this->GetSize()));
+  //grammar_steps->AddPage(this->alpha_manager, "Alphabet Manager", true);
+
   this->sizer = new wxBoxSizer{wxVERTICAL};
-  
-  this->grammar_steps =
-      new wxNotebook(this, wxID_ANY, wxDefaultPosition, wxSize(this->GetSize()));
 
   this->alpha_manager = new AlphabetManager(this->grammar_steps, wxID_ANY);
   
@@ -44,12 +48,12 @@ void ManagerTab::on_create(wxWindowCreateEvent& evt)
 
   testWindow->SetBackgroundColour(wxColor(255, 0, 0));
 
-  //grammar_steps->AddPage(this->alpha_manager, )
+  grammar_steps->AddPage(this->alpha_manager, "Alphabet", true);
 
   grammar_steps->AddPage(testWindow,
-                         "Produktionen hinzufügen", true);
+                         "Produktionen hinzufügen", false);
   grammar_steps->AddPage(new wxNotebookPage(this->grammar_steps, wxID_ANY),
-                         "Übersicht", true);
+                         "Übersicht", false);
 
 
   this->grammar_steps->Layout();
@@ -71,6 +75,8 @@ void ManagerTab::on_create(wxWindowCreateEvent& evt)
   sizer->Add(alphabet_entry_sizer);
   sizer->Add(alphabet_display_sizer);*/
   //sizer->Add(rule_entry_sizer);
+
+
   SetSizer(this->sizer);
 }
 
