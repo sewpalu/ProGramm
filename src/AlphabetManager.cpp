@@ -53,7 +53,7 @@ AlphabetManager::AlphabetManager(wxWindow* parent, wxWindowID id)
   alphabet_entry_sizer->Add(start_symbol_selector);
 
   wxButton* symbol_entry_button =
-      new wxButton(this, this->add_symbol_button_id, "Symbol hinzufügen!");
+      new wxButton(this, wxID_ANY, "Symbol hinzufügen!");
 
   symbol_entry_button->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED,
                               &AlphabetManager::add_symbol, this);
@@ -87,6 +87,14 @@ AlphabetManager::AlphabetManager(wxWindow* parent, wxWindowID id)
 
   alphabet_display_sizer->Add(terminal_sizer);
 
+  wxButton* symbol_deletion_button =
+      new wxButton(this, wxID_ANY, "Symbole löschen!");
+
+  symbol_deletion_button->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED,
+                              &AlphabetManager::delete_symbol, this);
+
+  alphabet_display_sizer->Add(symbol_deletion_button);
+
   sizer->Add(alphabet_entry_sizer);
   sizer->Add(alphabet_display_sizer);
 
@@ -96,7 +104,7 @@ AlphabetManager::AlphabetManager(wxWindow* parent, wxWindowID id)
 }
 
 void AlphabetManager::on_create(wxWindowCreateEvent& evt)
-{
+{ /*
   std::cout << "On create start!\n";
   if (evt.GetWindow() != dynamic_cast<wxWindow*>(this))
     return;
@@ -152,7 +160,7 @@ void AlphabetManager::on_create(wxWindowCreateEvent& evt)
   rule_entry_sizer->Add(this->lhs_selector);
 
   sizer->Add(alphabet_entry_sizer);
-  sizer->Add(alphabet_display_sizer);
+  sizer->Add(alphabet_display_sizer);*/
 
   // this->grammar_steps->AddChild(alpha_manager);
 
@@ -191,9 +199,15 @@ void AlphabetManager::add_symbol(wxCommandEvent& evt)
   }
   else
   {
-    wxMessageBox(wxT("Bitte wähle eine Symbolart aus!\n Eingabe '" +
+    wxMessageBox(wxT("Bitte wählen Sie eine Symbolart aus!\n Eingabe '" +
                      this->symbol_type_selector->GetValue() +
                      "' ist nicht gültig."));
+    return;
+  }
+
+  if (this->symbol_value_entry->GetValue() == "")
+  {
+    wxMessageBox(wxT("Der Wert des Symbols darf nicht leer sein: ''"));
     return;
   }
 
@@ -239,35 +253,89 @@ void AlphabetManager::add_symbol(wxCommandEvent& evt)
   Refresh();
 }
 
+void AlphabetManager::delete_symbol(wxCommandEvent& evt)
+{
+  bool deleted_a_symbol = false;
+
+  //Check if a Terminal is selected for deletion
+  for (unsigned int i = 0; i < this->terminal_display->GetCount(); i++)
+  {
+    if (this->terminal_display->IsChecked(i))
+    {
+      for (unsigned int j = 0; j < this->terminal_alphabet.size(); j++)
+      {
+        if (std::strcmp(this->terminal_alphabet.at(j).getIdentifier().c_str(), this->terminal_display->GetItem(i)->GetName().c_str()) == 0)
+        {
+          this->terminal_alphabet.erase(this->terminal_alphabet.begin() + j);
+          deleted_a_symbol = true;
+        }
+      }
+    }
+  }
+
+  //Check if a Nonterminal is selected for deletion
+  for (unsigned int  i = 0; i < this->nonterminal_display->GetCount(); i++)
+  {
+    if (this->nonterminal_display->IsChecked(i))
+    {
+      for (unsigned int j = 0; j < this->nonterminal_alphabet.size(); j++)
+      {
+        if (std::strcmp(
+                this->nonterminal_alphabet.at(j).getIdentifier().c_str(),
+                this->nonterminal_display->GetItem(i)->GetName().c_str()) == 0)
+        {
+          this->nonterminal_alphabet.erase(this->nonterminal_alphabet.begin() +
+                                           j);
+          deleted_a_symbol = true;
+        }
+      }
+    }    
+  }
+
+  Refresh();
+
+  if(!deleted_a_symbol) wxMessageBox(wxT("Wählen Sie ein Symbol aus, um es zu löschen!"));
+}
+
 void AlphabetManager::on_refresh(wxPaintEvent& evt)
 {
-  std::cout << "Refreshing\n";
-  this->terminal_display->Clear();
-  this->nonterminal_display->Clear();
-
-  for (unsigned int i = 0; i < this->terminal_alphabet.size(); i++)
+  if (this->terminal_display->GetCount() != this->terminal_alphabet.size())
   {
-    this->terminal_display->AppendString(
-        this->terminal_alphabet.at(i).getIdentifier());
-  }
-
-  for (unsigned int i = 0; i < this->nonterminal_alphabet.size(); i++)
-  {
-    if (this->nonterminal_alphabet.at(i).isStartSymbol())
+    this->terminal_display->Clear();
+    for (unsigned int i = 0; i < this->terminal_alphabet.size(); i++)
     {
-      this->nonterminal_display->AppendString(
-          "Startsymbol: " + this->nonterminal_alphabet.at(i).getIdentifier());
-    }
-    else
-    {
-      this->nonterminal_display->AppendString(
-          this->nonterminal_alphabet.at(i).getIdentifier());
+      this->terminal_display->AppendString(
+          this->terminal_alphabet.at(i).getIdentifier());
     }
   }
 
-  wxVector<wxVariant> terminal_data;
-  terminal_data.push_back(wxVariant(false));
-  terminal_data.push_back(wxVariant("row 3"));
+  if (this->nonterminal_display->GetCount() !=
+      this->nonterminal_alphabet.size())
+  {
+    this->nonterminal_display->Clear();
+    for (unsigned int i = 0; i < this->nonterminal_alphabet.size(); i++)
+    {
+      if (this->nonterminal_alphabet.at(i).isStartSymbol())
+      {
+        this->nonterminal_display->AppendString(
+            "Startsymbol: " + this->nonterminal_alphabet.at(i).getIdentifier());
+      }
+      else
+      {
+        this->nonterminal_display->AppendString(
+            this->nonterminal_alphabet.at(i).getIdentifier());
+      }
+    }
+  }
+}
 
-  std::cout << "Done refreshing alpha manager\n";
+
+std::vector<Terminal> AlphabetManager::get_terminal_alphabet()
+{
+  return this->terminal_alphabet;
+}
+
+std::vector<Nonterminal> AlphabetManager::get_nonterminal_alphabet()
+{
+  return this->nonterminal_alphabet;
 }

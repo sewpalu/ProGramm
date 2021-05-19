@@ -10,18 +10,15 @@ FORCE_LINK_ME(ManagerTab);
 wxIMPLEMENT_DYNAMIC_CLASS(ManagerTab, wxPanel);
 
 BEGIN_EVENT_TABLE(ManagerTab, wxPanel)
+
 EVT_WINDOW_CREATE(ManagerTab::on_create)
 EVT_CHILD_FOCUS(ManagerTab::on_page_changed)
-// EVT_BUTTON(ManagerTab::add_symbol)
 
 EVT_PAINT(ManagerTab::on_refresh)
 
 END_EVENT_TABLE()
 
 ManagerTab::ManagerTab()
-   // : grammar_steps(new wxNotebook(this, wxID_ANY, wxDefaultPosition,
-     //                              wxSize(this->GetSize())))//,
-     // alpha_manager(new AlphabetManager(this->grammar_steps, wxID_ANY))
 {
   Show();
 }
@@ -36,12 +33,16 @@ void ManagerTab::on_create(wxWindowCreateEvent& evt)
   if (evt.GetWindow() != dynamic_cast<wxWindow*>(this))
     return;
 
-  this->grammar_steps = new wxNotebook(this, wxID_ANY, wxDefaultPosition,
-                                       wxSize(this->GetSize()));
-  //grammar_steps->AddPage(this->alpha_manager, "Alphabet Manager", true);
-
+  //Sizer to hold all contents of this tab
   this->sizer = new wxBoxSizer{wxVERTICAL};
 
+  //The notebook which holds the individual pages to create the grammar
+  this->grammar_steps = new wxNotebook(this, wxID_ANY, wxDefaultPosition,
+                                       wxSize(this->GetSize()));
+  this->grammar_steps->Bind<>(wxEVT_NOTEBOOK_PAGE_CHANGING,
+                              &ManagerTab::page_changed, this);
+
+  //The alphabet manager to create and manage the alphabet
   this->alpha_manager = new AlphabetManager(this->grammar_steps, wxID_ANY);
   
   wxPanel* testWindow = new wxPanel(this->grammar_steps, wxID_ANY);
@@ -49,6 +50,8 @@ void ManagerTab::on_create(wxWindowCreateEvent& evt)
   testWindow->SetBackgroundColour(wxColor(255, 0, 0));
 
   grammar_steps->AddPage(this->alpha_manager, "Alphabet", true);
+  this->grammar_steps->GetPage(this->grammar_steps->GetPageCount() - 1)
+      ->SetLabel("alpha_manager");
 
   grammar_steps->AddPage(testWindow,
                          "Produktionen hinzufügen", false);
@@ -59,23 +62,6 @@ void ManagerTab::on_create(wxWindowCreateEvent& evt)
   this->grammar_steps->Layout();
 
   this->sizer->Add(this->grammar_steps);
-
-  //this->grammar_steps->AddChild(alpha_manager);
-
-  //this->sizer->Add(grammar_steps);
-
-/*  wxBoxSizer* rule_entry_sizer = new wxBoxSizer(wxHORIZONTAL);
-
-  this->lhs_selector =
-      new wxComboBox(this, wxID_ANY, "LHS", wxDefaultPosition, wxDefaultSize);
-  rule_entry_sizer->Add(
-      new wxStaticText(this, wxID_ANY, "Produktionsregel eingeben:"));
-  rule_entry_sizer->Add(this->lhs_selector);
-
-  sizer->Add(alphabet_entry_sizer);
-  sizer->Add(alphabet_display_sizer);*/
-  //sizer->Add(rule_entry_sizer);
-
 
   SetSizer(this->sizer);
 }
@@ -152,4 +138,29 @@ void ManagerTab::on_refresh(wxPaintEvent& evt)
   {
     lhs_selector->AppendString(this->nonterminal_alphabet.at(i).getIdentifier());
   }*/
+}
+
+
+void ManagerTab::page_changed(wxBookCtrlEvent& evt)
+{
+  //Check that there is a valid page changed from
+  if (!(evt.GetOldSelection() < 0))
+  {
+    //Check which page has been left, in order to save the data from that page
+    if (this->grammar_steps->GetPageText(evt.GetOldSelection()).c_str() ==
+        "Alphabet")
+    {
+      this->terminal_alphabet = this->alpha_manager->get_terminal_alphabet();
+      this->nonterminal_alphabet =
+          this->alpha_manager->get_nonterminal_alphabet();
+    }
+    else if (false)
+    {
+      //Handle Management of rules
+    }
+    else if (false)
+    {
+      //Handle final construction of a grammar
+    }
+  }
 }

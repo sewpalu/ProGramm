@@ -22,6 +22,8 @@
 
 #include <vector>
 
+#include <typeinfo>
+
 #include "FormalGrammar.hpp"
 #include "Terminal.hpp"
 
@@ -42,6 +44,8 @@ private:
   void on_page_changed(wxChildFocusEvent& evt);
 
   void on_refresh(wxPaintEvent& evt);
+
+  void page_changed(wxBookCtrlEvent& evt);
 
   void saveToFile(std::string file_name);
 
@@ -73,6 +77,8 @@ private:
   wxNotebook* grammar_steps;
 
   AlphabetManager* alpha_manager;
+
+  wxWindowID grammar_steps_id;
 
   wxDECLARE_DYNAMIC_CLASS(ManagerTab);
   wxDECLARE_EVENT_TABLE();
