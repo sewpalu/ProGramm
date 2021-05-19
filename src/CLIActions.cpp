@@ -14,10 +14,12 @@ void CLIActions::visualiseProduction(const std::string& word)
 
   m_engine.setGrammarParser(std::make_unique<DummyGrammarParser>());
 
-  const auto visualiser = m_engine.parseWord(std::make_unique<CYKAlgorithm>(), word);
-  
+  auto cyk = CYKAlgorithm{};
+  const auto syntax_trees = m_engine.parseWord(cyk, word);
+  const auto& visualiser = cyk.visualiser();
+
   auto visualisation = std::make_unique<TextVisualisationVisitor>();
-  visualiser.second->accept(*visualisation);
+  visualiser.accept(*visualisation);
 
   std::cout << "---" << std::endl;
   std::cout << visualisation->toString() << std::endl;

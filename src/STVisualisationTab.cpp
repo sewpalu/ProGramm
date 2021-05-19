@@ -28,7 +28,7 @@ STVisualisationTab::STVisualisationTab()
 }
 
 void STVisualisationTab::update_input(const FormalGrammar& grammar,
-                                      const Word& word)
+                                      const std::string& word)
 {
   // TODO
 }

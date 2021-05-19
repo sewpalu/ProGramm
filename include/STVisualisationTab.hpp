@@ -18,7 +18,7 @@ public:
   /**
    * Stores the resulting SyntaxTree and updates the visualisation.
    */
-  void update_input(const FormalGrammar& grammar, const Word& word) final;
+  void update_input(const FormalGrammar& grammar, const std::string& word) final;
 
 private:
   /**

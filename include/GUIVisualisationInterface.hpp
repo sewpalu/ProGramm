@@ -44,9 +44,19 @@ public:
   };
   using Table = std::vector<Cell>;
 
+  enum class Position
+  {
+    left,
+    centre,
+    right
+  };
+
   virtual void draw_tree(const Tree& tree) = 0;
   virtual void draw_table(const Table& table) = 0;
   virtual void draw_empty() = 0;
+
+  virtual void add_button(const std::string& label, Callback on_click,
+                          Position position = Position::left) = 0;
 };
 
 #endif /* ifndef GUI_VISUALISATION_INTERFACE_HPP */

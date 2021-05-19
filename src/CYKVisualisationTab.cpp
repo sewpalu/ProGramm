@@ -4,7 +4,11 @@
 #include "wx/xrc/xmlres.h"
 
 #include <iostream>
+#include <memory>
 
+#include "CYKAlgorithm.hpp"
+#include "EngineFacade.hpp"
+#include "SimpleWordParser.hpp"
 #include "VisualisationWidget.hpp"
 
 FORCE_LINK_ME(CYKVisualisationTab);
@@ -28,9 +32,28 @@ CYKVisualisationTab::CYKVisualisationTab()
 }
 
 void CYKVisualisationTab::update_input(const FormalGrammar& grammar,
-                                       const Word& word)
+                                       const std::string& word)
 {
-  // TODO
+  auto engine = EngineFacade{std::make_unique<SimpleWordParser>()};
+
+  engine.setGrammar(grammar);
+
+  m_visualised_thing = std::make_unique<CYKAlgorithm>();
+
+  engine.parseWord(dynamic_cast<CYKAlgorithm&>(*m_visualised_thing), word);
+
+  if (!m_visualisation)
+  {
+    if (auto* visualisation = dynamic_cast<VisualisationWidget*>(
+            FindWindowByName("cyk_visualisation"));
+        visualisation)
+      m_visualisation = visualisation;
+    else
+      return;
+  }
+  std::cout << "vis\n";
+
+  visualise();
 }
 
 void CYKVisualisationTab::on_page_changed(wxBookCtrlEvent& evt)

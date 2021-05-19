@@ -8,9 +8,8 @@ class Nonterminal :
 {
 
 public:
-    Nonterminal(std::string identifier_input, bool startSymbolInput);
-    explicit Nonterminal(std::string identifier_input);
-    Nonterminal() = default;
+    explicit Nonterminal(std::string identifier_input, bool startSymbolInput = false);
+    Nonterminal() = delete;
     ~Nonterminal() = default;
 
     bool isStartSymbol();

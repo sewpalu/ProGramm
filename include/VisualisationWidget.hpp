@@ -26,8 +26,10 @@ public:
   void draw_table(const Table& table) final;
   void draw_empty() final;
 
-private:
+  void add_button(const std::string& label, Callback on_click,
+                  Position position = Position::left) final;
 
+private:
   void on_paint(wxPaintEvent& evt);
   void on_grid_click(wxGridEvent& evt);
   void on_resize(wxSizeEvent& evt);

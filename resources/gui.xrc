@@ -49,7 +49,7 @@
 												<option>1</option>
 												<flag>wxEXPAND | wxALL</flag>
 												<border>5</border>
-												<object class="wxPanel" name="m_panel9" subclass="CYKVisualisationTab">
+												<object class="wxPanel" name="cyk_tab" subclass="CYKVisualisationTab">
 													<style>wxTAB_TRAVERSAL</style>
 												</object>
 											</object>
@@ -67,7 +67,7 @@
 												<option>1</option>
 												<flag>wxEXPAND | wxALL</flag>
 												<border>5</border>
-												<object class="wxPanel" name="m_panel10" subclass="STVisualisationTab">
+												<object class="wxPanel" name="st_tab" subclass="STVisualisationTab">
 													<style>wxTAB_TRAVERSAL</style>
 												</object>
 											</object>
@@ -85,7 +85,7 @@
 												<option>1</option>
 												<flag>wxEXPAND | wxALL</flag>
 												<border>5</border>
-												<object class="wxPanel" name="m_panel11" subclass="ManagerTab">
+												<object class="wxPanel" name="manager_tab" subclass="ManagerTab">
 													<style>wxTAB_TRAVERSAL</style>
 												</object>
 											</object>
@@ -204,6 +204,15 @@
 				<object class="wxTextCtrl" name="m_textCtrl1">
 					<style>wxTE_MULTILINE</style>
 					<value>Grammar editor</value>
+				</object>
+			</object>
+			<object class="sizeritem">
+				<option>0</option>
+				<flag>wxALL|wxEXPAND</flag>
+				<border>5</border>
+				<object class="wxTextCtrl" name="word_input">
+					<style>wxTE_PROCESS_ENTER</style>
+					<value></value>
 				</object>
 			</object>
 		</object>

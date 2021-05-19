@@ -17,7 +17,7 @@ public:
   std::vector<std::vector<std::vector<CYKLink>>> matrix;
 
   CYKVisualiser(unsigned int wordlength);
-  CYKVisualiser();
+  CYKVisualiser() = default;
   ~CYKVisualiser();
 
   void setResult(std::pair<unsigned int, unsigned int> position,

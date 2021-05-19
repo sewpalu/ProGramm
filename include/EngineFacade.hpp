@@ -44,6 +44,11 @@ public:
     // FIXME Temporary
     m_grammar = m_grammar_parser->parseGrammar({});
   }
+  
+  void setGrammar(const FormalGrammar& grammar)
+  {
+    m_grammar = grammar;
+  }
 
   void addProduction(const std::string& production)
   {
@@ -51,11 +56,11 @@ public:
     throw std::runtime_error{"Parsing productions not implemented yet"};
   }
 
-  std::pair<std::vector<SyntaxTree>, std::shared_ptr<Visualiser>> parseWord(
-      std::unique_ptr<WordParser> word_parser, const std::string& word) const
+  std::vector<SyntaxTree> parseWord(
+      WordParser& word_parser, const std::string& word) const
   {
-    if (m_grammar && word_parser)
-      return word_parser->parse(*m_grammar, m_grammar_parser->parseWord(word));
+    if (m_grammar)
+      return word_parser.parse(*m_grammar, m_grammar_parser->parseWord(word));
     return {};
   }
 };

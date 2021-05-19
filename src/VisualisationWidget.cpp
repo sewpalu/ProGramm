@@ -60,6 +60,12 @@ void VisualisationWidget::draw_empty()
   };
 }
 
+void VisualisationWidget::add_button(const std::string& label,
+                                     Callback on_click, Position position)
+{
+  // TODO
+}
+
 void VisualisationWidget::on_paint(wxPaintEvent&)
 {
   if (m_dynamic_paint)
