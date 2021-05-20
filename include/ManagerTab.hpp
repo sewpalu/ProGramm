@@ -29,6 +29,7 @@
 
 #include "AlphabetManager.hpp"
 #include "ProductionManager.hpp"
+#include "GrammarOverviewTab.hpp"
 
 class ManagerTab : public wxPanel
 {
@@ -48,16 +49,17 @@ private:
 
   void page_changed(wxBookCtrlEvent& evt);
 
+  void on_erase_background(wxEraseEvent& event);
+
   void saveToFile(std::string file_name);
 
   std::vector<FormalGrammar> loadedGrammars;
 
-  std::vector<Nonterminal> nonterminal_alphabet;
-  std::vector<Terminal> terminal_alphabet;
+  std::vector<Production> productions;
+  Nonterminal start_symbol;
 
-  void add_symbol(wxCommandEvent& evt);
-
-  int add_symbol_button_id = 42;
+  std::vector<Nonterminal*> nonterminal_alphabet;
+  std::vector<Terminal*> terminal_alphabet;
 
   //Combo box for selecting whether an added symbol is supposed to be a Terminal or Nonterminal
   wxComboBox* symbol_type_selector;
@@ -69,6 +71,7 @@ private:
   wxListBox* terminal_display;
   wxListBox* nonterminal_display;
 
+  wxSize old_size;
 
   wxBoxSizer* sizer;
 
@@ -76,6 +79,7 @@ private:
 
   AlphabetManager* alpha_manager;
   ProductionManager* prod_manager;
+  GrammarOverviewTab* overview_tab;
 
   wxWindowID grammar_steps_id;
 

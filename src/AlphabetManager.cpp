@@ -141,7 +141,7 @@ void AlphabetManager::add_symbol(wxCommandEvent& evt)
 
   for (unsigned int i = 0; i < this->nonterminal_alphabet.size(); i++)
   {
-    if (this->nonterminal_alphabet.at(i).getIdentifier() ==
+    if (this->nonterminal_alphabet.at(i)->getIdentifier() ==
         this->symbol_value_entry->GetValue())
     {
       wxMessageBox(wxT("Es gibt bereits ein Symbol mit dem Wert '" +
@@ -151,7 +151,7 @@ void AlphabetManager::add_symbol(wxCommandEvent& evt)
   }
   for (unsigned int i = 0; i < this->terminal_alphabet.size(); i++)
   {
-    if (this->terminal_alphabet.at(i).getIdentifier() ==
+    if (this->terminal_alphabet.at(i)->getIdentifier() ==
         this->symbol_value_entry->GetValue())
     {
       wxMessageBox(wxT("Es gibt bereits ein Symbol mit dem Wert '" +
@@ -163,13 +163,13 @@ void AlphabetManager::add_symbol(wxCommandEvent& evt)
   if (isNonterminal)
   {
     this->nonterminal_alphabet.push_back(
-        Nonterminal(this->symbol_value_entry->GetValue().ToStdString(),
+        new Nonterminal(this->symbol_value_entry->GetValue().ToStdString(),
                     this->start_symbol_selector->GetValue()));
   }
   else
   {
     this->terminal_alphabet.push_back(
-        Terminal(this->symbol_value_entry->GetValue().ToStdString(),
+        new Terminal(this->symbol_value_entry->GetValue().ToStdString(),
                  this->symbol_value_entry->GetValue().ToStdString()));
   }
 
@@ -192,7 +192,7 @@ void AlphabetManager::delete_symbol(wxCommandEvent& evt)
     {
       for (unsigned int j = 0; j < this->terminal_alphabet.size(); j++)
       {
-        if (std::strcmp(this->terminal_alphabet.at(j).getIdentifier().c_str(), this->terminal_display->GetItem(i)->GetName().c_str()) == 0)
+        if (std::strcmp(this->terminal_alphabet.at(j)->getIdentifier().c_str(), this->terminal_display->GetItem(i)->GetName().c_str()) == 0)
         {
           this->terminal_alphabet.erase(this->terminal_alphabet.begin() + j);
           deleted_a_symbol = true;
@@ -209,7 +209,7 @@ void AlphabetManager::delete_symbol(wxCommandEvent& evt)
       for (unsigned int j = 0; j < this->nonterminal_alphabet.size(); j++)
       {
         if (std::strcmp(
-                this->nonterminal_alphabet.at(j).getIdentifier().c_str(),
+                this->nonterminal_alphabet.at(j)->getIdentifier().c_str(),
                 this->nonterminal_display->GetItem(i)->GetName().c_str()) == 0)
         {
           this->nonterminal_alphabet.erase(this->nonterminal_alphabet.begin() +
@@ -233,7 +233,7 @@ void AlphabetManager::on_refresh(wxPaintEvent& evt)
     for (unsigned int i = 0; i < this->terminal_alphabet.size(); i++)
     {
       this->terminal_display->AppendString(
-          this->terminal_alphabet.at(i).getIdentifier());
+          this->terminal_alphabet.at(i)->getIdentifier());
     }
   }
 
@@ -243,27 +243,32 @@ void AlphabetManager::on_refresh(wxPaintEvent& evt)
     this->nonterminal_display->Clear();
     for (unsigned int i = 0; i < this->nonterminal_alphabet.size(); i++)
     {
-      if (this->nonterminal_alphabet.at(i).isStartSymbol())
-      {
-        this->nonterminal_display->AppendString(
-            "Startsymbol: " + this->nonterminal_alphabet.at(i).getIdentifier());
-      }
-      else
-      {
-        this->nonterminal_display->AppendString(
-            this->nonterminal_alphabet.at(i).getIdentifier());
-      }
+      this->nonterminal_display->AppendString(
+          this->nonterminal_alphabet.at(i)->getIdentifier());
     }
   }
 }
 
 
-std::vector<Terminal> AlphabetManager::get_terminal_alphabet()
+std::vector<Terminal*> AlphabetManager::get_terminal_alphabet()
 {
   return this->terminal_alphabet;
 }
 
-std::vector<Nonterminal> AlphabetManager::get_nonterminal_alphabet()
+std::vector<Nonterminal*> AlphabetManager::get_nonterminal_alphabet()
 {
   return this->nonterminal_alphabet;
+}
+
+Nonterminal AlphabetManager::get_start_symbol()
+{
+  for (unsigned int i = 0; i < this->nonterminal_alphabet.size(); i++)
+  {
+    if (this->nonterminal_alphabet.at(i)->isStartSymbol())
+    {
+      return Nonterminal(this->nonterminal_alphabet.at(i)->getIdentifier());
+    }
+  }
+
+  return Nonterminal("");
 }

@@ -36,6 +36,8 @@
 
 #include <wx/dcbuffer.h>
 
+#include <wx/spinctrl.h>
+
 #include <vector>
 
 #include "FormalGrammar.hpp"
@@ -47,8 +49,10 @@ public:
   ProductionManager();
   ProductionManager(wxWindow* parent, wxWindowID id);
 
-  void set_terminal_alphabet(std::vector<Terminal> terminal_alphabet);
-  void set_nonterminal_alphabet(std::vector<Nonterminal> nonterminal_alphabet);
+  void set_terminal_alphabet(std::vector<Terminal*> terminal_alphabet);
+  void set_nonterminal_alphabet(std::vector<Nonterminal*> nonterminal_alphabet);
+
+  std::vector<Production> get_productions();
 
 private:
   /**
@@ -61,12 +65,16 @@ private:
 
   void on_refresh(wxPaintEvent& evt);
 
+  void on_rhs_change(wxSpinEvent& evt);
+
   std::vector<FormalGrammar> loadedGrammars;
 
-  std::vector<Nonterminal> nonterminal_alphabet;
-  std::vector<Terminal> terminal_alphabet;
+
+  std::vector<Nonterminal*> nonterminal_alphabet;
+  std::vector<Terminal*> terminal_alphabet;
 
   void add_production(wxCommandEvent& evt);
+  void delete_production(wxCommandEvent& evt);
   
   wxCheckListBox* production_display;
 
@@ -74,6 +82,10 @@ private:
   wxComboBox* lhs_selector;
   wxPanel* production_arrow;
   std::vector<wxComboBox*> rhs_selectors;
+
+  std::vector<Production> productions;
+
+  wxSpinCtrl* number_of_rhs_symbols_selector;
 
   wxWrapSizer* rhs_sizer;
 

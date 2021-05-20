@@ -45,8 +45,10 @@ public:
   AlphabetManager();
   AlphabetManager(wxWindow* parent, wxWindowID id);
 
-  std::vector<Terminal> get_terminal_alphabet();
-  std::vector<Nonterminal> get_nonterminal_alphabet();
+  std::vector<Terminal*> get_terminal_alphabet();
+  std::vector<Nonterminal*> get_nonterminal_alphabet();
+
+  Nonterminal get_start_symbol();
 
 private:
   /**
@@ -61,13 +63,12 @@ private:
 
   std::vector<FormalGrammar> loadedGrammars;
 
-  std::vector<Nonterminal> nonterminal_alphabet;
-  std::vector<Terminal> terminal_alphabet;
+  std::vector<Nonterminal*> nonterminal_alphabet;
+  std::vector<Terminal*> terminal_alphabet;
 
   void add_symbol(wxCommandEvent& evt);
   void delete_symbol(wxCommandEvent& evt);
 
-  int add_symbol_button_id = 42;
 
   // Combo box for selecting whether an added symbol is supposed to be a
   // Terminal or Nonterminal

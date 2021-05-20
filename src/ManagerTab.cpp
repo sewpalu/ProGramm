@@ -16,6 +16,8 @@ EVT_CHILD_FOCUS(ManagerTab::on_page_changed)
 
 EVT_PAINT(ManagerTab::on_refresh)
 
+EVT_ERASE_BACKGROUND(ManagerTab::on_erase_background)
+
 END_EVENT_TABLE()
 
 ManagerTab::ManagerTab()
@@ -32,6 +34,10 @@ void ManagerTab::on_create(wxWindowCreateEvent& evt)
 {
   if (evt.GetWindow() != dynamic_cast<wxWindow*>(this))
     return;
+
+  this->SetMinSize(wxSize(300,200));
+
+  this->old_size = this->GetSize();
 
   //Sizer to hold all contents of this tab
   this->sizer = new wxBoxSizer{wxVERTICAL};
@@ -51,10 +57,11 @@ void ManagerTab::on_create(wxWindowCreateEvent& evt)
 
   this->prod_manager = new ProductionManager(this->grammar_steps, wxID_ANY);
 
-  grammar_steps->AddPage(prod_manager,
+  grammar_steps->AddPage(this->prod_manager,
                          "Produktionen", false);
-  grammar_steps->AddPage(new wxNotebookPage(this->grammar_steps, wxID_ANY),
-                         "Übersicht", false);
+
+  this->overview_tab = new GrammarOverviewTab(this->grammar_steps, wxID_ANY);
+  grammar_steps->AddPage(this->overview_tab, "Übersicht", false);
 
 
   this->grammar_steps->Layout();
@@ -64,83 +71,15 @@ void ManagerTab::on_create(wxWindowCreateEvent& evt)
   SetSizer(this->sizer);
 }
 
-void ManagerTab::add_symbol(wxCommandEvent& evt)
-{
-  bool isNonterminal;
-
-  if (this->symbol_type_selector->GetValue() == "Nonterminal")
-  {
-    isNonterminal = true;
-  }
-  else if (this->symbol_type_selector->GetValue() == "Terminal")
-  {
-    isNonterminal = false;
-    if (this->start_symbol_selector->GetValue())
-    {
-      wxMessageBox(wxT("Ein Terminal kann kein Startsymbol sein!"));
-      return;
-    }
-  }
-  else
-  {
-    wxMessageBox(wxT("Bitte wähle eine Symbolart aus!\n Eingabe '" +
-                     this->symbol_type_selector->GetValue() +
-                     "' ist nicht gültig."));
-    return;
-  }
-
-  for (unsigned int i = 0; i < this->nonterminal_alphabet.size(); i++)
-  {
-    if (this->nonterminal_alphabet.at(i).getIdentifier() == this->symbol_value_entry->GetValue())
-    {
-      wxMessageBox(wxT("Es gibt bereits ein Symbol mit dem Wert '" +
-                       this->symbol_value_entry->GetValue() +
-                       "'"));
-      return;
-    }
-  }
-  for (unsigned int i = 0; i < this->terminal_alphabet.size(); i++)
-  {
-    if (this->terminal_alphabet.at(i).getIdentifier() ==
-        this->symbol_value_entry->GetValue())
-    {
-      wxMessageBox(wxT("Es gibt bereits ein Symbol mit dem Wert '" +
-                       this->symbol_value_entry->GetValue() + "'"));
-      return;
-    }
-  }
-
-  if (isNonterminal)
-  {
-    this->nonterminal_alphabet.push_back(
-        Nonterminal(this->symbol_value_entry->GetValue().ToStdString(), this->start_symbol_selector->GetValue()));
-  }
-  else
-  {
-    this->terminal_alphabet.push_back(
-        Terminal(this->symbol_value_entry->GetValue().ToStdString(),
-                 this->symbol_value_entry->GetValue().ToStdString()));
-  }
-
-  this->symbol_value_entry->SetValue("");
-  this->symbol_type_selector->SetValue("");
-
-  Refresh();
-}
-
 void ManagerTab::on_refresh(wxPaintEvent& evt)
 {
   this->grammar_steps->SetSize(this->GetSize());
- /* this->lhs_selector->Clear();
-  for (unsigned int i = 0; i < this->nonterminal_alphabet.size(); i++)
-  {
-    lhs_selector->AppendString(this->nonterminal_alphabet.at(i).getIdentifier());
-  }*/
 }
 
 
 void ManagerTab::page_changed(wxBookCtrlEvent& evt)
 {
+  std::cout << "Switching tab\n";
   //Check that there is a valid page changed from
   if (!(evt.GetOldSelection() < 0))
   {
@@ -148,15 +87,20 @@ void ManagerTab::page_changed(wxBookCtrlEvent& evt)
     if (std::strcmp(this->grammar_steps->GetPageText(evt.GetOldSelection()).c_str(),
         "Alphabet") == 0)
     {
+      std::cout << "Reading alphabet data\n";
       this->terminal_alphabet = this->alpha_manager->get_terminal_alphabet();
       this->nonterminal_alphabet =
           this->alpha_manager->get_nonterminal_alphabet();
+      if (!(this->alpha_manager->get_start_symbol().getIdentifier() == ""))
+      {
+        this->start_symbol = this->alpha_manager->get_start_symbol();
+      }
     }
     else if (this->grammar_steps->GetPageText(evt.GetOldSelection()).c_str() ==
              "Produktionen")
     {
-      //Produktionen abspeichern
-      std::cout << "Von Produktionstab gewechselt";
+      std::cout << "Getting productions from prod tab\n";
+      this->productions = this->prod_manager->get_productions();
     }
     else if (false)
     {
@@ -170,4 +114,11 @@ void ManagerTab::page_changed(wxBookCtrlEvent& evt)
     this->prod_manager->set_terminal_alphabet(this->terminal_alphabet);
     this->prod_manager->Refresh();
   }
+}
+
+void ManagerTab::on_erase_background(wxEraseEvent& event)
+{
+  //Erasing the background would cause flickering of the GUI elemnts.
+  //However in this case erasing is not necessary,
+  //so the event is catched and not handled.
 }
