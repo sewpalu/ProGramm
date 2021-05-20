@@ -13,15 +13,15 @@
 #include "Visualisable.hpp"
 #include "FormalGrammar.hpp"
 #include "Word.hpp"
+#include "GUIVisualisationInterface.hpp"
 
 class StepsDisplay;
 class VisualisationWidget;
 
-class VisualisationTab : public wxPanel
+class VisualisationTab : public wxPanel, public GUIVisualisationInterface
 {
 protected:
   StepsDisplay* m_steps;
-  VisualisationWidget* m_visualisation;
   std::unique_ptr<Visualisable> m_visualised_thing;
 
   void visualise();

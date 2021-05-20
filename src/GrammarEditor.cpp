@@ -31,7 +31,7 @@ void GrammarEditor::on_create(wxWindowCreateEvent& evt)
 
   auto* sizer = new wxBoxSizer{wxVERTICAL};
   auto* panel = wxXmlResource::Get()->LoadPanel(this, "grammar_editor_panel");
-  sizer->Add(panel, 1, wxEXPAND | wxALL, 5);
+  sizer->Add(panel, wxSizerFlags().Proportion(1).Expand().Border(wxALL, 5));
   SetSizer(sizer);
   sizer->Layout();
 }

@@ -113,10 +113,28 @@
 			</object>
 			<object class="sizeritem">
 				<option>1</option>
-				<flag>wxEXPAND|wxALL</flag>
+				<flag>wxEXPAND</flag>
 				<border>5</border>
-				<object class="wxPanel" name="cyk_visualisation" subclass="VisualisationWidget">
-					<style>wxTAB_TRAVERSAL</style>
+				<object class="wxBoxSizer">
+					<orient>wxVERTICAL</orient>
+					<object class="spacer">
+						<option>1</option>
+						<flag>wxEXPAND</flag>
+						<border>5</border>
+						<size>0,0</size>
+					</object>
+					<object class="sizeritem">
+						<option>0</option>
+						<flag>wxALL|wxALIGN_CENTER_HORIZONTAL</flag>
+						<border>5</border>
+						<object class="wxGrid" name="cyk_grid" />
+					</object>
+					<object class="spacer">
+						<option>1</option>
+						<flag>wxEXPAND</flag>
+						<border>5</border>
+						<size>0,0</size>
+					</object>
 				</object>
 			</object>
 			<object class="sizeritem">
@@ -187,7 +205,7 @@
 				<option>1</option>
 				<flag>wxEXPAND | wxALL</flag>
 				<border>5</border>
-				<object class="wxPanel" name="st_visualisation" subclass="VisualisationWidget">
+				<object class="wxPanel" name="st_visualisation">
 					<style>wxTAB_TRAVERSAL</style>
 				</object>
 			</object>

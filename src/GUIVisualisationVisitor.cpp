@@ -14,17 +14,9 @@ GUIVisualisationVisitor::GUIVisualisationVisitor(
 void GUIVisualisationVisitor::visitCYKVisualiser(
     const CYKVisualiser& visualiser)
 {
-  auto table = GUIVisualisationInterface::Table{};
-
-  if (visualiser.matrix.empty())
-  {
-    m_gui.draw_empty();
-    return;
-  }
-
   m_gui.draw_table(to_gui_table(visualiser.matrix));
 
-  // TODO: Steps aren't supported by CYKAlgorithm yet ...
+  // TODO: Steps aren't provided by CYKAlgorithm yet ...
   /*
   m_gui.add_button(
       "previous step",

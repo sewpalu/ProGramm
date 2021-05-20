@@ -3,13 +3,12 @@
 #include "wx/html/forcelnk.h"
 
 #include "GUIVisualisationVisitor.hpp"
-#include "VisualisationWidget.hpp"
 
 void VisualisationTab::visualise()
 {
   if (!m_visualised_thing)
     return;
 
-  auto visitor = GUIVisualisationVisitor(*m_visualisation);
+  auto visitor = GUIVisualisationVisitor(*this);
   m_visualised_thing->visualiser().accept(visitor);
 }

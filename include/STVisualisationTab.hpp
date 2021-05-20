@@ -20,6 +20,21 @@ public:
    */
   void update_input(const FormalGrammar& grammar, const std::string& word) final;
 
+  void draw_tree(const Tree& tree) final{}
+
+  void draw_table(const Table& table) final
+  {
+    throw std::runtime_error("Table drawing not supported by STVisualisationTab");
+  }
+
+  void draw_empty() final{}
+
+  void add_button(const std::string& label, Callback on_click,
+                  Position position = Position::left) final
+  {
+    throw std::runtime_error("Buttons not supported by STVisualisationTab");
+  }
+
 private:
   /**
    * Used to load XRC resources.
