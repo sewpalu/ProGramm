@@ -1,9 +1,12 @@
 #include "GUIVisualisationVisitor.hpp"
 
+#include <algorithm>
+#include <iterator>
+#include <limits>
+#include <stdexcept>
+
 #include "CYKVisualiser.hpp"
 #include "STVisualiser.hpp"
-#include <bits/c++config.h>
-#include <limits>
 
 GUIVisualisationVisitor::GUIVisualisationVisitor(
     GUIVisualisationInterface& gui_interface)
@@ -46,9 +49,30 @@ void GUIVisualisationVisitor::visitSTVisualiser(const STVisualiser& visualiser)
 }
 
 GUIVisualisationInterface::Table GUIVisualisationVisitor::to_gui_table(
-    const std::vector<std::vector<std::vector<CYKLink>>>& cyk_step)
+    const std::vector<std::vector<std::vector<CYKLink>>>& cyk_step,
+    std::optional<GUIVisualisationInterface::Coord> selected_cell)
 {
   auto result = GUIVisualisationInterface::Table{};
+
+  auto highlighted_cells = std::vector<GUIVisualisationInterface::Coord>();
+  if (selected_cell)
+    try
+    {
+      auto productions = cyk_step.at(selected_cell->y)
+                             .at(selected_cell->x)
+                             .front() // TODO: Make individual options selectable
+                             .getProductions();
+      highlighted_cells.push_back(selected_cell.value());
+      std::transform(productions.begin(), productions.end(),
+                     std::back_inserter(highlighted_cells),
+                     [](const auto& link) -> GUIVisualisationInterface::Coord {
+                       return {link.first.second, link.first.first};
+                     });
+    }
+    catch (std::out_of_range)
+    {
+      highlighted_cells.clear();
+    }
 
   for (auto y = std::size_t{}; y < cyk_step.size(); ++y)
     for (auto x = std::size_t{}; x < cyk_step.at(y).size(); ++x)
@@ -58,7 +82,16 @@ GUIVisualisationInterface::Table GUIVisualisationVisitor::to_gui_table(
         text += element.getRoot().getIdentifier() + ",";
       if (!text.empty())
         text.pop_back();
-      result.push_back({.coord = {x, y}, .text = text});
+      result.push_back(
+          {.coord = {x, y},
+           .text = text,
+           .highlight =
+               std::find(highlighted_cells.begin(), highlighted_cells.end(),
+                         GUIVisualisationInterface::Coord{x, y}) !=
+               highlighted_cells.end(),
+           .on_click = [cyk_step, x, y](auto& gui) {
+             gui.draw_table(to_gui_table(cyk_step, {{x, y}}));
+           }});
     }
 
   return result;

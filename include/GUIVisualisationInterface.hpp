@@ -5,6 +5,7 @@
 #include <stddef.h>
 #include <string>
 #include <vector>
+#include <compare>
 
 class GUIVisualisationInterface
 {
@@ -32,7 +33,7 @@ public:
   {
     std::size_t x, y;
 
-    bool operator<(const Coord& other) const;
+    auto operator<=>(const Coord& other) const = default;
   };
 
   struct Cell

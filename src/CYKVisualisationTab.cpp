@@ -68,6 +68,7 @@ void CYKVisualisationTab::draw_table(const Table& table)
                                 })
                    ->coord.x;
   m_table->ClearGrid();
+  m_table->ClearBackground();
   resize_grid(height + 1, width + 1);
 
   for (const auto& cell : table)
@@ -75,6 +76,8 @@ void CYKVisualisationTab::draw_table(const Table& table)
     m_table->SetCellValue(cell.coord.y, cell.coord.x, cell.text);
     if (cell.highlight)
       m_table->SetCellBackgroundColour(cell.coord.y, cell.coord.x, *wxGREEN);
+    else
+      m_table->SetCellBackgroundColour(cell.coord.y, cell.coord.x, m_table->GetDefaultCellBackgroundColour());
     if (cell.on_click)
       m_cell_click_handlers[cell.coord] = cell.on_click;
   }

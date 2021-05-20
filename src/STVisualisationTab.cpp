@@ -49,7 +49,7 @@ void STVisualisationTab::on_create(wxWindowCreateEvent& evt)
 
   auto* sizer = new wxBoxSizer{wxVERTICAL};
   auto* panel = wxXmlResource::Get()->LoadPanel(this, "st_panel");
-  sizer->Add(panel, 1, wxEXPAND | wxALL, 5);
+  sizer->Add(panel, wxSizerFlags{}.Proportion(1).Expand().Border(wxALL, 5));
   SetSizer(sizer);
 
   update_visualisation();

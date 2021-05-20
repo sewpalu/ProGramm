@@ -47,11 +47,27 @@ void GrammarEditor::on_change(wxCommandEvent& evt)
 
     // FIXME: Grammar is hard coded for now
     auto grammar = FormalGrammar{
-        Nonterminal{"A", true},
-        {Production{Nonterminal{"A"}, {new Terminal{"b", "b"}}},
+        Nonterminal{"S", true},
+        {
+         Production{Nonterminal{"S"},
+                    {new Nonterminal{"B"}, new Nonterminal{"A"}}},
+          Production{Nonterminal{"A"}, {new Terminal{"a", "a"}}},
+         Production{Nonterminal{"B"}, {new Terminal{"b", "b"}}},
+         Production{Nonterminal{"C"}, {new Terminal{"c", "c"}}},
          Production{Nonterminal{"A"},
-                    {new Nonterminal{"A"}, new Nonterminal{"A"}}},
-         Production{Nonterminal{"A"}, {new Terminal{"c", "c"}}}}};
+                    {new Nonterminal{"C"}, new Nonterminal{"B"}}},
+         Production{Nonterminal{"B"},
+                    {new Nonterminal{"C"}, new Nonterminal{"B"}}},
+         Production{Nonterminal{"C"},
+                    {new Nonterminal{"A"}, new Nonterminal{"C"}}}}};
+
+    // S -> AB
+    // A -> a
+    // B -> b
+    // C -> c
+    // A -> CB
+    // B -> CB
+    // C -> AC
 
     for (auto* tab : m_visualisation_tabs)
       tab->update_input(grammar, word);
