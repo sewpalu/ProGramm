@@ -59,8 +59,6 @@ private:
 
   void on_refresh(wxPaintEvent& evt);
 
-  void saveToFile(std::string file_name);
-
   std::vector<FormalGrammar> loadedGrammars;
 
   std::vector<Nonterminal> nonterminal_alphabet;
@@ -81,12 +79,6 @@ private:
 
   //wxListBox* terminal_display;
   wxCheckListBox* nonterminal_display;
-
-  // Utilities for entering a production
-  wxComboBox* lhs_selector;
-  std::vector<wxComboBox*> rhs_selectors;
-
-  //wxListCtrl* terminal_display;
 
   wxCheckListBox* terminal_display;
 

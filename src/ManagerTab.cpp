@@ -39,22 +39,20 @@ void ManagerTab::on_create(wxWindowCreateEvent& evt)
   //The notebook which holds the individual pages to create the grammar
   this->grammar_steps = new wxNotebook(this, wxID_ANY, wxDefaultPosition,
                                        wxSize(this->GetSize()));
-  this->grammar_steps->Bind<>(wxEVT_NOTEBOOK_PAGE_CHANGING,
+  this->grammar_steps->Bind<>(wxEVT_NOTEBOOK_PAGE_CHANGED,
                               &ManagerTab::page_changed, this);
 
   //The alphabet manager to create and manage the alphabet
   this->alpha_manager = new AlphabetManager(this->grammar_steps, wxID_ANY);
   
-  wxPanel* testWindow = new wxPanel(this->grammar_steps, wxID_ANY);
-
-  testWindow->SetBackgroundColour(wxColor(255, 0, 0));
-
   grammar_steps->AddPage(this->alpha_manager, "Alphabet", true);
   this->grammar_steps->GetPage(this->grammar_steps->GetPageCount() - 1)
       ->SetLabel("alpha_manager");
 
-  grammar_steps->AddPage(testWindow,
-                         "Produktionen hinzufügen", false);
+  this->prod_manager = new ProductionManager(this->grammar_steps, wxID_ANY);
+
+  grammar_steps->AddPage(prod_manager,
+                         "Produktionen", false);
   grammar_steps->AddPage(new wxNotebookPage(this->grammar_steps, wxID_ANY),
                          "Übersicht", false);
 
@@ -147,20 +145,29 @@ void ManagerTab::page_changed(wxBookCtrlEvent& evt)
   if (!(evt.GetOldSelection() < 0))
   {
     //Check which page has been left, in order to save the data from that page
-    if (this->grammar_steps->GetPageText(evt.GetOldSelection()).c_str() ==
-        "Alphabet")
+    if (std::strcmp(this->grammar_steps->GetPageText(evt.GetOldSelection()).c_str(),
+        "Alphabet") == 0)
     {
       this->terminal_alphabet = this->alpha_manager->get_terminal_alphabet();
       this->nonterminal_alphabet =
           this->alpha_manager->get_nonterminal_alphabet();
     }
-    else if (false)
+    else if (this->grammar_steps->GetPageText(evt.GetOldSelection()).c_str() ==
+             "Produktionen")
     {
-      //Handle Management of rules
+      //Produktionen abspeichern
+      std::cout << "Von Produktionstab gewechselt";
     }
     else if (false)
     {
       //Handle final construction of a grammar
     }
+  }
+
+  if (std::strcmp(this->grammar_steps->GetPageText(evt.GetSelection()).c_str(), "Produktionen") == 0)
+  {
+    this->prod_manager->set_nonterminal_alphabet(this->nonterminal_alphabet);
+    this->prod_manager->set_terminal_alphabet(this->terminal_alphabet);
+    this->prod_manager->Refresh();
   }
 }

@@ -28,6 +28,7 @@
 #include "Terminal.hpp"
 
 #include "AlphabetManager.hpp"
+#include "ProductionManager.hpp"
 
 class ManagerTab : public wxPanel
 {
@@ -68,15 +69,13 @@ private:
   wxListBox* terminal_display;
   wxListBox* nonterminal_display;
 
-  //Utilities for entering a production
-  wxComboBox* lhs_selector;
-  std::vector<wxComboBox*> rhs_selectors;
 
   wxBoxSizer* sizer;
 
   wxNotebook* grammar_steps;
 
   AlphabetManager* alpha_manager;
+  ProductionManager* prod_manager;
 
   wxWindowID grammar_steps_id;
 
