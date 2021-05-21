@@ -2,11 +2,11 @@
 <resource xmlns="http://www.wxwindows.org/wxxrc" version="2.3.0.1">
 	<object class="wxFrame" name="main_window">
 		<style>wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL</style>
-		<size>800,600</size>
 		<title>Gramma</title>
 		<centered>1</centered>
 		<aui_managed>0</aui_managed>
 		<object class="wxBoxSizer">
+			<minsize>500,300</minsize>
 			<orient>wxHORIZONTAL</orient>
 			<object class="sizeritem">
 				<option>1</option>

@@ -1,40 +1,5 @@
 #include "TreeRenderer.hpp"
 
-BEGIN_EVENT_TABLE(TreeRenderer, wxPanel)
-
-// EVT_PAINT(STVisualisationTab::paintEvent)
-// EVT_MAGNIFY(STVisualisationTab::magnify)
-EVT_MOTION(TreeRenderer::mouseMoved)
-
-//EVT_SIZE(TreeRenderer::reSized)
-
-END_EVENT_TABLE()
-
-// When the mouse has been moved,
-void TreeRenderer::mouseMoved(wxMouseEvent& evt)
-{
-  if (evt.LeftIsDown())
-  {
-    // Get time since last position entry
-    // If last entry is too old, it might not correspond to the current click
-    std::chrono::duration<double, std::milli> time_span =
-        std::chrono::high_resolution_clock::now() -
-        this->m_dragStartingPoint.second;
-    if (time_span.count() < 10)
-    {
-      // Adjust the movement according to the change in mouse position
-      this->m_offset.first += evt.GetPosition().x - this->m_dragStartingPoint.first.x;
-      this->m_offset.second +=
-          evt.GetPosition().y - this->m_dragStartingPoint.first.y;
-    }
-    this->m_dragStartingPoint.first = evt.GetPosition();
-    this->m_dragStartingPoint.second =
-        std::chrono::high_resolution_clock::now();
-    //std::cout << "Offset: " << this->m_offset.first << " | "
-    //          << this->m_offset.second << "\n";
-  }
-}
-
 TreeRenderer::TreeRenderer(SyntaxTree* tree, wxDC& parent, wxSize size,
                            std::pair<int, int> offset, int zoomPercent)
     : m_tree(tree), m_dc(parent), m_size(size), m_offset(offset), m_zoom_percent(zoomPercent)
@@ -43,6 +8,8 @@ TreeRenderer::TreeRenderer(SyntaxTree* tree, wxDC& parent, wxSize size,
   this->m_dc.SetBrush(wxColor(220, 220, 220));
   // Set dark grey outline for nodes
   m_dc.SetPen(wxPen(wxColor(70, 70, 70), 2));
+  // Set black text colour
+  m_dc.SetTextForeground(*wxBLACK);
 
   this->m_size.x *= (double)this->m_zoom_percent / 100;
   this->m_size.y *= (double)this->m_zoom_percent / 100;
@@ -57,10 +24,8 @@ void TreeRenderer::render()
   if (m_size.x < 0 || m_size.y < 0)
     return;
 
-  m_dc.SetBackground(wxBrush(wxColor(255, 255, 255)));
+  //m_dc.SetBackground(wxBrush(wxColor(255, 255, 255)));
   m_dc.Clear();
-
-  Refresh();
 
   //m_dc.DrawCircle(wxPoint(50, 50), 30);
 

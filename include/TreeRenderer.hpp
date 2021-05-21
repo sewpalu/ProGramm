@@ -28,7 +28,7 @@
  *
  * An idiomatic usage would be `TreeRenderer{my_tree, my_dc, my_size}();`.
  */
-class TreeRenderer : public wxPanel
+class TreeRenderer
 {
 public:
   using Tree = GUIVisualisationInterface::Tree;
@@ -75,8 +75,6 @@ private:
                       std::size_t depth,
                       int parentX, int parentY);
   void mouseMoved(wxMouseEvent& evt);
-
-  DECLARE_EVENT_TABLE()
 };
 
 #endif /* ifndef TREE_RENDERER_HPP */
