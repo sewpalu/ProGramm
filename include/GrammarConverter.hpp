@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iterator>
 #include <vector>
+#include <iostream>
 
 #include "Nonterminal.hpp"
 #include "Symbol.hpp"
@@ -13,7 +14,7 @@ class GrammarConverter
 
 public:
   GrammarConverter();
-  ~GrammarConverter()
+  ~GrammarConverter();
 
   FormalGrammar load_grammar_from_std_file();
 
