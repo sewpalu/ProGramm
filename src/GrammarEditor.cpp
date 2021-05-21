@@ -61,7 +61,7 @@ void GrammarEditor::on_change(wxCommandEvent& evt)
          Production{Nonterminal{"C"},
                     {new Nonterminal{"A"}, new Nonterminal{"C"}}}}};
 
-    // S -> AB
+    // S -> BA
     // A -> a
     // B -> b
     // C -> c

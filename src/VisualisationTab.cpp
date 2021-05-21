@@ -7,7 +7,10 @@
 void VisualisationTab::visualise()
 {
   if (!m_visualised_thing)
+  {
+    draw_empty();
     return;
+  }
 
   auto visitor = GUIVisualisationVisitor(*this);
   m_visualised_thing->visualiser().accept(visitor);

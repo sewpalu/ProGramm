@@ -1,6 +1,7 @@
 #include "STVisualisationTab.hpp"
 
 #include <iostream>
+#include <memory>
 
 #include "wx/html/forcelnk.h"
 #include "wx/xrc/xmlres.h"
@@ -80,8 +81,10 @@ void STVisualisationTab::update_input(const FormalGrammar& grammar,
   engine.setGrammar(grammar);
 
   auto cyk = CYKAlgorithm{};
-  m_visualised_thing =
-      std::make_unique<SyntaxTree>(engine.parseWord(cyk, word).front());
+  auto parse_result = engine.parseWord(cyk, word);
+  m_visualised_thing = parse_result.empty()
+                           ? nullptr
+                           : std::make_unique<SyntaxTree>(parse_result.front());
 
   visualise();
 }
@@ -120,9 +123,10 @@ void STVisualisationTab::on_create(wxWindowCreateEvent& evt)
     std::cerr << "Failed to load ST zoom slider\n";
   else
   {
-    m_visualisation_panel->Bind(wxEVT_PAINT, &STVisualisationTab::on_paint, this);
-    m_visualisation_panel->Bind(wxEVT_MOTION, &STVisualisationTab::mouseMoved, this);
-
+    m_visualisation_panel->Bind(wxEVT_PAINT, &STVisualisationTab::on_paint,
+                                this);
+    m_visualisation_panel->Bind(wxEVT_MOTION, &STVisualisationTab::mouseMoved,
+                                this);
   }
 
   update_visualisation();
