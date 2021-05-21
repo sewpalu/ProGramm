@@ -27,9 +27,9 @@ void GUIVisualisationVisitor::visitCYKVisualiser(
   m_gui.add_button(
       "previous step",
       [steps = visualiser.steps, idx](auto& gui) mutable {
-        if (steps.empty())
+        if (steps.empty() || steps.size() > std::numeric_limits<int>::max())
           return;
-        *idx = *idx <= 0 ? 0 : (*idx - 1);
+        *idx = *idx <= 0 ? static_cast<int>(steps.size()) - 1 : (*idx - 1);
         gui.draw_table(GUIVisualisationVisitor::to_gui_table(steps.at(*idx)));
       },
       GUIVisualisationInterface::Position::left);
@@ -38,7 +38,7 @@ void GUIVisualisationVisitor::visitCYKVisualiser(
       [steps = visualiser.steps, idx](auto& gui) mutable {
         if (steps.empty() || steps.size() > std::numeric_limits<int>::max())
           return;
-        *idx = *idx >= static_cast<int>(steps.size() - 1) ? steps.size() - 1
+        *idx = *idx >= static_cast<int>(steps.size() - 1) ? 0
                                                         : (*idx + 1);
         gui.draw_table(GUIVisualisationVisitor::to_gui_table(steps.at(*idx)));
       },
