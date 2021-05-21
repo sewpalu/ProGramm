@@ -63,10 +63,6 @@ STVisualisationTab::STVisualisationTab()
 
 void STVisualisationTab::draw_tree(SyntaxTree* tree)
 {
-
-  std::cout << "Zoom slider window: " << m_visualisation_panel->GetSize().x << " | "
-            << m_visualisation_panel->GetSize().y << "\n";
-
   m_tree.reset(tree);
   Refresh();
 }
@@ -99,6 +95,8 @@ void STVisualisationTab::on_page_changed(wxBookCtrlEvent& evt)
 
   Layout();
   update_visualisation();
+
+  evt.Skip();
 }
 
 void STVisualisationTab::on_create(wxWindowCreateEvent& evt)
@@ -151,20 +149,8 @@ void STVisualisationTab::on_paint(wxPaintEvent&)
 
 void STVisualisationTab::update_visualisation()
 {
-  STNode leaf1(std::unique_ptr<Terminal>(new Terminal("leaf1", "leaf1")));
-  STNode leaf2(std::unique_ptr<Terminal>(new Terminal("leaf2", "leaf2")));
-  STNode leaf3(std::unique_ptr<Terminal>(new Terminal("leaf3", "leaf3")));
-  STNode leaf4(std::unique_ptr<Terminal>(new Terminal("leaf4", "leaf4")));
-
-  STNode node1(std::unique_ptr<Nonterminal>(new Nonterminal("node1")),
-               {leaf1, leaf2});
-  STNode node2(std::unique_ptr<Nonterminal>(new Nonterminal("node2")),
-               {leaf3, leaf4});
-
-  STNode treeRoot(std::unique_ptr<Nonterminal>(new Nonterminal("root")),
-                  {node1, node2});
-
-  SyntaxTree* testTree = new SyntaxTree(treeRoot);
-
-  draw_tree(testTree);
+  if (m_visualised_thing)
+    visualise();
+  else
+    draw_empty();
 }

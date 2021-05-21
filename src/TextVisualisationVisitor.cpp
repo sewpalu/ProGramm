@@ -146,6 +146,5 @@ static std::string subtree_printer(const STNode& node,
 
 void TextVisualisationVisitor::visitSTVisualiser(const STVisualiser& visualiser)
 {
-  const auto& tree = visualiser.root_node();
-  m_text = subtree_printer(tree);
+  m_text = subtree_printer(*visualiser.root_node);
 }

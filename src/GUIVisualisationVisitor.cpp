@@ -47,7 +47,7 @@ void GUIVisualisationVisitor::visitCYKVisualiser(
 
 void GUIVisualisationVisitor::visitSTVisualiser(const STVisualiser& visualiser)
 {
-  m_gui.draw_tree(new SyntaxTree{visualiser.root_node()});
+  m_gui.draw_tree(new SyntaxTree{*visualiser.root_node});
 }
 
 GUIVisualisationInterface::Table GUIVisualisationVisitor::to_gui_table(

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include <vector>
 
 #include "STNode.hpp"
@@ -10,20 +11,16 @@ class SyntaxTree : public Visualisable
 {
 
 private:
-	STNode root;
+  std::shared_ptr<const STNode> root;
 
 public:
-	explicit SyntaxTree(STNode root_input);
-	~SyntaxTree();
-	SyntaxTree();
+  explicit SyntaxTree(STNode root_input);
+  ~SyntaxTree();
+  SyntaxTree();
 
-	STNode getRoot();
-	std::vector<STNode> getChildren() const;
+  std::vector<STNode> getChildren() const;
 
-	STNode getRoot() const;
+  STNode getRoot() const;
 
-
-
-	int getNumberOfLeaves() const;
+  int getNumberOfLeaves() const;
 };
-
