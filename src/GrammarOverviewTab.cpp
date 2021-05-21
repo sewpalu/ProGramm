@@ -75,6 +75,15 @@ GrammarOverviewTab::GrammarOverviewTab(wxWindow* parent, wxWindowID id)
 
   button_sizer->Add(check_grammar_button);
 
+  
+  wxButton* save_grammar_button =
+      new wxButton(this, wxID_ANY, "Grammatik speichern!");
+
+  save_grammar_button->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED,
+                                &GrammarOverviewTab::save_grammar, this);
+
+  button_sizer->Add(save_grammar_button);
+
   sizer->Add(button_sizer);
 
   SetSizer(sizer);
@@ -88,7 +97,7 @@ void GrammarOverviewTab::on_create(wxWindowCreateEvent& evt)
 
 void GrammarOverviewTab::on_refresh(wxPaintEvent& evt)
 {
-  /*if (this->terminal_display->GetCount() != this->terminal_alphabet.size())
+  if (this->terminal_display->GetCount() != this->terminal_alphabet.size())
   {
     this->terminal_display->Clear();
     for (unsigned int i = 0; i < this->terminal_alphabet.size(); i++)
@@ -107,5 +116,41 @@ void GrammarOverviewTab::on_refresh(wxPaintEvent& evt)
       this->nonterminal_display->AppendString(
           this->nonterminal_alphabet.at(i)->getIdentifier());
     }
-  }*/
+  }
+
+  std::cout << "Production display: " << this->production_display->GetCount()
+            << " vs. " << this->productions.size() << "\n";
+
+  if (this->production_display->GetCount() != this->productions.size())
+  {
+    this->production_display->Clear();
+    for (unsigned int i = 0; i < this->productions.size(); i++)
+    {
+      this->production_display->Append(this->productions.at(i).to_string());
+    }
+  }
+
+  Refresh();
+  Layout();
+}
+
+void GrammarOverviewTab::set_productions(std::vector<Production> productions)
+{
+  this->productions = productions;
+}
+
+void GrammarOverviewTab::set_nonterminal_alphabet(
+    std::vector<Nonterminal*> nonterminals)
+{
+  this->nonterminal_alphabet = nonterminals;
+}
+
+void GrammarOverviewTab::set_terminal_alphabet(std::vector<Terminal*> terminals)
+{
+  this->terminal_alphabet = terminals;
+}
+
+void GrammarOverviewTab::save_grammar(wxCommandEvent& evt)
+{
+  std::cout << "Saving grammar\n";
 }

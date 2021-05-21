@@ -11,3 +11,13 @@ Production::Production(Nonterminal lhs_input, std::vector<Symbol*> rhs_input)
 Production::~Production()
 {
 }
+
+std::string Production::to_string()
+{
+  std::string output = "'" + this->lhs.getIdentifier() + "' ->";
+  for (unsigned int i = 0; i < this->rhs.size(); i++)
+  {
+    output += " ' " + this->rhs.at(i)->getIdentifier() + "'";
+  }
+  return output;
+}

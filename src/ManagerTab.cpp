@@ -61,7 +61,7 @@ void ManagerTab::on_create(wxWindowCreateEvent& evt)
                          "Produktionen", false);
 
   this->overview_tab = new GrammarOverviewTab(this->grammar_steps, wxID_ANY);
-  grammar_steps->AddPage(this->overview_tab, "Übersicht", false);
+  grammar_steps->AddPage(this->overview_tab, "Kontrolle", false);
 
 
   this->grammar_steps->Layout();
@@ -96,11 +96,11 @@ void ManagerTab::page_changed(wxBookCtrlEvent& evt)
         this->start_symbol = this->alpha_manager->get_start_symbol();
       }
     }
-    else if (this->grammar_steps->GetPageText(evt.GetOldSelection()).c_str() ==
-             "Produktionen")
+    else if (std::strcmp(this->grammar_steps->GetPageText(evt.GetSelection()).c_str(), "Produktionen") == 0)
     {
       std::cout << "Getting productions from prod tab\n";
       this->productions = this->prod_manager->get_productions();
+      std::cout << "Production size: " << this->productions.size() << "\n";
     }
     else if (false)
     {
@@ -113,6 +113,15 @@ void ManagerTab::page_changed(wxBookCtrlEvent& evt)
     this->prod_manager->set_nonterminal_alphabet(this->nonterminal_alphabet);
     this->prod_manager->set_terminal_alphabet(this->terminal_alphabet);
     this->prod_manager->Refresh();
+  }
+  else if (std::strcmp(
+               this->grammar_steps->GetPageText(evt.GetSelection()).c_str(),
+               "Kontrolle") == 0)
+  {
+    std::cout << "Setting Kontroollwerte\n";
+    this->overview_tab->set_nonterminal_alphabet(this->nonterminal_alphabet);
+    this->overview_tab->set_terminal_alphabet(this->terminal_alphabet);
+    this->overview_tab->set_productions(this->prod_manager->get_productions());
   }
 }
 

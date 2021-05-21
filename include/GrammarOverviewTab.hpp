@@ -44,9 +44,9 @@ public:
   GrammarOverviewTab(wxWindow* parent, wxWindowID id);
 
   void set_productions(std::vector<Production> productions);
-  void set_nonterminal_alphabet(std::vector<Nonterminal> nonterminals);
-  void set_terminal_alphabet(std::vector<Terminal> terminals);
-  void set_start_symbol(Nonterminal start_symbol);
+  void set_nonterminal_alphabet(std::vector<Nonterminal*> nonterminals);
+  void set_terminal_alphabet(std::vector<Terminal*> terminals);
+  //void set_start_symbol(Nonterminal start_symbol);
 
 private:
   /**
@@ -56,6 +56,12 @@ private:
   void on_create(wxWindowCreateEvent& evt);
 
   void on_refresh(wxPaintEvent& evt);
+
+  void save_grammar(wxCommandEvent& evt);
+
+  std::vector<Terminal*> terminal_alphabet;
+  std::vector<Nonterminal*> nonterminal_alphabet;
+  std::vector<Production> productions;
 
   wxListBox* terminal_display;
   wxListBox* nonterminal_display;

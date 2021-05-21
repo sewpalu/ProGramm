@@ -22,6 +22,8 @@ public:
     *this = other;
   }
 
+  std::string to_string();
+
   Production& operator=(const Production& other)
   {
     lhs = other.lhs;
