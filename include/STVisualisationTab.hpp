@@ -1,6 +1,8 @@
 #ifndef ST_VISUALISATION_TAB_HPP
 #define ST_VISUALISATION_TAB_HPP
 
+#include <chrono>
+
 #include "wx/wxprec.h"
 #ifndef WX_PRECOMP
 #include "wx/wx.h"
@@ -8,34 +10,53 @@
 
 #include "wx/notebook.h"
 
+#include "SyntaxTree.hpp"
+#include "TreeRenderer.hpp"
 #include "VisualisationTab.hpp"
 
 class STVisualisationTab : public VisualisationTab
 {
+private:
+  std::pair<int, int> m_offset = {0, 0};
+
+  // This is the starting point with a detailed time stamp for dragging the
+  // widget
+  std::pair<wxPoint, std::chrono::high_resolution_clock::time_point>
+      dragStartingPoint;
+
+  std::unique_ptr<SyntaxTree> m_tree = nullptr;
+
+  wxSlider* m_zoom_slider;
+  wxPanel* m_visualisation_panel;
+
 public:
   STVisualisationTab();
 
   /**
    * Stores the resulting SyntaxTree and updates the visualisation.
    */
-  void update_input(const FormalGrammar& grammar, const std::string& word) final;
+  void update_input(const FormalGrammar& grammar,
+                    const std::string& word) final;
 
-  void draw_tree(const Tree& tree) final{}
+  void draw_tree(SyntaxTree* tree) final;
 
-  void draw_table(const Table& table) final
+  void draw_table(const Table&) final
   {
-    throw std::runtime_error("Table drawing not supported by STVisualisationTab");
+    throw std::runtime_error(
+        "Table drawing not supported by STVisualisationTab");
   }
 
-  void draw_empty() final{}
+  void draw_empty() final;
 
-  void add_button(const std::string& label, Callback on_click,
-                  Position position = Position::left) final
+  void add_button(const std::string&, Callback, Position = Position::left) final
   {
     throw std::runtime_error("Buttons not supported by STVisualisationTab");
   }
 
 private:
+  void on_paint(wxPaintEvent& evt);
+  void mouseMoved(wxMouseEvent& evt);
+  void sliderMoved(wxScrollEvent& evt);
   /**
    * Used to load XRC resources.
    * This is necessary because this wxPanel isn't complete at construction time.

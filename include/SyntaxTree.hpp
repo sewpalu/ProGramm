@@ -18,6 +18,12 @@ public:
 	SyntaxTree();
 
 	STNode getRoot();
-	std::vector<STNode> getChildren();
+	std::vector<STNode> getChildren() const;
+
+	STNode getRoot() const;
+
+
+
+	int getNumberOfLeaves() const;
 };
 

@@ -20,7 +20,17 @@ STNode SyntaxTree::getRoot()
 	return this->root;
 }
 
-std::vector<STNode> SyntaxTree::getChildren()
+std::vector<STNode> SyntaxTree::getChildren() const
 {
 	return this->root.children;
+}
+
+int SyntaxTree::getNumberOfLeaves() const
+{
+  return this->root.getNumberOfLeaves();
+}
+
+STNode SyntaxTree::getRoot() const
+{
+  return this->root;
 }

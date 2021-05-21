@@ -7,6 +7,10 @@
 #include <vector>
 #include <compare>
 
+#include "STNode.hpp"
+
+#include "SyntaxTree.hpp"
+
 class GUIVisualisationInterface
 {
 public:
@@ -17,6 +21,8 @@ public:
     std::vector<Tree> children;
     std::string text;
     Callback on_click;
+
+    STNode root;
 
     std::size_t n_leaves() const;
     std::size_t n_leaves(std::size_t level) const;
@@ -52,7 +58,7 @@ public:
     right
   };
 
-  virtual void draw_tree(const Tree& tree) = 0;
+  virtual void draw_tree(SyntaxTree* tree) = 0;
   virtual void draw_table(const Table& table) = 0;
   virtual void draw_empty() = 0;
 

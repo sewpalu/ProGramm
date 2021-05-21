@@ -33,7 +33,7 @@ public:
 
   /// GUIVisualisationInterface implementation
 
-  void draw_tree(const Tree&) final
+  void draw_tree(SyntaxTree*) final
   {
     throw std::runtime_error(
         "Tree drawing not supported by CYKVisualisationTab");

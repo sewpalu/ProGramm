@@ -3,6 +3,8 @@
 #include <string>
 #include <memory>
 
+#include <iostream>
+
 class Symbol
 {
 

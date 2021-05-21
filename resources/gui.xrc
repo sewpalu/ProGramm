@@ -209,6 +209,17 @@
 					<style>wxTAB_TRAVERSAL</style>
 				</object>
 			</object>
+			<object class="sizeritem">
+				<option>0</option>
+				<flag>wxALL|wxEXPAND</flag>
+				<border>5</border>
+				<object class="wxSlider" name="st_visualisation_zoom">
+					<style>wxSL_LABELS</style>
+					<value>100</value>
+					<min>50</min>
+					<max>500</max>
+				</object>
+			</object>
 		</object>
 	</object>
 	<object class="wxPanel" name="grammar_editor_panel">
