@@ -36,6 +36,7 @@
 
 #include "FormalGrammar.hpp"
 #include "Terminal.hpp"
+#include "GrammarConverter.hpp"
 
 class GrammarOverviewTab : public wxScrolledWindow
 {
@@ -58,6 +59,8 @@ private:
   void on_refresh(wxPaintEvent& evt);
 
   void save_grammar(wxCommandEvent& evt);
+
+  GrammarConverter converter;
 
   std::vector<Terminal*> terminal_alphabet;
   std::vector<Nonterminal*> nonterminal_alphabet;

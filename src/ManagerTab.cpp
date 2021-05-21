@@ -79,7 +79,6 @@ void ManagerTab::on_refresh(wxPaintEvent& evt)
 
 void ManagerTab::page_changed(wxBookCtrlEvent& evt)
 {
-  std::cout << "Switching tab\n";
   //Check that there is a valid page changed from
   if (!(evt.GetOldSelection() < 0))
   {
@@ -87,7 +86,6 @@ void ManagerTab::page_changed(wxBookCtrlEvent& evt)
     if (std::strcmp(this->grammar_steps->GetPageText(evt.GetOldSelection()).c_str(),
         "Alphabet") == 0)
     {
-      std::cout << "Reading alphabet data\n";
       this->terminal_alphabet = this->alpha_manager->get_terminal_alphabet();
       this->nonterminal_alphabet =
           this->alpha_manager->get_nonterminal_alphabet();
@@ -98,9 +96,7 @@ void ManagerTab::page_changed(wxBookCtrlEvent& evt)
     }
     else if (std::strcmp(this->grammar_steps->GetPageText(evt.GetSelection()).c_str(), "Produktionen") == 0)
     {
-      std::cout << "Getting productions from prod tab\n";
       this->productions = this->prod_manager->get_productions();
-      std::cout << "Production size: " << this->productions.size() << "\n";
     }
     else if (false)
     {
@@ -118,7 +114,6 @@ void ManagerTab::page_changed(wxBookCtrlEvent& evt)
                this->grammar_steps->GetPageText(evt.GetSelection()).c_str(),
                "Kontrolle") == 0)
   {
-    std::cout << "Setting Kontroollwerte\n";
     this->overview_tab->set_nonterminal_alphabet(this->nonterminal_alphabet);
     this->overview_tab->set_terminal_alphabet(this->terminal_alphabet);
     this->overview_tab->set_productions(this->prod_manager->get_productions());

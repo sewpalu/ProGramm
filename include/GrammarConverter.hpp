@@ -5,6 +5,8 @@
 #include <vector>
 #include <iostream>
 
+#include <nlohmann/json.hpp>
+
 #include "Nonterminal.hpp"
 #include "Symbol.hpp"
 #include "FormalGrammar.hpp"
