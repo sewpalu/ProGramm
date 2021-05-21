@@ -70,6 +70,8 @@ private:
   wxListBox* nonterminal_display;
   wxListBox* production_display;
 
+  wxTextCtrl* grammar_name_entry;
+
   wxDECLARE_DYNAMIC_CLASS(GrammarOverviewTab);
   wxDECLARE_EVENT_TABLE();
 };

@@ -22,7 +22,8 @@ GrammarOverviewTab::GrammarOverviewTab()
 }
 
 GrammarOverviewTab::GrammarOverviewTab(wxWindow* parent, wxWindowID id)
-    : wxScrolledWindow(parent, id, wxDefaultPosition, wxDefaultSize, wxVSCROLL)
+    : wxScrolledWindow(parent, id, wxDefaultPosition, wxDefaultSize, wxVSCROLL),
+      converter()
 {
 
   wxWrapSizer* sizer = new wxWrapSizer(wxHORIZONTAL, wxWRAPSIZER_DEFAULT_FLAGS);
@@ -75,6 +76,10 @@ GrammarOverviewTab::GrammarOverviewTab(wxWindow* parent, wxWindowID id)
 
   button_sizer->Add(check_grammar_button);
 
+  this->grammar_name_entry = new wxTextCtrl(this, wxID_ANY, "Namen eingeben!",
+                                      wxDefaultPosition, wxDefaultSize);
+
+  button_sizer->Add(this->grammar_name_entry);
   
   wxButton* save_grammar_button =
       new wxButton(this, wxID_ANY, "Grammatik speichern!");
@@ -153,4 +158,18 @@ void GrammarOverviewTab::set_terminal_alphabet(std::vector<Terminal*> terminals)
 void GrammarOverviewTab::save_grammar(wxCommandEvent& evt)
 {
   std::cout << "Saving grammar\n";
+  std::string grammar_name;
+  grammar_name = this->grammar_name_entry->GetValue();
+  if (grammar_name == "Namen eingeben!")
+  {
+    wxMessageBox(
+        wxT("Bitte geben Sie einen gültigen Namen für die Grammnatik ein!"));
+    return;
+  }
+  else
+  {
+    this->converter.save_grammar_to_std_file(this->nonterminal_alphabet,
+                                             this->terminal_alphabet,
+                                             this->productions, grammar_name);
+  }
 }

@@ -11,7 +11,7 @@ grammar =
 	"name" : "grammar name",
 	"alphabet" : 
 	{
-		"startterminal" : "Nichtterminal",
+		"startsymbol" : "Nichtterminal",
 		"nonterminals" : 
 		{
 			"Nichtterminal1",
