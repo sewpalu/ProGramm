@@ -65,6 +65,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
         }
       }
     }
+    cykVisSolution->saveStep();
   }
 
   cykVisSolution->dumpAll();
@@ -265,6 +266,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
         std::cout << "\n\n";
       }
       cykVisSolution->dumpContent();
+      cykVisSolution->saveStep();
     }
   }
 
@@ -299,8 +301,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
   return cykVisSolution->convertToSyntaxTree(grammar);
 }
 
-CYKAlgorithm::CYKAlgorithm()
-  : WordParser(std::make_unique<CYKVisualiser>())
+CYKAlgorithm::CYKAlgorithm() : WordParser(std::make_unique<CYKVisualiser>())
 {
 }
 

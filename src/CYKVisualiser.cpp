@@ -309,6 +309,11 @@ std::vector<SyntaxTree> CYKVisualiser::convertToSyntaxTree(
   return resultTrees;
 }
 
+void CYKVisualiser::saveStep()
+{
+  steps.push_back(matrix);
+}
+
 std::vector<STNode> CYKVisualiser::addChildrenFromLink(CYKLink inputLink)
 {
   std::vector<STNode> children;

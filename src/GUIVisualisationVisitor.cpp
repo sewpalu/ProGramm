@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iterator>
 #include <limits>
+#include <memory>
 #include <stdexcept>
 
 #include "CYKVisualiser.hpp"
@@ -17,30 +18,31 @@ GUIVisualisationVisitor::GUIVisualisationVisitor(
 void GUIVisualisationVisitor::visitCYKVisualiser(
     const CYKVisualiser& visualiser)
 {
-  m_gui.draw_table(to_gui_table(visualiser.matrix));
+  if (visualiser.steps.empty())
+    return;
 
-  // TODO: Steps aren't provided by CYKAlgorithm yet ...
-  /*
+  m_gui.draw_table(to_gui_table(visualiser.steps.front()));
+
+  auto idx = std::make_shared<int>(0);
   m_gui.add_button(
       "previous step",
-      [steps = visualiser.matrix, idx = 0](auto& gui) mutable {
+      [steps = visualiser.steps, idx](auto& gui) mutable {
         if (steps.empty())
           return;
-        idx = idx <= 0 ? 0 : (idx - 1);
-        gui.draw_table(GUIVisualisationVisitor::to_gui_table(steps.at(idx)));
+        *idx = *idx <= 0 ? 0 : (*idx - 1);
+        gui.draw_table(GUIVisualisationVisitor::to_gui_table(steps.at(*idx)));
       },
       GUIVisualisationInterface::Position::left);
   m_gui.add_button(
       "next step",
-      [steps = visualiser.matrix, idx = 0](auto& gui) mutable {
+      [steps = visualiser.steps, idx](auto& gui) mutable {
         if (steps.empty() || steps.size() > std::numeric_limits<int>::max())
           return;
-        idx = idx >= static_cast<int>(steps.size() - 1) ? steps.size() - 1
-                                                        : (idx + 1);
-        gui.draw_table(GUIVisualisationVisitor::to_gui_table(steps.at(idx)));
+        *idx = *idx >= static_cast<int>(steps.size() - 1) ? steps.size() - 1
+                                                        : (*idx + 1);
+        gui.draw_table(GUIVisualisationVisitor::to_gui_table(steps.at(*idx)));
       },
       GUIVisualisationInterface::Position::right);
-  */
 }
 
 void GUIVisualisationVisitor::visitSTVisualiser(const STVisualiser& visualiser)
@@ -60,7 +62,7 @@ GUIVisualisationInterface::Table GUIVisualisationVisitor::to_gui_table(
     {
       auto productions = cyk_step.at(selected_cell->y)
                              .at(selected_cell->x)
-                             .front() // TODO: Make individual options selectable
+                             .at(0) // TODO: Make individual options selectable
                              .getProductions();
       highlighted_cells.push_back(selected_cell.value());
       std::transform(productions.begin(), productions.end(),
@@ -77,6 +79,12 @@ GUIVisualisationInterface::Table GUIVisualisationVisitor::to_gui_table(
   for (auto y = std::size_t{}; y < cyk_step.size(); ++y)
     for (auto x = std::size_t{}; x < cyk_step.at(y).size(); ++x)
     {
+      if (cyk_step.at(y).at(x).empty())
+      {
+        result.push_back({.coord = {x, y}});
+        continue;
+      }
+
       auto text = std::string{};
       for (const auto& element : cyk_step.at(y).at(x))
         text += element.getRoot().getIdentifier() + ",";

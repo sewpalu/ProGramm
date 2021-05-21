@@ -18,6 +18,8 @@ class CYKVisualisationTab : public VisualisationTab
 {
 private:
   wxGrid* m_table = nullptr;
+  wxButton* m_prev_button = nullptr;
+  wxButton* m_next_button = nullptr;
   std::map<Coord, Callback> m_cell_click_handlers = {};
 
 public:
@@ -31,7 +33,7 @@ public:
 
   /// GUIVisualisationInterface implementation
 
-  void draw_tree(const Tree& tree) final
+  void draw_tree(const Tree&) final
   {
     throw std::runtime_error(
         "Tree drawing not supported by CYKVisualisationTab");

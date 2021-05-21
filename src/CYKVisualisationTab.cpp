@@ -77,7 +77,9 @@ void CYKVisualisationTab::draw_table(const Table& table)
     if (cell.highlight)
       m_table->SetCellBackgroundColour(cell.coord.y, cell.coord.x, *wxGREEN);
     else
-      m_table->SetCellBackgroundColour(cell.coord.y, cell.coord.x, m_table->GetDefaultCellBackgroundColour());
+      m_table->SetCellBackgroundColour(
+          cell.coord.y, cell.coord.x,
+          m_table->GetDefaultCellBackgroundColour());
     if (cell.on_click)
       m_cell_click_handlers[cell.coord] = cell.on_click;
   }
@@ -91,9 +93,28 @@ void CYKVisualisationTab::draw_empty()
   this->Disable();
 }
 
-void CYKVisualisationTab::add_button(const std::string& label,
+void CYKVisualisationTab::add_button(const std::string&,
                                      Callback on_click, Position position)
 {
+  wxButton* button;
+  switch (position)
+  {
+  case Position::left:
+    button = m_prev_button;
+    break;
+  case Position::right:
+    button = m_next_button;
+    break;
+  case Position::centre:
+    throw std::runtime_error{
+        "CYKVisualisationTab doesn't support centre buttons"};
+    break;
+  }
+
+  if (!button)
+    return;  // Only work with existing buttons for simplicity
+
+  button->Bind(wxEVT_BUTTON, [this, on_click](auto&) { on_click(*this); });
 }
 
 void CYKVisualisationTab::on_page_changed(wxBookCtrlEvent& evt)
@@ -138,6 +159,11 @@ void CYKVisualisationTab::on_create(wxWindowCreateEvent& evt)
     m_table->SetCellHighlightPenWidth(0);
     m_table->SetCellHighlightROPenWidth(0);
   }
+
+  m_prev_button = dynamic_cast<wxButton*>(FindWindowByName("prev_button"));
+  m_next_button = dynamic_cast<wxButton*>(FindWindowByName("next_button"));
+  if (!m_prev_button || !m_next_button)
+    std::cerr << "Unable to load cyk buttons\n";
 
   update_visualisation();
 }
