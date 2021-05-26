@@ -192,7 +192,7 @@ void AlphabetManager::delete_symbol(wxCommandEvent& evt)
     {
       for (unsigned int j = 0; j < this->terminal_alphabet.size(); j++)
       {
-        if (std::strcmp(this->terminal_alphabet.at(j)->getIdentifier().c_str(), this->terminal_display->GetItem(i)->GetName().c_str()) == 0)
+        if (std::strcmp(this->terminal_alphabet.at(j)->getIdentifier().c_str(), this->terminal_display->GetString(i).c_str()) == 0)
         {
           this->terminal_alphabet.erase(this->terminal_alphabet.begin() + j);
           deleted_a_symbol = true;
@@ -210,7 +210,7 @@ void AlphabetManager::delete_symbol(wxCommandEvent& evt)
       {
         if (std::strcmp(
                 this->nonterminal_alphabet.at(j)->getIdentifier().c_str(),
-                this->nonterminal_display->GetItem(i)->GetName().c_str()) == 0)
+                this->nonterminal_display->GetString(i).c_str()) == 0)
         {
           this->nonterminal_alphabet.erase(this->nonterminal_alphabet.begin() +
                                            j);
@@ -271,4 +271,15 @@ Nonterminal AlphabetManager::get_start_symbol()
   }
 
   return Nonterminal("");
+}
+
+void AlphabetManager::set_terminal_alphabet(std::vector<Terminal*> terminals)
+{
+  this->terminal_alphabet = terminals;
+}
+
+void AlphabetManager::set_nonterminal_alphabet(
+    std::vector<Nonterminal*> nonterminals)
+{
+  this->nonterminal_alphabet = nonterminals;
 }

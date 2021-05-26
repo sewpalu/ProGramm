@@ -331,6 +331,7 @@ void ProductionManager::update_symbol_selectors()
             ->Append(this->nonterminal_alphabet.at(j)->getIdentifier());
       }
     }
+    Layout();
   }
   else if (this->rhs_selectors.size() >
            (int)this->number_of_rhs_symbols_selector->GetValue())

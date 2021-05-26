@@ -120,11 +120,14 @@ void GrammarOverviewTab::on_refresh(wxPaintEvent& evt)
     {
       this->nonterminal_display->AppendString(
           this->nonterminal_alphabet.at(i)->getIdentifier());
+      //this->nonterminal_display->GetItem(this->nonterminal_display->position)->SetBackgroundColour(*wxRED);
+      /*std::cout << "Setting the background color\n";
+      this->nonterminal_display
+          ->GetItem(this->nonterminal_display->GetCount() - 1)
+          ->SetBackgroundColour(wxColour(255, 155, 155));
+      std::cout << "Set the background color\n";*/
     }
   }
-
-  std::cout << "Production display: " << this->production_display->GetCount()
-            << " vs. " << this->productions.size() << "\n";
 
   if (this->production_display->GetCount() != this->productions.size())
   {

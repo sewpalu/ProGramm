@@ -98,9 +98,11 @@ void ManagerTab::page_changed(wxBookCtrlEvent& evt)
     {
       this->productions = this->prod_manager->get_productions();
     }
-    else if (false)
+    else if (std::strcmp(
+                 this->grammar_steps->GetPageText(evt.GetSelection()).c_str(),
+                 "Kontrolle") == 0)
     {
-      //Handle final construction of a grammar
+      std::cout << "Switching away from controll page\n";
     }
   }
 

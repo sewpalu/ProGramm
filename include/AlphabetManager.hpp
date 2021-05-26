@@ -47,6 +47,8 @@ public:
 
   std::vector<Terminal*> get_terminal_alphabet();
   std::vector<Nonterminal*> get_nonterminal_alphabet();
+  void set_terminal_alphabet(std::vector<Terminal*> terminals);
+  void set_nonterminal_alphabet(std::vector<Nonterminal*> nonterminals);
 
   Nonterminal get_start_symbol();
 
