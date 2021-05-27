@@ -1,11 +1,9 @@
 #include "GrammarConverter.hpp"
 
 
-GrammarConverter::GrammarConverter()
+GrammarConverter::GrammarConverter(wxWindow* msg_dialog_parent)
 {
   std::cout << "Constructor\n";
-  nlohmann::json test;
-
 }
 
 
@@ -13,11 +11,89 @@ GrammarConverter::~GrammarConverter()
 {
 }
 
-FormalGrammar GrammarConverter::load_grammar_from_std_file()
+FormalGrammar GrammarConverter::load_grammar_from_std_file(
+    std::string grammar_name)
 {
-  nlohmann::json loaded_data;
-  FormalGrammar test(Nonterminal("asdf", true), {});
-  return test;
+  auto output_data = nlohmann::json::array();
+
+  std::ifstream input_file;
+
+  auto grammars_data = nlohmann::json::array();
+
+  try
+  {
+    input_file = std::ifstream(this->grammar_file_name, std::ifstream::in);
+
+    if (input_file.is_open())
+    {
+      grammars_data << input_file;
+
+      input_file.close();
+    }
+    else
+    {
+      std::cout << "Not open!\n";
+    }
+  }
+  catch (...)
+  {
+    std::cout << "Cannot open the file" << this->grammar_file_name << "\n";
+  }
+
+  Nonterminal start_symbol;
+  std::vector<Production> productions;
+
+  for (unsigned int grammar_number = 0; grammar_number < grammars_data.size();
+       grammar_number++)
+  {
+    if (grammars_data.at(grammar_number) == grammar_name)
+    {
+      start_symbol =
+          Nonterminal(grammars_data.at(grammar_number)["startsymbol"]);
+
+      for (unsigned int j = 0;
+           j < grammars_data.at(grammar_number)["rules"].size(); j++)
+      {
+        std::string lhs_identifier =
+            grammars_data.at(grammar_number)["rules"].at(j)["LHS"];
+        
+        std::vector<std::string> rhs_identifiers =
+            grammars_data.at(grammar_number)["rules"].at(j)["RHS"];
+
+        std::vector<Symbol*> rhs_symbols;
+
+        for (unsigned int k = 0; k < rhs_identifiers.size(); k++)
+        {
+          std::vector<std::string> nonterminals =
+              grammars_data.at(grammar_number)["nonterminals"];
+
+          std::vector<std::string> terminals =
+              grammars_data.at(grammar_number)["terminals"];
+
+          if (std::find(nonterminals.begin(), nonterminals.end(),
+                        rhs_identifiers.at(k)) != nonterminals.end())
+          {
+            rhs_symbols.push_back(new Nonterminal(rhs_identifiers.at(k)));
+          }
+          else if (std::find(terminals.begin(), terminals.end(),
+                             rhs_identifiers.at(k)) != terminals.end())
+          {
+            rhs_symbols.push_back(
+                new Terminal(rhs_identifiers.at(k), rhs_identifiers.at(k)));
+          }
+          else
+          {
+            std::cout << "The grammar contains a symbol in its rules that is "
+                         "not contained in its alphabet.\n";
+          }
+        }
+
+        productions.push_back(Production(Nonterminal(lhs_identifier), rhs_symbols));
+      }
+    }
+  }
+
+  return FormalGrammar(start_symbol, productions);
 }
 
 void GrammarConverter::save_grammar_to_std_file(std::vector<Nonterminal*> nonterminal_alphabet,
@@ -76,8 +152,6 @@ void GrammarConverter::save_grammar_to_std_file(std::vector<Nonterminal*> nonter
 
   output_data.at(0)["Alphabet"] = alphabet;
 
-  std::string file_name = "grammars.json";
-
   std::cout << "Opening file\n";
   std::ifstream input_file;
 
@@ -85,7 +159,7 @@ void GrammarConverter::save_grammar_to_std_file(std::vector<Nonterminal*> nonter
 
   try
   {
-    input_file = std::ifstream(file_name, std::ifstream::in);
+    input_file = std::ifstream(this->grammar_file_name, std::ifstream::in);
 
     if (input_file.is_open())
     {
@@ -101,10 +175,8 @@ void GrammarConverter::save_grammar_to_std_file(std::vector<Nonterminal*> nonter
   }
   catch (...)
   {
-    std::cout << "Cannot read\n";
+    std::cout << "Cannot open the file" << this->grammar_file_name << "\n";
   }
-  
-  std::cout << "Old data size: " << old_data.size() << "\n";
 
   for (unsigned int i = 0; i < old_data.size(); i++)
   {
@@ -114,8 +186,120 @@ void GrammarConverter::save_grammar_to_std_file(std::vector<Nonterminal*> nonter
     }
   }
 
-
-  std::ofstream output_file(file_name);
+  std::ofstream output_file(this->grammar_file_name);
   output_file << output_data << std::endl;
   output_file.close();
+}
+
+bool GrammarConverter::grammar_exists(std::string grammar_name)
+{
+  std::ifstream input_file;
+
+  auto old_data = nlohmann::json::array();
+
+  try
+  {
+    input_file = std::ifstream(this->grammar_file_name, std::ifstream::in);
+
+    if (input_file.is_open())
+    {
+      old_data << input_file;
+
+      input_file.close();
+    }
+    else
+    {
+      std::cout << "Not open!\n";
+    }
+  }
+  catch (...)
+  {
+    std::cout << "Cannot open the file" << this->grammar_file_name << "\n";
+  }
+
+  for (unsigned int i = 0; i < old_data.size(); i++)
+  {
+    if (grammar_name == old_data.at(i)["name"]) return true;
+  }
+
+  return false;
+}
+
+std::vector<wxString> GrammarConverter::get_grammar_names()
+{
+  std::ifstream input_file;
+
+  auto file_data = nlohmann::json::array();
+
+  try
+  {
+    input_file = std::ifstream(this->grammar_file_name, std::ifstream::in);
+
+    if (input_file.is_open())
+    {
+      file_data << input_file;
+
+      input_file.close();
+    }
+    else
+    {
+      std::cout << "Not open!\n";
+    }
+  }
+  catch (...)
+  {
+    std::cout << "Cannot open the file" << this->grammar_file_name << "\n";
+  }
+
+  std::vector<wxString> grammar_names;
+
+  for (unsigned int i = 0; i < file_data.size(); i++)
+  {
+    std::string temp_name = file_data.at(i)["name"];
+    grammar_names.push_back(wxString(temp_name));
+  }
+  return grammar_names;
+}
+
+bool GrammarConverter::delete_grammar(std::string grammar_name)
+{
+  auto output_data = nlohmann::json::array();
+
+  std::ifstream input_file;
+
+  auto old_data = nlohmann::json::array();
+
+  try
+  {
+    input_file = std::ifstream(this->grammar_file_name, std::ifstream::in);
+
+    if (input_file.is_open())
+    {
+      old_data << input_file;
+
+      input_file.close();
+    }
+    else
+    {
+      std::cout << "Not open!\n";
+    }
+  }
+  catch (...)
+  {
+    std::cout << "Cannot open the file" << this->grammar_file_name << "\n";
+    return false;
+  }
+
+  for (unsigned int i = 0; i < old_data.size(); i++)
+  {
+    if (!(grammar_name == old_data.at(i)["name"]))
+    {
+      output_data.push_back(old_data.at(i));
+    }
+  }
+
+  std::ofstream output_file(this->grammar_file_name);
+  output_file << output_data << std::endl;
+  output_file.close();
+  return true;
 }

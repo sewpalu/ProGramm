@@ -353,6 +353,8 @@ void ProductionManager::update_symbol_selectors()
       this->rhs_sizer->Add(this->rhs_selectors.at(i));
     }
   }
+  this->SetVirtualSize(this->GetParent()->GetSize());
+
   Refresh();
   Layout();
 }

@@ -60,6 +60,9 @@ private:
 
   void save_grammar(wxCommandEvent& evt);
 
+  void load_grammar(wxCommandEvent& evt);
+  void delete_grammars(wxCommandEvent& evt);
+
   GrammarConverter converter;
 
   std::vector<Terminal*> terminal_alphabet;
@@ -71,6 +74,10 @@ private:
   wxListBox* production_display;
 
   wxTextCtrl* grammar_name_entry;
+
+  wxCheckListBox* grammars_display;
+
+  wxWrapSizer* sizer;
 
   wxDECLARE_DYNAMIC_CLASS(GrammarOverviewTab);
   wxDECLARE_EVENT_TABLE();
