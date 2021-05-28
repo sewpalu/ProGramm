@@ -51,6 +51,7 @@ public:
 
   void set_terminal_alphabet(std::vector<Terminal*> terminal_alphabet);
   void set_nonterminal_alphabet(std::vector<Nonterminal*> nonterminal_alphabet);
+  void set_productions(std::vector<Production> productions);
 
   std::vector<Production> get_productions();
 

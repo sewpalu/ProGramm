@@ -103,6 +103,10 @@ void ManagerTab::page_changed(wxBookCtrlEvent& evt)
                  "Kontrolle") == 0)
     {
       std::cout << "Switching away from controll page\n";
+      this->nonterminal_alphabet =
+          this->overview_tab->get_nonterminal_alphabet();
+      this->terminal_alphabet = this->overview_tab->get_terminal_alphabet();
+      this->productions = this->overview_tab->get_productions();
     }
   }
 
@@ -110,6 +114,7 @@ void ManagerTab::page_changed(wxBookCtrlEvent& evt)
   {
     this->prod_manager->set_nonterminal_alphabet(this->nonterminal_alphabet);
     this->prod_manager->set_terminal_alphabet(this->terminal_alphabet);
+    this->prod_manager->set_productions(this->productions);
     this->prod_manager->Refresh();
   }
   else if (std::strcmp(
@@ -118,7 +123,7 @@ void ManagerTab::page_changed(wxBookCtrlEvent& evt)
   {
     this->overview_tab->set_nonterminal_alphabet(this->nonterminal_alphabet);
     this->overview_tab->set_terminal_alphabet(this->terminal_alphabet);
-    this->overview_tab->set_productions(this->prod_manager->get_productions());
+    this->overview_tab->set_productions(this->productions);
   }
 }
 

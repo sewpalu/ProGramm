@@ -90,7 +90,7 @@ GrammarOverviewTab::GrammarOverviewTab(wxWindow* parent, wxWindowID id)
 
   this->sizer->Add(button_sizer);
 
-  wxBoxSizer* grammar_selection_sizer = new wxBoxSizer(wxVERTICAL);
+  wxBoxSizer* grammar_selection_sizer = new wxBoxSizer(wxHORIZONTAL);
 
   this->grammars_display =
       new wxCheckListBox(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, {});
@@ -109,9 +109,12 @@ GrammarOverviewTab::GrammarOverviewTab(wxWindow* parent, wxWindowID id)
   delete_grammars_button->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED,
                               &GrammarOverviewTab::delete_grammars, this);
 
-  grammar_selection_sizer->Add(load_grammar_button);
+  wxBoxSizer* grammar_button_sizer = new wxBoxSizer(wxVERTICAL);
 
-  grammar_selection_sizer->Add(delete_grammars_button);
+  grammar_button_sizer->Add(load_grammar_button);
+  grammar_button_sizer->Add(delete_grammars_button);
+
+  grammar_selection_sizer->Add(grammar_button_sizer);
 
   this->sizer->Add(grammar_selection_sizer);
 
@@ -254,18 +257,14 @@ void GrammarOverviewTab::load_grammar(wxCommandEvent& evt)
         this, msg_box_text, "Caption", wxOK | wxCENTER, wxDefaultPosition);
     no_grammar_selected->ShowModal();
     return;
-    /*if (!(no_grammar_selected->ShowModal() == wxID_OK))
-    {
-      return;
-    }*/
   }
   else if (grammar_names.size() == 1)
   {
-    FormalGrammar grammar =
+    GRAMMAR_STRUCT grammar =
         this->converter.load_grammar_from_std_file(grammar_names.at(0));
-    this->productions = grammar.rules;
-    this->nonterminal_alphabet;
-    this->terminal_alphabet;
+    this->productions = grammar.productions;
+    this->nonterminal_alphabet = grammar.nonterminals;
+    this->terminal_alphabet = grammar.terminals;
   }
   else
   {
@@ -295,4 +294,19 @@ void GrammarOverviewTab::delete_grammars(wxCommandEvent& evt)
   }
   Refresh();
   Layout();
+}
+
+std::vector<Production> GrammarOverviewTab::get_productions()
+{
+  return this->productions;
+}
+
+std::vector<Nonterminal*> GrammarOverviewTab::get_nonterminal_alphabet()
+{
+  return this->nonterminal_alphabet;
+}
+
+std::vector<Terminal*> GrammarOverviewTab::get_terminal_alphabet()
+{
+  return this->terminal_alphabet;
 }

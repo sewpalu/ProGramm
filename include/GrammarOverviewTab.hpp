@@ -47,7 +47,10 @@ public:
   void set_productions(std::vector<Production> productions);
   void set_nonterminal_alphabet(std::vector<Nonterminal*> nonterminals);
   void set_terminal_alphabet(std::vector<Terminal*> terminals);
-  //void set_start_symbol(Nonterminal start_symbol);
+
+  std::vector<Production> get_productions();
+  std::vector<Nonterminal*> get_nonterminal_alphabet();
+  std::vector<Terminal*> get_terminal_alphabet();
 
 private:
   /**

@@ -149,7 +149,11 @@ void ProductionManager::on_refresh(wxPaintEvent& evt)
     }
   }
 
+  this->SetVirtualSize(this->GetParent()->GetSize());
+
   this->update_symbol_selectors();
+
+  Layout();
 }
 
 void ProductionManager::add_production(wxCommandEvent& evt)
@@ -381,4 +385,9 @@ void ProductionManager::delete_production(wxCommandEvent& evt)
 std::vector<Production> ProductionManager::get_productions()
 {
   return this->productions;
+}
+
+void ProductionManager::set_productions(std::vector<Production> productions)
+{
+  this->productions = productions;
 }

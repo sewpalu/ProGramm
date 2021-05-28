@@ -16,6 +16,14 @@
 
 #include <wx/msgdlg.h>
 
+struct GRAMMAR_STRUCT
+{
+  Nonterminal start_symbol;
+  std::vector<Nonterminal*> nonterminals;
+  std::vector<Terminal*> terminals;
+  std::vector<Production> productions;
+};
+
 class GrammarConverter
 {
 
@@ -23,7 +31,7 @@ public:
   GrammarConverter(wxWindow* msg_dialog_parent);
   ~GrammarConverter();
 
-  FormalGrammar load_grammar_from_std_file(std::string grammar_name);
+  GRAMMAR_STRUCT load_grammar_from_std_file(std::string grammar_name);
 
   //FormalGrammar load_grammar_from_file_path(std::string file_path);
 
@@ -42,8 +50,12 @@ public:
       FormalGrammar grammar);
   std::vector<Terminal*> get_terminal_alphabet_from_grammar(
       FormalGrammar grammar);
-  std::vector<Production> get_productions_from_grammar(FormalGrammar grammar);
-  std::string get_grammar_name_from_grammar(FormalGrammar grammar);
+
+  bool symbol_in_vector(std::vector<Symbol*> symbols, std::string identifier);
+
+  bool terminal_in_vector(std::vector<Terminal*> terminals, std::string identifier);
+  bool nonterminal_in_vector(std::vector<Nonterminal*> nonterminals,
+                             std::string identifier);
 
 private:
   std::string grammar_file_name = "grammars.json";
