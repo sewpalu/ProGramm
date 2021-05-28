@@ -1,43 +1,43 @@
-
 json = 
-	{
-	grammar1,
-	grammar2,
-	grammar3
-	}
+{
+	grammarA,
+	grammarB,
+	grammarC
+}
 
 grammar = 
 {
 	"name" : "grammar name",
 	"alphabet" : 
 	{
-		"startsymbol" : "Nichtterminal",
+		"startsymbol" :
+			"NichtterminalB",
 		"nonterminals" : 
 		{
-			"Nichtterminal1",
-			"Nichtterminal2"
+			"NichtterminalA",
+			"NichtterminalB"
 		},
 		"terminals" : 
 		{
-			"Terminal1",
-			"Terminal2"
+			"TerminalA",
+			"TerminalB"
 		}
 	},
 	"rule" : 
 	{
-		rule1,
-		rule2
+		RegelA,
+		RegelB
 	}
 }
 
 rule = 
 {
-	"LHS" : "Nichtterminal",
+	"LHS" : "NichtterminalA",
 	"RHS" :
 	{
-		"Symbol1",
-		"Symbol2",
-		"Symbol3"
+		"SymbolA",
+		"SymbolB",
+		"SymbolC"
 	}
 }
 
