@@ -191,6 +191,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                     // << "Root Alarm IIIIIIIIIIIIIIIIIIIIIIIIIIIII"; std::cout
                     // << tempResult.getRoot().getIdentifier(); Get the exact
                     // CYKLink(s) being referenced in the CYK Matrix
+                    
                     CYKLink leftLink =
                         cykVisSolution->matrix.at(combination).at(cykCol).at(0);
                     CYKLink rightLink =
@@ -198,12 +199,19 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                             .at(cykCol + combination + 1)
                             .at(0);
                     std::cout << "\n";
+
+                    std::cout << "Left Link: " << combination << " | " << cykCol
+                              << "\n";
+                    std::cout
+                        << "Left value: " << leftLink.getRoot().getIdentifier()
+                        << "\n";
                     // tempPositions = { { { cykLine, cykCol }, leftLink }, {{
                     // cykLine - combination - 1, cykCol + combination + 1},
                     // rightLink } }; tempPositions = { { 0, combination }, {
                     // combination, input.getSize() - combination } };
                     if (!(leftLink.getRoot().getIdentifier() == ""))
-                      tempResult.addProduction({{cykLine, cykCol}, leftLink});
+                      tempResult.addProduction(
+                          {{combination, cykCol}, leftLink});
                     if (!(rightLink.getRoot().getIdentifier() == ""))
                       tempResult.addProduction({{cykLine - combination - 1,
                                                  cykCol + combination + 1},
@@ -297,6 +305,11 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
   {
     std::cout << "Better luck next time!\n";
   }
+
+  std::cout << "Dumping with links "
+               "==============================================================="
+               "==============\n";
+  cykVisSolution->dumpContent(2, 2, "S");
 
   return cykVisSolution->convertToSyntaxTree(grammar);
 }
