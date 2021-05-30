@@ -198,13 +198,6 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                         cykVisSolution->matrix.at(cykLine - combination - 1)
                             .at(cykCol + combination + 1)
                             .at(0);
-                    std::cout << "\n";
-
-                    std::cout << "Left Link: " << combination << " | " << cykCol
-                              << "\n";
-                    std::cout
-                        << "Left value: " << leftLink.getRoot().getIdentifier()
-                        << "\n";
                     // tempPositions = { { { cykLine, cykCol }, leftLink }, {{
                     // cykLine - combination - 1, cykCol + combination + 1},
                     // rightLink } }; tempPositions = { { 0, combination }, {
@@ -273,7 +266,6 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
 
         std::cout << "\n\n";
       }
-      cykVisSolution->dumpContent();
       cykVisSolution->saveStep();
     }
   }
@@ -305,11 +297,6 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
   {
     std::cout << "Better luck next time!\n";
   }
-
-  std::cout << "Dumping with links "
-               "==============================================================="
-               "==============\n";
-  cykVisSolution->dumpContent(2, 2, "S");
 
   return cykVisSolution->convertToSyntaxTree(grammar);
 }
