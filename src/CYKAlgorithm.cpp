@@ -192,31 +192,51 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                     // << tempResult.getRoot().getIdentifier(); Get the exact
                     // CYKLink(s) being referenced in the CYK Matrix
                     
-                    CYKLink leftLink =
-                        cykVisSolution->matrix.at(combination).at(cykCol).at(0);
-                    CYKLink rightLink =
-                        cykVisSolution->matrix.at(cykLine - combination - 1)
-                            .at(cykCol + combination + 1)
-                            .at(0);
-                    // tempPositions = { { { cykLine, cykCol }, leftLink }, {{
-                    // cykLine - combination - 1, cykCol + combination + 1},
-                    // rightLink } }; tempPositions = { { 0, combination }, {
-                    // combination, input.getSize() - combination } };
-                    if (!(leftLink.getRoot().getIdentifier() == ""))
+                    std::vector<CYKLink> links;
+
+                    for (size_t i = 0;
+                         i < cykVisSolution->matrix.at(combination).at(cykCol).size();
+                         i++)
+                    {
+                      if (grammar.rules.at(prodCounter).rhs.at(0)->getIdentifier() ==
+                          cykVisSolution->matrix.at(combination)
+                              .at(cykCol)
+                              .at(i).getRoot().getIdentifier())
+                      {
+                        links.push_back(cykVisSolution->matrix.at(combination)
+                                            .at(cykCol)
+                                            .at(i));
+                      }
+                    }
+
+                    for (size_t i = 0; i < cykVisSolution->matrix
+                                               .at(cykLine - combination - 1)
+                                               .at(cykCol + combination + 1).size();
+                         i++)
+                    {
+                      if (grammar.rules.at(prodCounter)
+                              .rhs.at(1)
+                              ->getIdentifier() ==
+                          cykVisSolution->matrix.at(cykLine - combination - 1)
+                              .at(cykCol + combination + 1)
+                              .at(i).getRoot().getIdentifier())
+                      {
+                        links.push_back(
+                            cykVisSolution->matrix.at(cykLine - combination - 1)
+                                .at(cykCol + combination + 1)
+                                .at(i));
+                      }
+                    }
+
+                    if (!(links.at(0).getRoot().getIdentifier() == ""))
                       tempResult.addProduction(
-                          {{combination, cykCol}, leftLink});
-                    if (!(rightLink.getRoot().getIdentifier() == ""))
+                          {{combination, cykCol}, links.at(0)});
+                    if (!(links.at(1).getRoot().getIdentifier() == ""))
                       tempResult.addProduction({{cykLine - combination - 1,
                                                  cykCol + combination + 1},
-                                                rightLink});
-                    // if (!(rightLink.getRoot().getIdentifier() == ""))
-                    // tempResult.addProduction({ { cykLine - combination - 1,
-                    // cykCol + combination + 1}, rightLink });
+                                                links.at(1)});
                     if (tempResult.getProductions().size() > 0)
                       tempProductions.push_back(tempResult);
-                    // Clear productions. Root must not be reset as it is set in
-                    // every iteration without condition
-                    // tempResult.emptyProductions();
                   }
                 }
               }
