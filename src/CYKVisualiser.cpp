@@ -159,16 +159,29 @@ void CYKVisualiser::dumpContent(unsigned int coordinate1,
   std::pair<unsigned int, unsigned int> dependency1Coordinates;
   std::pair<unsigned int, unsigned int> dependency2Coordinates;
 
+  if (coordinate1 >= this->matrix.size())
+  {
+    std::cout << "Called dump content with out of range coordinates!\n";
+    return;
+  }
+
+  if (coordinate2 >= this->matrix.at(coordinate1).size())
+  {
+    std::cout << "Called dump content with out of range coordinates!\n";
+    return;
+  }
+
   for (unsigned int i = 0;
        i < this->matrix.at(coordinate1).at(coordinate2).size(); i++)
   {
-
+    std::cout << "Checking if with i = " << i << "\n";
     if (this->matrix.at(coordinate1)
             .at(coordinate2)
             .at(i)
             .getRoot()
             .getIdentifier() == nonterminalIdentifier)
     {
+      std::cout << "Successful if for: " << nonterminalIdentifier << "\n";
       dependency1Coordinates.first = this->matrix.at(coordinate1)
                                          .at(coordinate2)
                                          .at(i)
@@ -202,7 +215,7 @@ void CYKVisualiser::dumpContent(unsigned int coordinate1,
 
   for (int i = static_cast<int>(this->matrix.size()) - 1; i >= 0; i--)
   {
-    for (unsigned int j = 0; j < this->matrix.at(i).size() - i; j++)
+    for (int j = 0; j < this->matrix.at(i).size() - i; j++)
     {
       if (dependency1Coordinates.first == i)
       {
@@ -219,7 +232,7 @@ void CYKVisualiser::dumpContent(unsigned int coordinate1,
           std::cout << "P2: ";
         }
       }
-
+      std::cout << "Creating display place\n";
       std::string displayPlace = "";
       for (unsigned int k = 0; k < this->matrix.at(i).at(j).size(); k++)
       {

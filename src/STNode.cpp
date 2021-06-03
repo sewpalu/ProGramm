@@ -138,7 +138,7 @@ int STNode::recursiveGetMaxDepth(STNode workingNode, int previousDepth) const
   return maxDepth;
 }
 
-/*std::string STNode::getText() const
+std::string STNode::getText() const
 {
-  return this->value->
-}*/
+  return this->value->getIdentifier();
+}
