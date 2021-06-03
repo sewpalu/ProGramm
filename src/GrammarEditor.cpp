@@ -47,8 +47,7 @@ void GrammarEditor::on_change(wxCommandEvent& evt)
 
     // FIXME: Grammar is hard coded for now
     auto grammar = FormalGrammar{
-        Nonterminal{"S", true},
-        {
+        .rules = {
          Production{Nonterminal{"S"},
                     {new Nonterminal{"B"}, new Nonterminal{"A"}}},
           Production{Nonterminal{"A"}, {new Terminal{"a", "a"}}},
@@ -59,7 +58,8 @@ void GrammarEditor::on_change(wxCommandEvent& evt)
          Production{Nonterminal{"B"},
                     {new Nonterminal{"C"}, new Nonterminal{"B"}}},
          Production{Nonterminal{"C"},
-                    {new Nonterminal{"A"}, new Nonterminal{"C"}}}}};
+                    {new Nonterminal{"A"}, new Nonterminal{"C"}}}},
+        .start = Nonterminal{"S", true}};
 
     // S -> BA
     // A -> a

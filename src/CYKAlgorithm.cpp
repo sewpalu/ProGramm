@@ -43,20 +43,20 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
           productions;
       // for first round of CYK only rules with length are relevant, as it's
       // looking for rules that produce exactly one Terminal ("letter" of word)
-      if (grammar.rules.at(rulePos).rhs.size() == 1)
+      if (grammar.rules.at(rulePos).rhs().size() == 1)
       {
         // See Symbol (it's known this is a Terminal) has same Terminal in word
-        if (grammar.rules.at(rulePos).rhs.at(0)->getIdentifier() ==
+        if (grammar.rules.at(rulePos).rhs().at(0)->getIdentifier() ==
             testTerminal.getIdentifier())
         {
           // Generate CYKLink to represent lowermost link in CYK Matrix - This
           // has no productions
           CYKLink bottomCYKLink(Nonterminal(
-              grammar.rules.at(rulePos).rhs.at(0)->getIdentifier()));
+              grammar.rules.at(rulePos).rhs().at(0)->getIdentifier()));
           // Push the info to the productions vector
           productions.push_back({{rulePos, wordPos}, bottomCYKLink});
           // Create the final CYKLink
-          CYKLink terminalLink(grammar.rules.at(rulePos).lhs, productions);
+          CYKLink terminalLink(grammar.rules.at(rulePos).lhs(), productions);
           std::vector<CYKLink> bootomCYKLinkVector = {terminalLink};
           // First at set to 0, as this is always the case in first line of CYK
           std::cout << "Bottom CYKLinks: " << bootomCYKLinkVector.size()
@@ -150,7 +150,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
         {
           // If the rhs has a length <2 (=1) that means it has already been
           // handled above
-          if ((grammar.rules.at(prodCounter).rhs.size() == 2))
+          if ((grammar.rules.at(prodCounter).rhs().size() == 2))
           {
             // Loop through possible Nonterminals on left side
             for (unsigned int numberOfLeftNonterminal = 0;
@@ -162,7 +162,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
               // vs. " <<
               // searchSymbolLeft.at(numberOfLeftNonterminal).getIdentifier() <<
               // "\n";
-              if (grammar.rules.at(prodCounter).rhs.at(0)->getIdentifier() ==
+              if (grammar.rules.at(prodCounter).rhs().at(0)->getIdentifier() ==
                   searchSymbolLeft.at(numberOfLeftNonterminal).getIdentifier())
               {
                 // std::cout << " - left equal! \n";
@@ -177,7 +177,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                   // searchSymbolRight.at(numberOfRightNonterminal).getIdentifier()
                   // << "\n";
                   if (grammar.rules.at(prodCounter)
-                          .rhs.at(1)
+                          .rhs().at(1)
                           ->getIdentifier() ==
                       searchSymbolRight.at(numberOfRightNonterminal)
                           .getIdentifier())
@@ -186,7 +186,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                     // std::cout <<
                     // cykVisSolution.matrix.at(cykLine).at(cykCol).size() <<
                     // "\n"; std::wcout << " - right equal! \n";
-                    CYKLink tempResult(grammar.rules.at(prodCounter).lhs);
+                    CYKLink tempResult(grammar.rules.at(prodCounter).lhs());
                     // if (tempResult.getRoot().getIdentifier() == "") std::cout
                     // << "Root Alarm IIIIIIIIIIIIIIIIIIIIIIIIIIIII"; std::cout
                     // << tempResult.getRoot().getIdentifier(); Get the exact
@@ -296,8 +296,10 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
   else
   {
     std::cout << "Better luck next time!\n";
+    cykVisSolution->error = "Word is not in grammar";
   }
 
+  cykVisSolution->success = included;
   return cykVisSolution->convertToSyntaxTree(grammar);
 }
 

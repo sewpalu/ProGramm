@@ -14,7 +14,7 @@ public:
     Nonterminal() = delete;
     ~Nonterminal() = default;
 
-    bool isStartSymbol();
+    bool isStartSymbol() const;
     void setStartSymbol(bool startSymbolStatus);
 
 

@@ -32,12 +32,6 @@ private:
 public:
   STVisualisationTab();
 
-  /**
-   * Stores the resulting SyntaxTree and updates the visualisation.
-   */
-  void update_input(const FormalGrammar& grammar,
-                    const std::string& word) final;
-
   void draw_tree(SyntaxTree* tree) final;
 
   void draw_table(const Table&) final
@@ -65,7 +59,7 @@ private:
 
   void on_page_changed(wxBookCtrlEvent& evt);
 
-  void update_visualisation();
+  void render_input() final;
 
   wxDECLARE_DYNAMIC_CLASS(STVisualisationTab);
   wxDECLARE_EVENT_TABLE();

@@ -22,7 +22,7 @@ class SimpleWordParser : public GrammarParser
   {
     throw std::runtime_error{
         "SimpleWordParser doesn't implement parseGrammar()"};
-    return {Nonterminal{""}, {}};
+    return {.rules = {}, .start = Nonterminal{""}};
   }
 
   virtual Word parseWord(const std::string& input) const final

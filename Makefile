@@ -19,5 +19,5 @@ clean:
 	rm -rf build
 
 justrun:
-	build/form_lang gui
+	build/form_lang gui >/dev/null
 

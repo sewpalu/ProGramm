@@ -25,12 +25,6 @@ private:
 public:
   CYKVisualisationTab();
 
-  /**
-   * Stores the resulting CYKVisualiser and updates the visualisation.
-   */
-  void update_input(const FormalGrammar& grammar,
-                    const std::string& word) final;
-
   /// GUIVisualisationInterface implementation
 
   void draw_tree(SyntaxTree*) final
@@ -57,9 +51,9 @@ private:
   void on_grid_click(wxGridEvent& evt);
   void on_resize(wxSizeEvent& evt);
 
-  void resize_grid(std::size_t n_cols, std::size_t n_rows);
+  void render_input() final;
 
-  void update_visualisation();
+  void resize_grid(std::size_t n_cols, std::size_t n_rows);
 
   wxDECLARE_DYNAMIC_CLASS(CYKVisualisationTab);
   wxDECLARE_EVENT_TABLE();

@@ -16,6 +16,8 @@ class CYKVisualiser : public Visualiser
 public:
   std::vector<std::vector<std::vector<CYKLink>>> matrix;
   std::vector<decltype(matrix)> steps;
+  bool success = false;
+  std::string error = {};
 
   CYKVisualiser(unsigned int wordlength);
   CYKVisualiser() = default;
