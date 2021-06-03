@@ -1092,7 +1092,7 @@
                 <object class="sizeritem" expanded="0">
                     <property name="border">5</property>
                     <property name="flag">wxEXPAND | wxALL</property>
-                    <property name="proportion">4</property>
+                    <property name="proportion">8</property>
                     <object class="wxPanel" expanded="0">
                         <property name="BottomDockable">1</property>
                         <property name="LeftDockable">1</property>

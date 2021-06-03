@@ -158,7 +158,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                  numberOfLeftNonterminal++)
             {
               // std::cout << "Comparison left Nonterminal: " <<
-              // grammar.rules.at(prodCounter).rhs.at(0).getIdentifier() << "
+              // grammar.rules.at(prodCounter).rhs().at(0).getIdentifier() << "
               // vs. " <<
               // searchSymbolLeft.at(numberOfLeftNonterminal).getIdentifier() <<
               // "\n";
@@ -172,7 +172,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                      numberOfRightNonterminal++)
                 {
                   // std::cout << "Comparison right Nonterminal: " <<
-                  // grammar.rules.at(prodCounter).rhs.at(1).getIdentifier() <<
+                  // grammar.rules.at(prodCounter).rhs().at(1).getIdentifier() <<
                   // " vs. " <<
                   // searchSymbolRight.at(numberOfRightNonterminal).getIdentifier()
                   // << "\n";
@@ -198,7 +198,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                          i < cykVisSolution->matrix.at(combination).at(cykCol).size();
                          i++)
                     {
-                      if (grammar.rules.at(prodCounter).rhs.at(0)->getIdentifier() ==
+                      if (grammar.rules.at(prodCounter).rhs().at(0)->getIdentifier() ==
                           cykVisSolution->matrix.at(combination)
                               .at(cykCol)
                               .at(i).getRoot().getIdentifier())
@@ -215,7 +215,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                          i++)
                     {
                       if (grammar.rules.at(prodCounter)
-                              .rhs.at(1)
+                              .rhs().at(1)
                               ->getIdentifier() ==
                           cykVisSolution->matrix.at(cykLine - combination - 1)
                               .at(cykCol + combination + 1)

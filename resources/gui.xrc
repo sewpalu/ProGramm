@@ -186,7 +186,7 @@
 				<size>0,0</size>
 			</object>
 			<object class="sizeritem">
-				<option>4</option>
+				<option>8</option>
 				<flag>wxEXPAND | wxALL</flag>
 				<border>5</border>
 				<object class="wxPanel" name="st_visualisation">
