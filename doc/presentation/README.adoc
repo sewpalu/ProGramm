@@ -1,0 +1,17 @@
+= Presentation
+
+See: https://docs.asciidoctor.org/reveal.js-converter/latest/
+
+== Installation of required tools
+
+* Node.js: https://nodejs.org/en/download/
+* `npm i`
+
+== Generating the presentation
+
+[source,sh]
+----
+npx asciidoctor-revealjs presentation.adoc
+firefox presentation.html
+----
+
