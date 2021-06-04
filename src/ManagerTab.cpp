@@ -94,36 +94,51 @@ void ManagerTab::page_changed(wxBookCtrlEvent& evt)
         this->start_symbol = this->alpha_manager->get_start_symbol();
       }
     }
-    else if (std::strcmp(this->grammar_steps->GetPageText(evt.GetSelection()).c_str(), "Produktionen") == 0)
+    else if (std::strcmp(this->grammar_steps->GetPageText(evt.GetOldSelection())
+                             .c_str(),
+                         "Produktionen") == 0)
     {
       this->productions = this->prod_manager->get_productions();
     }
-    else if (std::strcmp(
-                 this->grammar_steps->GetPageText(evt.GetSelection()).c_str(),
+    else if (std::strcmp(this->grammar_steps->GetPageText(evt.GetOldSelection())
+                             .c_str(),
                  "Kontrolle") == 0)
     {
-      std::cout << "Switching away from controll page\n";
       this->nonterminal_alphabet =
           this->overview_tab->get_nonterminal_alphabet();
       this->terminal_alphabet = this->overview_tab->get_terminal_alphabet();
+      this->alpha_manager->set_nonterminal_alphabet(this->overview_tab->get_nonterminal_alphabet());
+      this->alpha_manager->set_terminal_alphabet(this->overview_tab->get_terminal_alphabet());
       this->productions = this->overview_tab->get_productions();
+      this->prod_manager->set_productions(this->overview_tab->get_productions());
     }
   }
 
   if (std::strcmp(this->grammar_steps->GetPageText(evt.GetSelection()).c_str(), "Produktionen") == 0)
   {
-    this->prod_manager->set_nonterminal_alphabet(this->nonterminal_alphabet);
-    this->prod_manager->set_terminal_alphabet(this->terminal_alphabet);
-    this->prod_manager->set_productions(this->productions);
+    this->prod_manager->set_nonterminal_alphabet(
+        this->alpha_manager->get_nonterminal_alphabet());
+    this->prod_manager->set_terminal_alphabet(
+        this->alpha_manager->get_terminal_alphabet());
+    //this->prod_manager->set_productions(this->productions);
     this->prod_manager->Refresh();
+  }
+  else if (std::strcmp(
+               this->grammar_steps->GetPageText(evt.GetSelection()).c_str(),
+               "Alphabet") == 0)
+  {
+    this->alpha_manager->Refresh();
   }
   else if (std::strcmp(
                this->grammar_steps->GetPageText(evt.GetSelection()).c_str(),
                "Kontrolle") == 0)
   {
-    this->overview_tab->set_nonterminal_alphabet(this->nonterminal_alphabet);
-    this->overview_tab->set_terminal_alphabet(this->terminal_alphabet);
-    this->overview_tab->set_productions(this->productions);
+    this->overview_tab->set_nonterminal_alphabet(
+        this->alpha_manager->get_nonterminal_alphabet());
+    this->overview_tab->set_terminal_alphabet(
+        this->alpha_manager->get_terminal_alphabet());
+    this->overview_tab->set_productions(this->prod_manager->get_productions());
+    this->overview_tab->Refresh();
   }
 }
 

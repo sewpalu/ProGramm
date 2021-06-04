@@ -37,6 +37,8 @@
 #include "FormalGrammar.hpp"
 #include "Terminal.hpp"
 #include "GrammarConverter.hpp"
+#include "AlphabetDisplay.hpp"
+#include "ProductionDisplay.hpp"
 
 class GrammarOverviewTab : public wxScrolledWindow
 {
@@ -74,6 +76,9 @@ private:
 
   wxListBox* terminal_display;
   wxListBox* nonterminal_display;
+  AlphabetDisplay* m_alpha_display;
+  ProductionDisplay* m_prod_display;
+
   wxListBox* production_display;
 
   wxTextCtrl* grammar_name_entry;

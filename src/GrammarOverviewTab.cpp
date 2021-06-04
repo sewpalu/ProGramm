@@ -28,42 +28,11 @@ GrammarOverviewTab::GrammarOverviewTab(wxWindow* parent, wxWindowID id)
 
   this->sizer = new wxWrapSizer(wxHORIZONTAL, wxWRAPSIZER_DEFAULT_FLAGS);
 
-  wxBoxSizer* nonterminal_sizer = new wxBoxSizer(wxVERTICAL);
-  nonterminal_sizer->Add(new wxStaticText(this, wxID_ANY, "Nichtterminale",
-                                          wxDefaultPosition, wxDefaultSize,
-                                          wxALIGN_CENTER));
+  this->m_alpha_display = new AlphabetDisplay(this);
+  this->m_prod_display = new ProductionDisplay(this);
 
-  this->nonterminal_display =
-      new wxListBox(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
-
-  nonterminal_sizer->Add(nonterminal_display);
-
-  this->sizer->Add(nonterminal_sizer);
-
-  wxBoxSizer* terminal_sizer = new wxBoxSizer(wxVERTICAL);
-  terminal_sizer->Add(new wxStaticText(this, wxID_ANY, "Terminale",
-                                       wxDefaultPosition, wxDefaultSize,
-                                       wxALIGN_CENTER));
-
-  this->terminal_display =
-      new wxListBox(this, wxID_ANY, wxDefaultPosition,
-                         wxDefaultSize);
-
-  terminal_sizer->Add(terminal_display);
-
-  this->sizer->Add(terminal_sizer);
-
-  wxBoxSizer* production_sizer = new wxBoxSizer(wxVERTICAL);
-  production_sizer->Add(new wxStaticText(this, wxID_ANY, "Produktionsregeln",
-                                       wxDefaultPosition, wxDefaultSize,
-                                       wxALIGN_CENTER));
-
-  this->production_display =
-      new wxListBox(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
-
-  production_sizer->Add(production_display);
-
-  this->sizer->Add(production_sizer);
+  this->sizer->Add(this->m_alpha_display);
+  this->sizer->Add(this->m_prod_display);
 
   wxBoxSizer* button_sizer = new wxBoxSizer(wxVERTICAL);
 
@@ -129,41 +98,13 @@ void GrammarOverviewTab::on_create(wxWindowCreateEvent& evt)
 
 void GrammarOverviewTab::on_refresh(wxPaintEvent& evt)
 {
-  if (this->terminal_display->GetCount() != this->terminal_alphabet.size())
-  {
-    this->terminal_display->Clear();
-    for (unsigned int i = 0; i < this->terminal_alphabet.size(); i++)
-    {
-      this->terminal_display->AppendString(
-          this->terminal_alphabet.at(i)->getIdentifier());
-    }
-  }
-
-  if (this->nonterminal_display->GetCount() !=
-      this->nonterminal_alphabet.size())
-  {
-    this->nonterminal_display->Clear();
-    for (unsigned int i = 0; i < this->nonterminal_alphabet.size(); i++)
-    {
-      this->nonterminal_display->AppendString(
-          this->nonterminal_alphabet.at(i)->getIdentifier());
-      //this->nonterminal_display->GetItem(this->nonterminal_display->position)->SetBackgroundColour(*wxRED);
-      /*std::cout << "Setting the background color\n";
-      this->nonterminal_display
-          ->GetItem(this->nonterminal_display->GetCount() - 1)
-          ->SetBackgroundColour(wxColour(255, 155, 155));
-      std::cout << "Set the background color\n";*/
-    }
-  }
-
-  if (this->production_display->GetCount() != this->productions.size())
-  {
-    this->production_display->Clear();
-    for (unsigned int i = 0; i < this->productions.size(); i++)
-    {
-      this->production_display->Append(this->productions.at(i).to_string());
-    }
-  }
+  /*std::cout << "Overview non-size: " << this->nonterminal_alphabet.size()
+            << "\n";
+  std::cout << "Overview term-size: " << this->terminal_alphabet.size() << "\n";
+  std::cout << "Overview prod-size: " << this->productions.size() << "\n";*/
+  this->m_alpha_display->set_alphabet(this->nonterminal_alphabet,
+                                      this->terminal_alphabet);
+  this->m_prod_display->set_productions(this->productions);
 
   if (this->grammars_display->GetCount() != this->converter.get_grammar_names().size())
   {

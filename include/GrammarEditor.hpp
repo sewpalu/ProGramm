@@ -6,6 +6,8 @@
 #include "wx/wx.h"
 #endif
 
+#include <AlphabetDisplay.hpp>
+
 class GrammarEditor : public wxPanel
 {
 public:
@@ -17,6 +19,8 @@ private:
    * This is necessary because this wxPanel isn't complete at construction time.
    */
   void on_create(wxWindowCreateEvent& evt);
+
+  AlphabetDisplay* m_alpha_display;
 
   wxDECLARE_DYNAMIC_CLASS(GrammarEditor);
   wxDECLARE_EVENT_TABLE();
