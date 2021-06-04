@@ -9,3 +9,4 @@ build/
 out/
 Debug/
 *.user
+node_modules
