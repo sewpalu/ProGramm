@@ -26,7 +26,7 @@ GRAMMAR_STRUCT GrammarConverter::load_grammar_from_std_file(
 
     if (input_file.is_open())
     {
-      grammars_data << input_file;
+      input_file >> grammars_data;
 
       input_file.close();
     }
@@ -204,7 +204,7 @@ void GrammarConverter::save_grammar_to_std_file(std::vector<Nonterminal*> nonter
 
     if (input_file.is_open())
     {
-      old_data << input_file;
+      input_file >> old_data;
 
       input_file.close();
     }
@@ -244,7 +244,7 @@ bool GrammarConverter::grammar_exists(std::string grammar_name)
 
     if (input_file.is_open())
     {
-      old_data << input_file;
+      input_file >> old_data;
 
       input_file.close();
     }
@@ -278,7 +278,7 @@ std::vector<wxString> GrammarConverter::get_grammar_names()
 
     if (input_file.is_open())
     {
-      file_data << input_file;
+      input_file >> file_data;
 
       input_file.close();
     }
@@ -316,7 +316,7 @@ bool GrammarConverter::delete_grammar(std::string grammar_name)
 
     if (input_file.is_open())
     {
-      old_data << input_file;
+      input_file >> old_data;
 
       input_file.close();
     }

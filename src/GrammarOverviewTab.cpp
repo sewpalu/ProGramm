@@ -37,7 +37,7 @@ GrammarOverviewTab::GrammarOverviewTab(wxWindow* parent, wxWindowID id)
   wxBoxSizer* button_sizer = new wxBoxSizer(wxVERTICAL);
 
   wxButton* check_grammar_button =
-      new wxButton(this, wxID_ANY, "Grammatik auf Gültigkeit überprüfen!");
+      new wxButton(this, wxID_ANY, "Grammatik auf GÃ¼ltigkeit Ã¼berprÃ¼fen!");
 
   //check_grammar_button->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED,
   //                               &GrammarOverviewTab::delete_symbol, this);
@@ -74,7 +74,7 @@ GrammarOverviewTab::GrammarOverviewTab(wxWindow* parent, wxWindowID id)
                               &GrammarOverviewTab::load_grammar, this);
 
   wxButton* delete_grammars_button =
-      new wxButton(this, wxID_ANY, "Diese Grammatik(en) löschen!");
+      new wxButton(this, wxID_ANY, "Diese Grammatik(en) lÃ¶schen!");
   delete_grammars_button->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED,
                               &GrammarOverviewTab::delete_grammars, this);
 
@@ -148,7 +148,7 @@ void GrammarOverviewTab::save_grammar(wxCommandEvent& evt)
   if (grammar_name == "Namen eingeben!")
   {
     wxMessageBox(
-        wxT("Bitte geben Sie einen gültigen Namen für die Grammnatik ein!"));
+        wxT("Bitte geben Sie einen gÃ¼ltigen Namen fÃ¼r die Grammnatik ein!"));
     return;
   }
   else
@@ -156,7 +156,7 @@ void GrammarOverviewTab::save_grammar(wxCommandEvent& evt)
     if (this->converter.grammar_exists(grammar_name))
     {
       std::string msg_box_text = "Die Grammatik mit dem Namen '" + grammar_name;
-      msg_box_text += "' existiert bereits. Möchten Sie sie überschreiben?";
+      msg_box_text += "' existiert bereits. MÃ¶chten Sie sie Ã¼berschreiben?";
       std::cout << "Constructing parent\n";
 
       wxMessageDialog* overwrite_grammar_dialog =
@@ -192,7 +192,7 @@ void GrammarOverviewTab::load_grammar(wxCommandEvent& evt)
 
   if (grammar_names.size() == 0)
   {
-    std::string msg_box_text = "Sie müssen eine Grammatik auswählen, um sie zu laden!\n";
+    std::string msg_box_text = "Sie mÃ¼ssen eine Grammatik auswÃ¤hlen, um sie zu laden!\n";
 
     wxMessageDialog* no_grammar_selected = new wxMessageDialog(
         this, msg_box_text, "Caption", wxOK | wxCENTER, wxDefaultPosition);
@@ -210,7 +210,7 @@ void GrammarOverviewTab::load_grammar(wxCommandEvent& evt)
   else
   {
     wxMessageDialog* too_many_grammars = new wxMessageDialog(
-      this, "Sie müssen exakt eine Grammatik auswählen um sie zu laden!\n",
+      this, "Sie mÃ¼ssen exakt eine Grammatik auswÃ¤hlen um sie zu laden!\n",
         "Caption", wxOK | wxCENTER, wxDefaultPosition);
     too_many_grammars->ShowModal();
     return;

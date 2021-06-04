@@ -70,7 +70,7 @@ ProductionManager::ProductionManager(wxWindow* parent, wxWindowID id)
   production_entry_sizer->Add(this->rhs_sizer);
 
   wxButton* production_entry_button =
-      new wxButton(this, wxID_ANY, "Produktion hinzufügen!");
+      new wxButton(this, wxID_ANY, "Produktion hinzufÃ¼gen!");
 
   production_entry_button->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED,
                               &ProductionManager::add_production, this);
@@ -97,7 +97,7 @@ ProductionManager::ProductionManager(wxWindow* parent, wxWindowID id)
 
   production_display_sizer->Add(this->production_display);
 
-  wxButton* delete_production = new wxButton(this, wxID_ANY, "Regel löschen",
+  wxButton* delete_production = new wxButton(this, wxID_ANY, "Regel lÃ¶schen",
                                              wxDefaultPosition, wxDefaultSize);
 
   delete_production->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED,
@@ -163,7 +163,7 @@ void ProductionManager::add_production(wxCommandEvent& evt)
   {
 
     wxMessageBox(
-        wxT("Wählen Sie ein Symbol für die linke Seite der Produktionsregel aus!"));
+        wxT("WÃ¤hlen Sie ein Symbol fÃ¼r die linke Seite der Produktionsregel aus!"));
     return;
   }
 
@@ -181,7 +181,7 @@ void ProductionManager::add_production(wxCommandEvent& evt)
     wxString msg_output;
     msg_output.Printf(wxT("Das Symbol '%s"
                           "' ist nicht im Alphabet enthalten."
-                          "Fügen Sie es hinzu, um es zu "
+                          "FÃ¼gen Sie es hinzu, um es zu "
                           "verwenden."),
                       this->lhs_selector->GetValue().ToStdString());
     wxMessageBox(msg_output);
@@ -196,8 +196,8 @@ void ProductionManager::add_production(wxCommandEvent& evt)
     if (this->rhs_selectors.at(i)->GetValue().ToStdString() == "")
     {
       wxMessageBox(
-        wxT("Sie müssen für jede Auswahlmöglichkeit ein Symbol auswählen. "
-          "Alternativ können sie die Anzahl der Symbole auf der rechten Seite der Produktion reduzieren."));
+        wxT("Sie mÃ¼ssen fÃ¼r jede AuswahlmÃ¶glichkeit ein Symbol auswÃ¤hlen. "
+          "Alternativ kÃ¶nnen sie die Anzahl der Symbole auf der rechten Seite der Produktion reduzieren."));
       return;
     }
     bool exists_in_alphabet = false;
@@ -230,7 +230,7 @@ void ProductionManager::add_production(wxCommandEvent& evt)
       wxString msg_output;
       msg_output.Printf(wxT("Das Symbol '%s"
                             "' ist nicht im Alphabet enthalten."
-                            "Fügen Sie es hinzu, um es zu "
+                            "FÃ¼gen Sie es hinzu, um es zu "
                             "verwenden."),
                         this->rhs_selectors.at(i)->GetValue().ToStdString());
       wxMessageBox(msg_output);

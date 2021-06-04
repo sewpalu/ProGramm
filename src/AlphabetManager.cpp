@@ -4,6 +4,7 @@
 #include "wx/xrc/xmlres.h"
 
 #include <iostream>
+#include <cstring>
 
 FORCE_LINK_ME(AlphabetManager);
 
@@ -33,7 +34,7 @@ AlphabetManager::AlphabetManager(wxWindow* parent, wxWindowID id)
       new wxWrapSizer(wxHORIZONTAL, wxWRAPSIZER_DEFAULT_FLAGS);
 
   alphabet_entry_sizer->Add(
-      new wxStaticText(this, wxID_ANY, "Symbol hinzufügen:"));
+      new wxStaticText(this, wxID_ANY, "Symbol hinzufÃ¼gen:"));
 
   this->symbol_type_selector = new wxComboBox(this, wxID_ANY);
   symbol_type_selector->Append("Terminal");
@@ -47,13 +48,13 @@ AlphabetManager::AlphabetManager(wxWindow* parent, wxWindowID id)
   alphabet_entry_sizer->Add(symbol_value_entry);
 
   this->start_symbol_selector =
-      new wxCheckBox(this, wxID_ANY, "Als Startsymbol auswählen",
+      new wxCheckBox(this, wxID_ANY, "Als Startsymbol auswÃ¤hlen",
                      wxDefaultPosition, wxDefaultSize);
 
   alphabet_entry_sizer->Add(start_symbol_selector);
 
   wxButton* symbol_entry_button =
-      new wxButton(this, wxID_ANY, "Symbol hinzufügen!");
+      new wxButton(this, wxID_ANY, "Symbol hinzufÃ¼gen!");
 
   symbol_entry_button->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED,
                               &AlphabetManager::add_symbol, this);
@@ -88,7 +89,7 @@ AlphabetManager::AlphabetManager(wxWindow* parent, wxWindowID id)
   alphabet_display_sizer->Add(terminal_sizer);
 
   wxButton* symbol_deletion_button =
-      new wxButton(this, wxID_ANY, "Symbole löschen!");
+      new wxButton(this, wxID_ANY, "Symbole lÃ¶schen!");
 
   symbol_deletion_button->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED,
                               &AlphabetManager::delete_symbol, this);
@@ -127,9 +128,9 @@ void AlphabetManager::add_symbol(wxCommandEvent& evt)
   }
   else
   {
-    wxMessageBox(wxT("Bitte wählen Sie eine Symbolart aus!\n Eingabe '" +
+    wxMessageBox(wxT("Bitte wÃ¤hlen Sie eine Symbolart aus!\n Eingabe '" +
                      this->symbol_type_selector->GetValue() +
-                     "' ist nicht gültig."));
+                     "' ist nicht gÃ¼ltig."));
     return;
   }
 
@@ -222,7 +223,7 @@ void AlphabetManager::delete_symbol(wxCommandEvent& evt)
 
   Refresh();
 
-  if(!deleted_a_symbol) wxMessageBox(wxT("Wählen Sie ein Symbol aus, um es zu löschen!"));
+  if(!deleted_a_symbol) wxMessageBox(wxT("WÃ¤hlen Sie ein Symbol aus, um es zu lÃ¶schen!"));
 }
 
 void AlphabetManager::on_refresh(wxPaintEvent& evt)

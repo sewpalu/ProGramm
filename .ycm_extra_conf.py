@@ -11,6 +11,7 @@ def Settings(**kwargs):
                 '-Idepend/docopt',
                 '-Idepend/googletest/googlemock/include',
                 '-Idepend/googletest/googletest/include',
+                '-Idepend/nlohmann_json/include',
                 ]
             }
 

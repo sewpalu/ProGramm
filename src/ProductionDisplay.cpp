@@ -1,6 +1,7 @@
 #include "ProductionDisplay.hpp"
 
 #include "wx/html/forcelnk.h"
+#include "wx/sizer.h"
 #include "wx/xrc/xmlres.h"
 
 #include <iostream>
@@ -26,7 +27,7 @@ ProductionDisplay::ProductionDisplay(wxWindow* parent)
   production_sizer->Add(new wxStaticText(this, wxID_ANY, "Produktionen",
                                        wxDefaultPosition, wxDefaultSize));
   production_sizer->Add(this->m_production_display);
-  this->sizer->Add(production_sizer, 0, wxEXPAND | wxALL, 5);
+  this->sizer->Add(production_sizer, wxSizerFlags{}.Expand().Border(wxALL, 5));
 
   SetSizer(this->sizer);
   this->sizer->Layout();
