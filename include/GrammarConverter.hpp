@@ -6,19 +6,15 @@
 #include <iterator>
 #include <set>
 #include <vector>
+#include <string>
 
-#include <nlohmann/json.hpp>
+#include "nlohmann/json.hpp"
+#include "wx/string.h"
 
 #include "FormalGrammar.hpp"
 #include "Nonterminal.hpp"
 #include "Symbol.hpp"
 #include "Terminal.hpp"
-
-#include <wx/msgdlg.h>
-
-namespace
-{
-}
 
 class GrammarConverter
 {
@@ -32,8 +28,8 @@ public:
   };
 
 public:
-  GrammarConverter(wxWindow* msg_dialog_parent);
-  ~GrammarConverter();
+  GrammarConverter() = default;
+  ~GrammarConverter() = default;
 
   GrammarStruct load_grammar_from_std_file(std::string grammar_name);
 

@@ -77,7 +77,6 @@ void STVisualisationTab::draw_empty()
   Refresh();
 }
 
-
 void STVisualisationTab::render_input()
 {
   auto steps = std::vector<StepsDisplay::Step>{
@@ -110,12 +109,14 @@ void STVisualisationTab::render_input()
   {
     m_visualisation_panel->Show(false);
     steps.at(0).highlight = true;
-    show_diagnostics("Input grammar and input word not set", DiagnosticsLevel::info);
+    show_diagnostics("Input grammar and input word not set",
+                     DiagnosticsLevel::info);
     m_steps->show_steps(steps);
     return;
   }
 
-  if (auto [is_plausible, why_not] = m_current_grammar->is_plausible(); !is_plausible)
+  if (auto [is_plausible, why_not] = m_current_grammar->is_plausible();
+      !is_plausible)
   {
     m_visualisation_panel->Show(false);
     steps.at(0).highlight = true;
@@ -182,28 +183,35 @@ void STVisualisationTab::on_create(wxWindowCreateEvent& evt)
   m_zoom_slider =
       dynamic_cast<wxSlider*>(FindWindowByName("st_visualisation_zoom"));
   if (!m_zoom_slider)
+  {
     std::cerr << "Failed to load ST zoom slider\n";
-
+    return;
+  }
   m_visualisation_panel =
       dynamic_cast<wxPanel*>(FindWindowByName("st_visualisation"));
   if (!m_visualisation_panel)
-    std::cerr << "Failed to load ST zoom slider\n";
-  else
   {
-    m_visualisation_panel->Bind(wxEVT_PAINT, &STVisualisationTab::on_paint,
-                                this);
-    m_visualisation_panel->Bind(wxEVT_MOTION, &STVisualisationTab::mouseMoved,
-                                this);
+    std::cerr << "Failed to load ST zoom slider\n";
+    return;
   }
+  m_visualisation_panel->Bind(wxEVT_PAINT, &STVisualisationTab::on_paint, this);
+  m_visualisation_panel->Bind(wxEVT_MOTION, &STVisualisationTab::mouseMoved,
+                              this);
 
   m_steps = dynamic_cast<StepsDisplay*>(FindWindowByName("st_steps"));
   if (!m_steps)
+  {
     std::cerr << "Unable to load steps display\n";
+    return;
+  }
 
   m_diagnostics =
       dynamic_cast<wxStaticText*>(FindWindowByName("st_diagnostics"));
   if (!m_diagnostics)
+  {
     std::cerr << "Unable to load diagnostics display\n";
+    return;
+  }
 
   update_visualisation();
 }

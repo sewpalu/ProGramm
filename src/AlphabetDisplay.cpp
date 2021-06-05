@@ -7,7 +7,7 @@
 
 FORCE_LINK_ME(AlphabetDisplay);
 
-// wxIMPLEMENT_DYNAMIC_CLASS(AlphabetDisplay, wxPanel);
+wxIMPLEMENT_DYNAMIC_CLASS(AlphabetDisplay, wxPanel);
 
 BEGIN_EVENT_TABLE(AlphabetDisplay, wxPanel)
 EVT_WINDOW_CREATE(AlphabetDisplay::on_create)
@@ -15,34 +15,8 @@ EVT_PAINT(AlphabetDisplay::on_refresh)
 
 END_EVENT_TABLE()
 
-AlphabetDisplay::AlphabetDisplay(wxWindow* parent)
-    : wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
+AlphabetDisplay::AlphabetDisplay()
 {
-  this->sizer = new wxBoxSizer{wxHORIZONTAL};
-
-  wxBoxSizer* terminal_sizer = new wxBoxSizer{wxVERTICAL};
-  this->m_terminal_display =
-      new wxListBox(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
-  terminal_sizer->Add(new wxStaticText(this, wxID_ANY, "Terminale",
-                                       wxDefaultPosition, wxDefaultSize),
-                      wxSizerFlags{}.Expand().Border(wxLEFT | wxRIGHT, 5));
-  terminal_sizer->Add(this->m_terminal_display,
-                      wxSizerFlags{}.Expand().Border(wxALL, 5));
-  this->sizer->Add(terminal_sizer, 0, wxALL, 5);
-
-  wxBoxSizer* nonterminal_sizer = new wxBoxSizer{wxVERTICAL};
-  this->m_nonterminal_display =
-      new wxListBox(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
-  nonterminal_sizer->Add(new wxStaticText(this, wxID_ANY, "Nichtterminale",
-                                          wxDefaultPosition, wxDefaultSize),
-                         wxSizerFlags{}.Expand().Border(wxLEFT | wxRIGHT, 5));
-  nonterminal_sizer->Add(this->m_nonterminal_display,
-                         wxSizerFlags{}.Expand().Border(wxALL, 5));
-  this->sizer->Add(nonterminal_sizer, wxSizerFlags{}.Expand().Border(wxALL, 5));
-
-  SetSizer(this->sizer);
-  this->sizer->Layout();
-
   Show();
 }
 
@@ -50,6 +24,29 @@ void AlphabetDisplay::on_create(wxWindowCreateEvent& evt)
 {
   if (evt.GetWindow() != dynamic_cast<wxWindow*>(this))
     return;
+
+  auto* sizer = new wxBoxSizer{wxVERTICAL};
+  auto* panel = wxXmlResource::Get()->LoadPanel(this, "alphabet_display_panel");
+  sizer->Add(panel, wxSizerFlags{}.Expand().Border(wxALL, 5).Proportion(1));
+  SetSizer(sizer);
+
+  this->m_terminal_display =
+      dynamic_cast<wxListBox*>(FindWindowByName("alphabet_terminals_display"));
+  if (!m_terminal_display)
+  {
+    std::cerr << "Unable to load terminal display in alphabet display.\n";
+    return;
+  }
+
+  this->m_nonterminal_display = dynamic_cast<wxListBox*>(
+      FindWindowByName("alphabet_nonterminals_display"));
+  if (!m_nonterminal_display)
+  {
+    std::cerr << "Unable to load non-terminal display in alphabet display.\n";
+    return;
+  }
+
+  Layout();
 }
 
 void AlphabetDisplay::on_refresh(wxPaintEvent& evt)

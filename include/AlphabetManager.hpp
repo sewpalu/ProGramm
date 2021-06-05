@@ -1,49 +1,34 @@
 #ifndef ALPHABET_MANAGER_HPP
 #define ALPHABET_MANAGER_HPP
 
+#include <vector>
+
 #include "wx/wxprec.h"
 #ifndef WX_PRECOMP
 #include "wx/wx.h"
 #endif
 
 #include "wx/button.h"
-
-#include <wx/msgdlg.h>
-
-#include <wx/combobox.h>
-
-#include <wx/checkbox.h>
-
-#include <wx/listctrl.h>
-
-#include <wx/listbox.h>
-
-#include <wx/notebook.h>
-
-#include <wx/wrapsizer.h>
-
-#include <wx/scrolwin.h>
-
-#include <wx/dataview.h>
-
-#include <wx/checklst.h>
-
-#include <wx/vscroll.h>
-
-#include <wx/vlbox.h>
-
-#include <vector>
+#include "wx/checkbox.h"
+#include "wx/checklst.h"
+#include "wx/combobox.h"
+#include "wx/dataview.h"
+#include "wx/listbox.h"
+#include "wx/listctrl.h"
+#include "wx/msgdlg.h"
+#include "wx/notebook.h"
+#include "wx/scrolwin.h"
+#include "wx/vlbox.h"
+#include "wx/vscroll.h"
+#include "wx/wrapsizer.h"
 
 #include "FormalGrammar.hpp"
 #include "Terminal.hpp"
-
-
 
 class AlphabetManager : public wxScrolledWindow
 {
 public:
   AlphabetManager();
-  AlphabetManager(wxWindow* parent, wxWindowID id);
 
   std::vector<Terminal*> get_terminal_alphabet();
   std::vector<Nonterminal*> get_nonterminal_alphabet();
@@ -71,7 +56,6 @@ private:
   void add_symbol(wxCommandEvent& evt);
   void delete_symbol(wxCommandEvent& evt);
 
-
   // Combo box for selecting whether an added symbol is supposed to be a
   // Terminal or Nonterminal
   wxComboBox* symbol_type_selector;
@@ -80,13 +64,10 @@ private:
   // Checkbox to declare start symbol
   wxCheckBox* start_symbol_selector;
 
-  //wxListBox* terminal_display;
+  // wxListBox* terminal_display;
   wxCheckListBox* nonterminal_display;
 
   wxCheckListBox* terminal_display;
-
-  wxBoxSizer* sizer;
-
 
   wxDECLARE_DYNAMIC_CLASS(AlphabetManager);
   wxDECLARE_EVENT_TABLE();

@@ -17,7 +17,7 @@
 class AlphabetDisplay : public wxPanel
 {
 public:
-  AlphabetDisplay(wxWindow* parent);
+  AlphabetDisplay();
 
   void set_alphabet(std::vector<Nonterminal*> nonterminals,
                     std::vector<Terminal*> terminals);
@@ -36,9 +36,7 @@ private:
   wxListBox* m_terminal_display;
   wxListBox* m_nonterminal_display;
 
-  wxBoxSizer* sizer;
-
-  //wxDECLARE_DYNAMIC_CLASS(AlphabetDisplay);
+  wxDECLARE_DYNAMIC_CLASS(AlphabetDisplay);
   wxDECLARE_EVENT_TABLE();
 };
 

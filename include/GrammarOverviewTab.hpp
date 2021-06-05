@@ -44,7 +44,6 @@ class GrammarOverviewTab : public wxScrolledWindow
 {
 public:
   GrammarOverviewTab();
-  GrammarOverviewTab(wxWindow* parent, wxWindowID id);
 
   void set_productions(std::vector<Production> productions);
   void set_nonterminal_alphabet(std::vector<Nonterminal*> nonterminals);
@@ -84,8 +83,6 @@ private:
   wxTextCtrl* grammar_name_entry;
 
   wxCheckListBox* grammars_display;
-
-  wxWrapSizer* sizer;
 
   wxDECLARE_DYNAMIC_CLASS(GrammarOverviewTab);
   wxDECLARE_EVENT_TABLE();

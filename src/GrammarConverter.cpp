@@ -1,14 +1,5 @@
 #include "GrammarConverter.hpp"
 
-GrammarConverter::GrammarConverter(wxWindow* msg_dialog_parent)
-{
-  std::cout << "Constructor\n";
-}
-
-GrammarConverter::~GrammarConverter()
-{
-}
-
 GrammarConverter::GrammarStruct GrammarConverter::load_grammar_from_std_file(
     std::string grammar_name)
 {

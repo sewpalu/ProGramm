@@ -18,7 +18,7 @@
 class ProductionDisplay : public wxPanel
 {
 public:
-  ProductionDisplay(wxWindow* parent);
+  ProductionDisplay();
 
   void set_productions(std::vector<Production> productions);
 
@@ -36,7 +36,7 @@ private:
 
   wxBoxSizer* sizer;
 
-  // wxDECLARE_DYNAMIC_CLASS(ProductionDisplay);
+  wxDECLARE_DYNAMIC_CLASS(ProductionDisplay);
   wxDECLARE_EVENT_TABLE();
 };
 

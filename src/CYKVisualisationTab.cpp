@@ -42,21 +42,21 @@ void CYKVisualisationTab::render_input()
       {.highlight = false,
        .text = {"Syntax tree"},
        .on_click =
-           [this]{
-              auto notebook = dynamic_cast<wxNotebook*>(GetParent());
-              if (!notebook)
-              {
-                std::cerr << "CYK tab is not a direct child of the notebook\n";
-                return;
-              }
+           [this] {
+             auto notebook = dynamic_cast<wxNotebook*>(GetParent());
+             if (!notebook)
+             {
+               std::cerr << "CYK tab is not a direct child of the notebook\n";
+               return;
+             }
 
-              auto st_tab = notebook->FindWindowByName("st_tab");
-              if (!st_tab)
-              {
-                std::cerr << "Unable to load ST tab\n";
-                return;
-              }
-              notebook->SetSelection(notebook->FindPage(st_tab));
+             auto st_tab = notebook->FindWindowByName("st_tab");
+             if (!st_tab)
+             {
+               std::cerr << "Unable to load ST tab\n";
+               return;
+             }
+             notebook->SetSelection(notebook->FindPage(st_tab));
            }},
   };
   clear_diagnostics();
@@ -65,16 +65,20 @@ void CYKVisualisationTab::render_input()
   {
     m_table->Show(false);
     steps.at(0).highlight = true;
-    show_diagnostics("Input grammar and input word not set", DiagnosticsLevel::info);
+    show_diagnostics("Input grammar and input word not set",
+                     DiagnosticsLevel::info);
     m_steps->show_steps(steps);
     return;
   }
 
-  if (auto [is_plausible, why_not] = m_current_grammar->is_plausible(); !is_plausible)
+  if (auto [is_plausible, why_not] = m_current_grammar->is_plausible();
+      !is_plausible)
   {
     m_table->Show(false);
     steps.at(0).highlight = true;
-    show_diagnostics("<b>Grammar plausibility check failed</b>\n<i>Reason</i>\n" + why_not, DiagnosticsLevel::warn);
+    show_diagnostics(
+        "<b>Grammar plausibility check failed</b>\n<i>Reason</i>\n" + why_not,
+        DiagnosticsLevel::warn);
     m_steps->show_steps(steps);
     return;
   }
@@ -93,7 +97,8 @@ void CYKVisualisationTab::render_input()
   auto engine = EngineFacade{std::make_unique<SimpleWordParser>()};
   engine.setGrammar(*m_current_grammar);
   m_visualised_thing = std::make_unique<CYKAlgorithm>();
-  engine.parseWord(dynamic_cast<CYKAlgorithm&>(*m_visualised_thing), *m_current_word);
+  engine.parseWord(dynamic_cast<CYKAlgorithm&>(*m_visualised_thing),
+                   *m_current_word);
   steps.at(2).highlight = true;
 
   if (auto& cyk_visualiser =
@@ -203,9 +208,10 @@ void CYKVisualisationTab::on_create(wxWindowCreateEvent& evt)
 
   m_table = dynamic_cast<wxGrid*>(FindWindowByName("cyk_grid"));
   if (!m_table)
-    std::cerr << "Failure loading cyk table\n";
-  else
   {
+    std::cerr << "Failure loading cyk table\n";
+    return;
+  }
     m_table->CreateGrid(0, 0, wxGrid::wxGridSelectNone);
     m_table->HideColLabels();
     m_table->HideRowLabels();
@@ -219,21 +225,29 @@ void CYKVisualisationTab::on_create(wxWindowCreateEvent& evt)
     m_table->EnableDragRowSize(false);
     m_table->SetCellHighlightPenWidth(0);
     m_table->SetCellHighlightROPenWidth(0);
-  }
 
   m_prev_button = dynamic_cast<wxButton*>(FindWindowByName("prev_button"));
   m_next_button = dynamic_cast<wxButton*>(FindWindowByName("next_button"));
   if (!m_prev_button || !m_next_button)
+  {
     std::cerr << "Unable to load cyk buttons\n";
+    return;
+  }
 
   m_steps = dynamic_cast<StepsDisplay*>(FindWindowByName("cyk_steps"));
   if (!m_steps)
+  {
     std::cerr << "Unable to load steps display\n";
+    return;
+  }
 
   m_diagnostics =
       dynamic_cast<wxStaticText*>(FindWindowByName("cyk_diagnostics"));
   if (!m_diagnostics)
+  {
     std::cerr << "Unable to load diagnostics display\n";
+    return;
+  }
 
   update_visualisation();
 }

@@ -9,6 +9,7 @@
 void VisualisationTab::update_input(const FormalGrammar& grammar,
                                     const std::string& word)
 {
+
   m_current_grammar = grammar;
   m_current_word = word;
 

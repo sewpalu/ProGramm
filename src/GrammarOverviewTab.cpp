@@ -10,113 +10,120 @@ FORCE_LINK_ME(GrammarOverviewTab);
 wxIMPLEMENT_DYNAMIC_CLASS(GrammarOverviewTab, wxScrolledWindow);
 
 BEGIN_EVENT_TABLE(GrammarOverviewTab, wxScrolledWindow)
-//EVT_WINDOW_CREATE(GrammarOverviewTab::on_create)
-// EVT_BUTTON(GrammarOverviewTab::add_symbol)
 
+EVT_WINDOW_CREATE(GrammarOverviewTab::on_create)
 EVT_PAINT(GrammarOverviewTab::on_refresh)
 
 END_EVENT_TABLE()
 
-GrammarOverviewTab::GrammarOverviewTab() : converter(this->GetParent())
+GrammarOverviewTab::GrammarOverviewTab()
 {
-}
-
-GrammarOverviewTab::GrammarOverviewTab(wxWindow* parent, wxWindowID id)
-    : wxScrolledWindow(parent, id, wxDefaultPosition, wxDefaultSize, wxVSCROLL),
-      converter(parent)
-{
-
-  this->sizer = new wxWrapSizer(wxHORIZONTAL, wxWRAPSIZER_DEFAULT_FLAGS);
-
-  this->m_alpha_display = new AlphabetDisplay(this);
-  this->m_prod_display = new ProductionDisplay(this);
-
-  this->sizer->Add(this->m_alpha_display);
-  this->sizer->Add(this->m_prod_display);
-
-  wxBoxSizer* button_sizer = new wxBoxSizer(wxVERTICAL);
-
-  wxButton* check_grammar_button =
-      new wxButton(this, wxID_ANY, "Grammatik auf Gültigkeit überprüfen!");
-
-  //check_grammar_button->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED,
-  //                               &GrammarOverviewTab::delete_symbol, this);
-
-  button_sizer->Add(check_grammar_button);
-
-  this->grammar_name_entry = new wxTextCtrl(this, wxID_ANY, "Namen eingeben!",
-                                      wxDefaultPosition, wxDefaultSize);
-
-  button_sizer->Add(this->grammar_name_entry);
-  
-  wxButton* save_grammar_button =
-      new wxButton(this, wxID_ANY, "Grammatik speichern!");
-
-  save_grammar_button->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED,
-                                &GrammarOverviewTab::save_grammar, this);
-
-  button_sizer->Add(save_grammar_button);
-
-  this->sizer->Add(button_sizer);
-
-  wxBoxSizer* grammar_selection_sizer = new wxBoxSizer(wxHORIZONTAL);
-
-  this->grammars_display =
-      new wxCheckListBox(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, {});
-
-  this->grammars_display->Append(this->converter.get_grammar_names());
-
-  grammar_selection_sizer->Add(this->grammars_display);
-
-  wxButton* load_grammar_button =
-      new wxButton(this, wxID_ANY, "Diese Grammatik laden!");
-  load_grammar_button->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED,
-                              &GrammarOverviewTab::load_grammar, this);
-
-  wxButton* delete_grammars_button =
-      new wxButton(this, wxID_ANY, "Diese Grammatik(en) löschen!");
-  delete_grammars_button->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED,
-                              &GrammarOverviewTab::delete_grammars, this);
-
-  wxBoxSizer* grammar_button_sizer = new wxBoxSizer(wxVERTICAL);
-
-  grammar_button_sizer->Add(load_grammar_button);
-  grammar_button_sizer->Add(delete_grammars_button);
-
-  grammar_selection_sizer->Add(grammar_button_sizer);
-
-  this->sizer->Add(grammar_selection_sizer);
-
-  SetSizer(this->sizer);
-  this->FitInside();
-  this->SetScrollRate(1, 1);
+  Show();
 }
 
 void GrammarOverviewTab::on_create(wxWindowCreateEvent& evt)
 {
+  if (evt.GetWindow() != dynamic_cast<wxWindow*>(this))
+    return;
+
+  SetWindowStyleFlag(wxVSCROLL);
+
+  auto* sizer = new wxBoxSizer{wxVERTICAL};
+  auto* panel = wxXmlResource::Get()->LoadPanel(this, "manager_overview_panel");
+  sizer->Add(panel, wxSizerFlags{}.Expand().Border(wxALL, 5).Proportion(1));
+  SetSizer(sizer);
+
+  this->m_alpha_display = dynamic_cast<AlphabetDisplay*>(
+      FindWindowByName("overview_alphabet_display"));
+  if (!m_alpha_display)
+  {
+    std::cerr << "Unable to load alphabet display in Manager - Overview tab.\n";
+    return;
+  }
+
+  this->m_prod_display = dynamic_cast<ProductionDisplay*>(
+      FindWindowByName("overview_production_display"));
+  if (!m_prod_display)
+  {
+    std::cerr
+        << "Unable to load productions display in Manager - Overview tab.\n";
+    return;
+  }
+
+  wxButton* check_grammar_button =
+      dynamic_cast<wxButton*>(FindWindowByName("overview_check_button"));
+  if (!check_grammar_button)
+  {
+    std::cerr << "Unable to load check button in Manager - Overview tab.\n";
+    return;
+  }
+
+  this->grammar_name_entry =
+      dynamic_cast<wxTextCtrl*>(FindWindowByName("overview_name_entry"));
+  if (!grammar_name_entry)
+  {
+    std::cerr << "Unable to load name entry in Manager - Overview tab.\n";
+    return;
+  }
+
+  wxButton* save_grammar_button =
+      dynamic_cast<wxButton*>(FindWindowByName("overview_save_button"));
+  if (!save_grammar_button)
+  {
+    std::cerr << "Unable to load save button in Manager - Overview tab.\n";
+    return;
+  }
+  save_grammar_button->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED,
+                              &GrammarOverviewTab::save_grammar, this);
+
+  this->grammars_display = dynamic_cast<wxCheckListBox*>(
+      FindWindowByName("overview_grammar_selection"));
+  if (!grammars_display)
+  {
+    std::cerr
+        << "Unable to load grammar selection in Manager - Overview tab.\n";
+    return;
+  }
+  this->grammars_display->Append(this->converter.get_grammar_names());
+
+  wxButton* load_grammar_button =
+      dynamic_cast<wxButton*>(FindWindowByName("overview_load_button"));
+  if (!load_grammar_button)
+  {
+    std::cerr << "Unable to load load button in Manager - Overview tab.\n";
+    return;
+  }
+  load_grammar_button->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED,
+                              &GrammarOverviewTab::load_grammar, this);
+
+  wxButton* delete_grammars_button =
+      dynamic_cast<wxButton*>(FindWindowByName("overview_delete_button"));
+  if (!delete_grammars_button)
+  {
+    std::cerr << "Unable to load save button in Manager - Overview tab.\n";
+    return;
+  }
+  delete_grammars_button->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED,
+                                 &GrammarOverviewTab::delete_grammars, this);
+
+  this->FitInside();
+  this->SetScrollRate(1, 1);
 }
 
 void GrammarOverviewTab::on_refresh(wxPaintEvent& evt)
 {
-  /*std::cout << "Overview non-size: " << this->nonterminal_alphabet.size()
-            << "\n";
-  std::cout << "Overview term-size: " << this->terminal_alphabet.size() << "\n";
-  std::cout << "Overview prod-size: " << this->productions.size() << "\n";*/
   this->m_alpha_display->set_alphabet(this->nonterminal_alphabet,
                                       this->terminal_alphabet);
   this->m_prod_display->set_productions(this->productions);
 
-  if (this->grammars_display->GetCount() != this->converter.get_grammar_names().size())
+  if (this->grammars_display->GetCount() !=
+      this->converter.get_grammar_names().size())
   {
     this->grammars_display->Clear();
     this->grammars_display->Append(this->converter.get_grammar_names());
   }
 
-
-
   this->SetVirtualSize(this->GetParent()->GetSize());
-
-  this->sizer->Layout();
 
   this->Layout();
 
@@ -160,8 +167,8 @@ void GrammarOverviewTab::save_grammar(wxCommandEvent& evt)
       std::cout << "Constructing parent\n";
 
       wxMessageDialog* overwrite_grammar_dialog =
-          new wxMessageDialog(this, msg_box_text, "Caption", wxYES_NO |
-                              wxCENTER, wxDefaultPosition);
+          new wxMessageDialog(this, msg_box_text, "Caption",
+                              wxYES_NO | wxCENTER, wxDefaultPosition);
       overwrite_grammar_dialog->Show();
       if (!(overwrite_grammar_dialog->ShowModal() == wxID_YES))
       {
@@ -192,7 +199,8 @@ void GrammarOverviewTab::load_grammar(wxCommandEvent& evt)
 
   if (grammar_names.size() == 0)
   {
-    std::string msg_box_text = "Sie müssen eine Grammatik auswählen, um sie zu laden!\n";
+    std::string msg_box_text =
+        "Sie müssen eine Grammatik auswählen, um sie zu laden!\n";
 
     wxMessageDialog* no_grammar_selected = new wxMessageDialog(
         this, msg_box_text, "Caption", wxOK | wxCENTER, wxDefaultPosition);
@@ -210,7 +218,7 @@ void GrammarOverviewTab::load_grammar(wxCommandEvent& evt)
   else
   {
     wxMessageDialog* too_many_grammars = new wxMessageDialog(
-      this, "Sie müssen exakt eine Grammatik auswählen um sie zu laden!\n",
+        this, "Sie müssen exakt eine Grammatik auswählen um sie zu laden!\n",
         "Caption", wxOK | wxCENTER, wxDefaultPosition);
     too_many_grammars->ShowModal();
     return;

@@ -11,7 +11,6 @@ wxIMPLEMENT_DYNAMIC_CLASS(ProductionManager, wxScrolledWindow);
 
 BEGIN_EVENT_TABLE(ProductionManager, wxScrolledWindow)
 EVT_WINDOW_CREATE(ProductionManager::on_create)
-// EVT_BUTTON(ProductionManager::add_symbol)
 
 EVT_PAINT(ProductionManager::on_refresh)
 
@@ -21,37 +20,58 @@ ProductionManager::ProductionManager()
 {
 }
 
-ProductionManager::ProductionManager(wxWindow* parent, wxWindowID id)
-    : wxScrolledWindow(parent, id, wxDefaultPosition, wxDefaultSize, wxVSCROLL),
-      number_of_rhs_symbols_selector(
-          new wxSpinCtrl(this))
+void ProductionManager::on_create(wxWindowCreateEvent& evt)
 {
-  // this->sizer = new wxScrolled(this, wxID_ANY, wxDefaultPosition,
-  // wxDefaultSize, wxVSCROLL);
+  if (evt.GetWindow() != dynamic_cast<wxWindow*>(this))
+    return;
 
-  this->sizer = new wxBoxSizer{wxVERTICAL};
+  SetWindowStyleFlag(wxVSCROLL);
 
-  wxWrapSizer* production_entry_sizer =
-      new wxWrapSizer(wxHORIZONTAL, wxWRAPSIZER_DEFAULT_FLAGS);
+  auto* sizer = new wxBoxSizer{wxVERTICAL};
+  auto* panel =
+      wxXmlResource::Get()->LoadPanel(this, "manager_production_panel");
+  sizer->Add(panel, wxSizerFlags{}.Expand().Border(wxALL, 5).Proportion(1));
+  SetSizer(sizer);
 
-  this->lhs_selector = new wxComboBox(this, wxID_ANY, "",
-                                      wxDefaultPosition, wxDefaultSize);
-  
+  this->lhs_selector =
+      dynamic_cast<wxComboBox*>(FindWindowByName("production_lhs_selector"));
+  if (!lhs_selector)
+  {
+    std::cerr << "Unable to load lhs selector in Manager - Production tab.\n";
+    return;
+  }
+  this->lhs_selector->Clear();
   for (unsigned int i = 0; i < this->nonterminal_alphabet.size(); i++)
   {
     this->lhs_selector->Append(
         this->nonterminal_alphabet.at(i)->getIdentifier());
   }
 
-  production_entry_sizer->Add(this->lhs_selector);
+  this->number_of_rhs_symbols_selector = dynamic_cast<wxSpinCtrl*>(
+      FindWindowByName("production_n_symbols_selector"));
+  if (!number_of_rhs_symbols_selector)
+  {
+    std::cerr << "Unable to load symbol count selector in Manager - Production "
+                 "tab.\n";
+    return;
+  }
+  this->number_of_rhs_symbols_selector->SetValue(1);
 
-  //this->production_arrow = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
-  production_entry_sizer->Add(new wxStaticText(this, wxID_ANY, wxString(" produziert "), wxDefaultPosition, wxDefaultSize));
+  this->number_of_rhs_symbols_selector->Bind<>(
+      wxEVT_SPINCTRL, &ProductionManager::on_rhs_change, this);
 
-  this->rhs_sizer = new wxWrapSizer(wxHORIZONTAL, wxWRAPSIZER_DEFAULT_FLAGS);
+  this->rhs_sizer = dynamic_cast<wxWrapSizer*>(
+      FindWindowByName("production_rhs_sizer_dummy_item")
+          ->GetContainingSizer());
+  if (!rhs_sizer)
+  {
+    std::cerr << "Unable to load rhs selector container in Manager - "
+                 "Production tab.\n";
+    return;
+  }
 
-  this->rhs_selectors.push_back(new wxComboBox(
-      this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize));
+  this->rhs_selectors.push_back(
+      new wxComboBox(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize));
 
   for (unsigned int i = 0; i < this->terminal_alphabet.size(); i++)
   {
@@ -64,61 +84,43 @@ ProductionManager::ProductionManager(wxWindow* parent, wxWindowID id)
     this->rhs_selectors.at(0)->Append(
         this->nonterminal_alphabet.at(i)->getIdentifier());
   }
-
   this->update_symbol_selectors();
 
-  production_entry_sizer->Add(this->rhs_sizer);
-
   wxButton* production_entry_button =
-      new wxButton(this, wxID_ANY, "Produktion hinzufügen!");
-
+      dynamic_cast<wxButton*>(FindWindowByName("production_entry_button"));
+  if (!production_entry_button)
+  {
+    std::cerr << "Unable to load entry button in Manager - Production tab.\n";
+    return;
+  }
   production_entry_button->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED,
-                              &ProductionManager::add_production, this);
+                                  &ProductionManager::add_production, this);
 
-  production_entry_sizer->Add(production_entry_button);
+  this->production_display =
+      dynamic_cast<wxCheckListBox*>(FindWindowByName("production_display"));
+  if (!production_display)
+  {
+    std::cerr
+        << "Unable to load production display in Manager - Production tab.\n";
+    return;
+  }
 
-  this->number_of_rhs_symbols_selector =
-      new wxSpinCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize,
-                     wxSP_ARROW_KEYS, 1, 10, 1);
-  this->number_of_rhs_symbols_selector->SetValue(1);
-
-  this->number_of_rhs_symbols_selector->Bind<>(
-      wxEVT_SPINCTRL,
-                                  &ProductionManager::on_rhs_change, this);
-
-  production_entry_sizer->Add(this->number_of_rhs_symbols_selector);
-
-  sizer->Add(production_entry_sizer);
-  
-  wxWrapSizer* production_display_sizer =
-      new wxWrapSizer(wxHORIZONTAL, wxWRAPSIZER_DEFAULT_FLAGS);
-
-  this->production_display = new wxCheckListBox(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
-
-  production_display_sizer->Add(this->production_display);
-
-  wxButton* delete_production = new wxButton(this, wxID_ANY, "Regel löschen",
-                                             wxDefaultPosition, wxDefaultSize);
-
+  wxButton* delete_production =
+      dynamic_cast<wxButton*>(FindWindowByName("production_delete_button"));
+  if (!delete_production)
+  {
+    std::cerr << "Unable to load delete button in Manager - Production tab.\n";
+    return;
+  }
   delete_production->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED,
-                                  &ProductionManager::delete_production, this);
+                            &ProductionManager::delete_production, this);
 
-  production_display_sizer->Add(delete_production);
-
-  sizer->Add(production_display_sizer);
-
-  SetSizer(this->sizer);
   this->FitInside();
   this->SetScrollRate(1, 1);
 }
 
-void ProductionManager::on_create(wxWindowCreateEvent& evt)
-{
-  SetSizer(this->sizer);
-}
-
 void ProductionManager::on_refresh(wxPaintEvent& evt)
-{ 
+{
   if (this->lhs_selector->GetCount() != this->nonterminal_alphabet.size())
   {
     std::cout << "Clearing in refresh\n";
@@ -129,8 +131,8 @@ void ProductionManager::on_refresh(wxPaintEvent& evt)
           this->nonterminal_alphabet.at(i)->getIdentifier());
     }
   }
-  //this->production_arrow->SetSize(this->GetSize().x*0.3, this->GetSize().y*0.3);
-  //this->draw_arrow(new wxBufferedPaintDC(this));
+  // this->production_arrow->SetSize(this->GetSize().x*0.3,
+  // this->GetSize().y*0.3); this->draw_arrow(new wxBufferedPaintDC(this));
 
   if (this->production_display->GetCount() != this->productions.size())
   {
@@ -162,8 +164,8 @@ void ProductionManager::add_production(wxCommandEvent& evt)
   if (this->lhs_selector->GetValue().ToStdString() == "")
   {
 
-    wxMessageBox(
-        wxT("Wählen Sie ein Symbol für die linke Seite der Produktionsregel aus!"));
+    wxMessageBox(wxT(
+        "Wählen Sie ein Symbol für die linke Seite der Produktionsregel aus!"));
     return;
   }
 
@@ -196,8 +198,9 @@ void ProductionManager::add_production(wxCommandEvent& evt)
     if (this->rhs_selectors.at(i)->GetValue().ToStdString() == "")
     {
       wxMessageBox(
-        wxT("Sie müssen für jede Auswahlmöglichkeit ein Symbol auswählen. "
-          "Alternativ können sie die Anzahl der Symbole auf der rechten Seite der Produktion reduzieren."));
+          wxT("Sie müssen für jede Auswahlmöglichkeit ein Symbol auswählen. "
+              "Alternativ können sie die Anzahl der Symbole auf der rechten "
+              "Seite der Produktion reduzieren."));
       return;
     }
     bool exists_in_alphabet = false;
@@ -221,7 +224,8 @@ void ProductionManager::add_production(wxCommandEvent& evt)
           this->terminal_alphabet.at(j)->getIdentifier())
       {
         rhs.push_back(
-            new Terminal(this->terminal_alphabet.at(j)->getIdentifier(), this->terminal_alphabet.at(j)->getIdentifier()));
+            new Terminal(this->terminal_alphabet.at(j)->getIdentifier(),
+                         this->terminal_alphabet.at(j)->getIdentifier()));
         exists_in_alphabet = true;
       }
     }
@@ -241,9 +245,11 @@ void ProductionManager::add_production(wxCommandEvent& evt)
   productions.push_back(Production(lhs, rhs));
   std::cout << "Added production: " << lhs.getIdentifier() << " -> ";
 
-  for (unsigned int i = 0; i < productions.at(productions.size() - 1).rhs().size(); i++)
+  for (unsigned int i = 0;
+       i < productions.at(productions.size() - 1).rhs().size(); i++)
   {
-    std::cout << productions.at(productions.size() - 1).rhs().at(i)->getIdentifier();
+    std::cout
+        << productions.at(productions.size() - 1).rhs().at(i)->getIdentifier();
   }
   std::cout << "\n";
 
@@ -251,7 +257,8 @@ void ProductionManager::add_production(wxCommandEvent& evt)
   Layout();
 }
 
-void ProductionManager::set_terminal_alphabet(std::vector<Terminal*> terminal_alphabet)
+void ProductionManager::set_terminal_alphabet(
+    std::vector<Terminal*> terminal_alphabet)
 {
   this->terminal_alphabet = terminal_alphabet;
 }
@@ -314,19 +321,19 @@ void ProductionManager::update_symbol_selectors()
     }
   }
 
-  if (this->rhs_selectors.size() < (int)this->number_of_rhs_symbols_selector->GetValue())
+  if (this->rhs_selectors.size() <
+      (int)this->number_of_rhs_symbols_selector->GetValue())
   {
     for (unsigned int i = rhs_selectors.size();
          i < this->number_of_rhs_symbols_selector->GetValue(); i++)
     {
       this->rhs_selectors.push_back(
-          new wxComboBox(this, wxID_ANY, "", wxDefaultPosition,
-                         wxDefaultSize));
+          new wxComboBox(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize));
 
       for (unsigned int j = 0; j < this->terminal_alphabet.size(); j++)
       {
-        this->rhs_selectors.at(this->rhs_selectors.size() - 1)->Append(
-            this->terminal_alphabet.at(j)->getIdentifier());
+        this->rhs_selectors.at(this->rhs_selectors.size() - 1)
+            ->Append(this->terminal_alphabet.at(j)->getIdentifier());
       }
 
       for (unsigned int j = 0; j < this->nonterminal_alphabet.size(); j++)
@@ -340,12 +347,13 @@ void ProductionManager::update_symbol_selectors()
   else if (this->rhs_selectors.size() >
            (int)this->number_of_rhs_symbols_selector->GetValue())
   {
-    while (this->rhs_selectors.size() > 1 && this->rhs_selectors.size() >
-           (int)this->number_of_rhs_symbols_selector->GetValue())
+    while (this->rhs_selectors.size() > 1 &&
+           this->rhs_selectors.size() >
+               (int)this->number_of_rhs_symbols_selector->GetValue())
     {
       this->rhs_selectors.at(this->rhs_selectors.size() - 1)->~wxComboBox();
       this->rhs_selectors.pop_back();
-       //erase(this->rhs_selectors.end());
+      // erase(this->rhs_selectors.end());
     }
   }
 
@@ -373,10 +381,10 @@ void ProductionManager::delete_production(wxCommandEvent& evt)
   std::cout << "production_display->GetCount() = "
             << this->production_display->GetCount() << "\n";
   std::cout << "productions.size() = " << this->productions.size() << "\n";
-  for (int i = this->production_display->GetCount() -1;
-       i >= 0; i--)
+  for (int i = this->production_display->GetCount() - 1; i >= 0; i--)
   {
-    if (this->production_display->IsChecked(i)) this->productions.erase(this->productions.begin() + i);
+    if (this->production_display->IsChecked(i))
+      this->productions.erase(this->productions.begin() + i);
   }
   Refresh();
   Layout();

@@ -73,8 +73,6 @@ private:
 
   wxSize old_size;
 
-  wxBoxSizer* sizer;
-
   wxNotebook* grammar_steps;
 
   AlphabetManager* alpha_manager;
