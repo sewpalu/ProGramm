@@ -201,7 +201,7 @@ void GrammarOverviewTab::load_grammar(wxCommandEvent& evt)
   }
   else if (grammar_names.size() == 1)
   {
-    GRAMMAR_STRUCT grammar =
+    GrammarConverter::GrammarStruct grammar =
         this->converter.load_grammar_from_std_file(grammar_names.at(0));
     this->productions = grammar.productions;
     this->nonterminal_alphabet = grammar.nonterminals;

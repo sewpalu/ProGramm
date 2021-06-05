@@ -5,6 +5,11 @@
 #include <stddef.h>
 #include <string>
 #include <vector>
+#include <compare>
+
+#include "STNode.hpp"
+
+#include "SyntaxTree.hpp"
 
 class GUIVisualisationInterface
 {
@@ -16,6 +21,8 @@ public:
     std::vector<Tree> children;
     std::string text;
     Callback on_click;
+
+    STNode root;
 
     std::size_t n_leaves() const;
     std::size_t n_leaves(std::size_t level) const;
@@ -32,7 +39,7 @@ public:
   {
     std::size_t x, y;
 
-    bool operator<(const Coord& other) const;
+    auto operator<=>(const Coord& other) const = default;
   };
 
   struct Cell
@@ -44,9 +51,19 @@ public:
   };
   using Table = std::vector<Cell>;
 
-  virtual void draw_tree(const Tree& tree) = 0;
+  enum class Position
+  {
+    left,
+    centre,
+    right
+  };
+
+  virtual void draw_tree(SyntaxTree* tree) = 0;
   virtual void draw_table(const Table& table) = 0;
   virtual void draw_empty() = 0;
+
+  virtual void add_button(const std::string& label, Callback on_click,
+                          Position position = Position::left) = 0;
 };
 
 #endif /* ifndef GUI_VISUALISATION_INTERFACE_HPP */

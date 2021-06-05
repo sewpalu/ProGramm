@@ -21,7 +21,7 @@
 #include <wx/notebook.h>
 
 #include <vector>
-
+#include <optional>
 #include <typeinfo>
 
 #include "FormalGrammar.hpp"
@@ -56,7 +56,7 @@ private:
   std::vector<FormalGrammar> loadedGrammars;
 
   std::vector<Production> productions;
-  Nonterminal start_symbol;
+  std::optional<Nonterminal> start_symbol;
 
   std::vector<Nonterminal*> nonterminal_alphabet;
   std::vector<Terminal*> terminal_alphabet;

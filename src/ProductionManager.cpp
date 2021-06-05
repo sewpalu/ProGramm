@@ -138,12 +138,12 @@ void ProductionManager::on_refresh(wxPaintEvent& evt)
     for (unsigned int i = 0; i < this->productions.size(); i++)
     {
       std::string production_string =
-          "'" + this->productions.at(i).lhs.getIdentifier() + "'";
+          "'" + this->productions.at(i).lhs().getIdentifier() + "'";
       production_string += " -> ";
-      for (unsigned int j = 0; j < this->productions.at(i).rhs.size(); j++)
+      for (unsigned int j = 0; j < this->productions.at(i).rhs().size(); j++)
       {
         production_string +=
-            "'" + this->productions.at(i).rhs.at(j)->getIdentifier() + "' ";
+            "'" + this->productions.at(i).rhs().at(j)->getIdentifier() + "' ";
       }
       this->production_display->Append(production_string);
     }
@@ -241,9 +241,9 @@ void ProductionManager::add_production(wxCommandEvent& evt)
   productions.push_back(Production(lhs, rhs));
   std::cout << "Added production: " << lhs.getIdentifier() << " -> ";
 
-  for (unsigned int i = 0; i < productions.at(productions.size() - 1).rhs.size(); i++)
+  for (unsigned int i = 0; i < productions.at(productions.size() - 1).rhs().size(); i++)
   {
-    std::cout << productions.at(productions.size() - 1).rhs.at(i)->getIdentifier();
+    std::cout << productions.at(productions.size() - 1).rhs().at(i)->getIdentifier();
   }
   std::cout << "\n";
 

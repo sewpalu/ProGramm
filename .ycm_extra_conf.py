@@ -2,7 +2,7 @@ def Settings(**kwargs):
     return {
             'flags': [
                 '-x', 'c++',
-                '-std=c++17',
+                '-std=c++20',
                 '-Wall', '-Wextra', '-Wpedantic'
                 '-D_UNICODE', '-D__WXGTK3__', '-D__WXGTK__',
                 '-Iinclude',

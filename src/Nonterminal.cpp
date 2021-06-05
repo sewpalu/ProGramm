@@ -6,13 +6,7 @@ Nonterminal::Nonterminal(std::string identifier_input, bool startSymbolInput)
 	this->startSymbol = startSymbolInput;
 }
 
-Nonterminal::Nonterminal(std::string identifier_input)
-{
-	this->identifier = identifier_input;
-	this->startSymbol = false;
-}
-
-bool Nonterminal::isStartSymbol()
+bool Nonterminal::isStartSymbol() const
 {
 	return this->startSymbol;
 }

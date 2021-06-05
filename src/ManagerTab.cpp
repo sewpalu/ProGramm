@@ -25,7 +25,7 @@ ManagerTab::ManagerTab()
   Show();
 }
 
-void ManagerTab::on_page_changed(wxChildFocusEvent& evt)
+void ManagerTab::on_page_changed(wxChildFocusEvent&)
 {
   Layout();
 }
@@ -34,6 +34,11 @@ void ManagerTab::on_create(wxWindowCreateEvent& evt)
 {
   if (evt.GetWindow() != dynamic_cast<wxWindow*>(this))
     return;
+
+  // auto* sizer = new wxBoxSizer{wxVERTICAL};
+  // auto* panel = wxXmlResource::Get()->LoadPanel(this, "manager_panel");
+  // sizer->Add(panel, wxSizerFlags{}.Expand().Border(wxALL, 5).Proportion(1));
+  // SetSizer(sizer);
 
   this->SetMinSize(wxSize(300,200));
 

@@ -1,43 +1,50 @@
 #pragma once
 
 #include <algorithm>
-#include <iterator>
-#include <vector>
-#include <iostream>
 #include <fstream>
+#include <iostream>
+#include <iterator>
 #include <set>
+#include <vector>
 
 #include <nlohmann/json.hpp>
 
-#include "Nonterminal.hpp"
-#include "Terminal.hpp"
-#include "Symbol.hpp"
 #include "FormalGrammar.hpp"
+#include "Nonterminal.hpp"
+#include "Symbol.hpp"
+#include "Terminal.hpp"
 
 #include <wx/msgdlg.h>
 
-struct GRAMMAR_STRUCT
+namespace
 {
-  Nonterminal start_symbol;
-  std::vector<Nonterminal*> nonterminals;
-  std::vector<Terminal*> terminals;
-  std::vector<Production> productions;
-};
+}
 
 class GrammarConverter
 {
+public:
+  struct GrammarStruct
+  {
+    Nonterminal start_symbol = Nonterminal{""};
+    std::vector<Nonterminal*> nonterminals;
+    std::vector<Terminal*> terminals;
+    std::vector<Production> productions;
+  };
 
 public:
   GrammarConverter(wxWindow* msg_dialog_parent);
   ~GrammarConverter();
 
-  GRAMMAR_STRUCT load_grammar_from_std_file(std::string grammar_name);
+  GrammarStruct load_grammar_from_std_file(std::string grammar_name);
 
-  //FormalGrammar load_grammar_from_file_path(std::string file_path);
+  // FormalGrammar load_grammar_from_file_path(std::string file_path);
 
-  void save_grammar_to_std_file(std::vector<Nonterminal*> nonterminal_alphabet, std::vector<Terminal*> terminal_alphabet, std::vector<Production> productions, std::string grammar_name);
+  void save_grammar_to_std_file(std::vector<Nonterminal*> nonterminal_alphabet,
+                                std::vector<Terminal*> terminal_alphabet,
+                                std::vector<Production> productions,
+                                std::string grammar_name);
 
-  //void save_gramar_to_file_path(std::string file_path,
+  // void save_gramar_to_file_path(std::string file_path,
   //                              FormalGrammar save_grammar);
 
   bool grammar_exists(std::string grammar_name);
@@ -53,7 +60,8 @@ public:
 
   bool symbol_in_vector(std::vector<Symbol*> symbols, std::string identifier);
 
-  bool terminal_in_vector(std::vector<Terminal*> terminals, std::string identifier);
+  bool terminal_in_vector(std::vector<Terminal*> terminals,
+                          std::string identifier);
   bool nonterminal_in_vector(std::vector<Nonterminal*> nonterminals,
                              std::string identifier);
 

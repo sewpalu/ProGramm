@@ -2,6 +2,7 @@
 #define VISUALISATION_TAB_HPP
 
 #include <functional>
+#include <memory>
 #include <optional>
 
 #include "wx/wxprec.h"
@@ -9,26 +10,51 @@
 #include "wx/wx.h"
 #endif
 
-#include "Visualisable.hpp"
 #include "FormalGrammar.hpp"
+#include "GUIVisualisationInterface.hpp"
+#include "Visualisable.hpp"
 #include "Word.hpp"
 
 class StepsDisplay;
 class VisualisationWidget;
 
-class VisualisationTab : public wxPanel
+class VisualisationTab : public wxPanel, public GUIVisualisationInterface
 {
-protected:
-  StepsDisplay* m_steps;
-  VisualisationWidget* m_visualisation;
-  std::optional<Visualisable> m_visualised_thing;
+public:
+  enum class DiagnosticsLevel : unsigned char
+  {
+    info,
+    warn,
+    error,
+  };
 
-  void visualise();
+protected:
+  StepsDisplay* m_steps = nullptr;
+  std::unique_ptr<Visualisable> m_visualised_thing;
+  wxStaticText* m_diagnostics = nullptr;
+  std::optional<FormalGrammar> m_current_grammar;
+  std::optional<std::string> m_current_word;
 
 public:
   virtual ~VisualisationTab() = default;
 
-  virtual void update_input(const FormalGrammar& grammar, const Word& word) = 0;
+  void update_input(const FormalGrammar& grammar, const std::string& word);
+
+protected:
+  virtual void render_input() = 0;
+
+  void visualise();
+
+  void update_visualisation();
+
+  void show_diagnostics(const std::string& msg,
+                        DiagnosticsLevel level = DiagnosticsLevel::info);
+  void clear_diagnostics();
+
+  /**
+   * Indicates whether the parent notebook has this page selected
+   */
+  bool is_selected() const;
 };
 
 #endif /* ifndef VISUALISATION_TAB_HPP */

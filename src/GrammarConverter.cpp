@@ -1,17 +1,15 @@
 #include "GrammarConverter.hpp"
 
-
 GrammarConverter::GrammarConverter(wxWindow* msg_dialog_parent)
 {
   std::cout << "Constructor\n";
 }
 
-
 GrammarConverter::~GrammarConverter()
 {
 }
 
-GRAMMAR_STRUCT GrammarConverter::load_grammar_from_std_file(
+GrammarConverter::GrammarStruct GrammarConverter::load_grammar_from_std_file(
     std::string grammar_name)
 {
   auto output_data = nlohmann::json::array();
@@ -42,7 +40,7 @@ GRAMMAR_STRUCT GrammarConverter::load_grammar_from_std_file(
 
   std::cout << "Loading grammar: " << grammar_name << "\n";
 
-  GRAMMAR_STRUCT output_grammar;
+  GrammarStruct output_grammar;
 
   for (unsigned int grammar_number = 0; grammar_number < grammars_data.size();
        grammar_number++)
@@ -60,18 +58,21 @@ GRAMMAR_STRUCT GrammarConverter::load_grammar_from_std_file(
       }
       catch (...)
       {
-        //No start symbol is set yet, which is not a problem
+        // No start symbol is set yet, which is not a problem
       }
 
       std::vector<Terminal*> terminals;
 
       for (unsigned int terminal_index = 0;
-           terminal_index < grammars_data.at(grammar_number)["alphabet"]["terminals"].size();
+           terminal_index <
+           grammars_data.at(grammar_number)["alphabet"]["terminals"].size();
            terminal_index++)
       {
         std::string terminal_identifier =
-            grammars_data.at(grammar_number)["alphabet"]["terminals"].at(terminal_index);
-        terminals.push_back(new Terminal(terminal_identifier, terminal_identifier));
+            grammars_data.at(grammar_number)["alphabet"]["terminals"].at(
+                terminal_index);
+        terminals.push_back(
+            new Terminal(terminal_identifier, terminal_identifier));
       }
 
       output_grammar.terminals = terminals;
@@ -86,8 +87,7 @@ GRAMMAR_STRUCT GrammarConverter::load_grammar_from_std_file(
         std::string terminal_identifier =
             grammars_data.at(grammar_number)["alphabet"]["nonterminals"].at(
                 nonterminal_index);
-        nonterminals.push_back(
-            new Nonterminal(terminal_identifier));
+        nonterminals.push_back(new Nonterminal(terminal_identifier));
       }
 
       output_grammar.nonterminals = nonterminals;
@@ -95,8 +95,7 @@ GRAMMAR_STRUCT GrammarConverter::load_grammar_from_std_file(
       std::vector<Production> productions;
 
       for (unsigned int production_index = 0;
-           production_index <
-           grammars_data.at(grammar_number)["rules"].size();
+           production_index < grammars_data.at(grammar_number)["rules"].size();
            production_index++)
       {
         Nonterminal lhs_symbol(grammars_data.at(grammar_number)["rules"].at(
@@ -105,20 +104,23 @@ GRAMMAR_STRUCT GrammarConverter::load_grammar_from_std_file(
         std::vector<Symbol*> rhs_symbols;
 
         for (unsigned int rhs_index = 0;
-             rhs_index <
-             grammars_data.at(grammar_number)["rules"].at(production_index)["RHS"].size();
+             rhs_index < grammars_data.at(grammar_number)["rules"]
+                             .at(production_index)["RHS"]
+                             .size();
              rhs_index++)
         {
-          std::string symbol_identifier = grammars_data.at(grammar_number)["rules"]
-                                    .at(production_index)["RHS"]
-                                    .at(rhs_index);
+          std::string symbol_identifier =
+              grammars_data.at(grammar_number)["rules"]
+                  .at(production_index)["RHS"]
+                  .at(rhs_index);
 
           if (this->nonterminal_in_vector(output_grammar.nonterminals,
-                                     symbol_identifier))
+                                          symbol_identifier))
           {
             rhs_symbols.push_back(new Nonterminal(symbol_identifier));
           }
-          else if (this->terminal_in_vector(output_grammar.terminals, symbol_identifier))
+          else if (this->terminal_in_vector(output_grammar.terminals,
+                                            symbol_identifier))
           {
             rhs_symbols.push_back(
                 new Terminal(symbol_identifier, symbol_identifier));
@@ -137,14 +139,13 @@ GRAMMAR_STRUCT GrammarConverter::load_grammar_from_std_file(
     }
   }
 
-
   return output_grammar;
 }
 
-void GrammarConverter::save_grammar_to_std_file(std::vector<Nonterminal*> nonterminal_alphabet,
-                                                std::vector<Terminal*> terminal_alphabet,
-                                                std::vector<Production> productions,
-                                                std::string grammar_name)
+void GrammarConverter::save_grammar_to_std_file(
+    std::vector<Nonterminal*> nonterminal_alphabet,
+    std::vector<Terminal*> terminal_alphabet,
+    std::vector<Production> productions, std::string grammar_name)
 {
   auto output_data = nlohmann::json::array();
   output_data.push_back(nlohmann::json());
@@ -153,18 +154,18 @@ void GrammarConverter::save_grammar_to_std_file(std::vector<Nonterminal*> nonter
   for (unsigned int i = 0; i < productions.size(); i++)
   {
     nlohmann::json individual_rule;
-    individual_rule["LHS"] = productions.at(i).lhs.getIdentifier();
+    individual_rule["LHS"] = productions.at(i).lhs().getIdentifier();
     auto rhs_terminals = nlohmann::json::array();
-    for (unsigned int j = 0; j < productions.at(i).rhs.size(); j++)
+    for (unsigned int j = 0; j < productions.at(i).rhs().size(); j++)
     {
-      rhs_terminals.push_back(productions.at(i).rhs.at(j)->getIdentifier());
+      rhs_terminals.push_back(productions.at(i).rhs().at(j)->getIdentifier());
     }
     individual_rule["RHS"] = rhs_terminals;
     rules.push_back(individual_rule);
   }
-  
+
   output_data.at(0)["rules"] = rules;
-  
+
   nlohmann::json alphabet;
 
   alphabet["startsymbol"] = "";
@@ -182,7 +183,7 @@ void GrammarConverter::save_grammar_to_std_file(std::vector<Nonterminal*> nonter
     nonterminal_json.push_back(nonterminal_alphabet.at(i)->getIdentifier());
   }
 
-  alphabet["nonterminals"] =  nonterminal_json;
+  alphabet["nonterminals"] = nonterminal_json;
 
   auto terminal_json = nlohmann::json::array();
   for (unsigned int i = 0; i < terminal_alphabet.size(); i++)
@@ -211,7 +212,7 @@ void GrammarConverter::save_grammar_to_std_file(std::vector<Nonterminal*> nonter
     else
     {
       std::cout << "Not open!\n";
-      //old_data
+      // old_data
     }
   }
   catch (...)
@@ -260,7 +261,8 @@ bool GrammarConverter::grammar_exists(std::string grammar_name)
 
   for (unsigned int i = 0; i < old_data.size(); i++)
   {
-    if (grammar_name == old_data.at(i)["name"]) return true;
+    if (grammar_name == old_data.at(i)["name"])
+      return true;
   }
 
   return false;
@@ -357,13 +359,14 @@ bool symbol_in_vector(std::vector<Symbol*> symbols, std::string identifier)
 {
   for (unsigned int i = 0; i < symbols.size(); i++)
   {
-    if (symbols.at(i)->getIdentifier() == identifier) return true;
+    if (symbols.at(i)->getIdentifier() == identifier)
+      return true;
   }
   return false;
 }
 
 bool GrammarConverter::terminal_in_vector(std::vector<Terminal*> terminals,
-                        std::string identifier)
+                                          std::string identifier)
 {
   for (unsigned int i = 0; i < terminals.size(); i++)
   {
@@ -376,8 +379,7 @@ bool GrammarConverter::terminal_in_vector(std::vector<Terminal*> terminals,
 }
 
 bool GrammarConverter::nonterminal_in_vector(
-    std::vector<Nonterminal*> nonterminals,
-                           std::string identifier)
+    std::vector<Nonterminal*> nonterminals, std::string identifier)
 {
   for (unsigned int i = 0; i < nonterminals.size(); i++)
   {

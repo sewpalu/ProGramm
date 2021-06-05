@@ -26,3 +26,119 @@ void STNode::addChildren(std::vector<STNode> children_input)
 		this->children.push_back(children_input.at(i));
 	}
 }
+
+int STNode::getNumberOfLeaves() const
+{
+  int numberOfLeaves = 0;
+
+  for (unsigned int i = 0; i < this->children.size(); i++)
+  {
+    if (this->children.at(i).children.size() == 0)
+    {
+      numberOfLeaves++;
+    }
+    else
+    {
+      numberOfLeaves += this->children.at(i).getNumberOfLeaves();
+    }
+  }
+
+  return numberOfLeaves;
+}
+
+
+int STNode::getNumberOfNodesOnLevel(int level) const
+{
+  int wipLevel = 0;
+
+  int numberOfNodes = 0;
+
+  if (wipLevel == level)
+  {
+    return 1;
+  }
+  else if (wipLevel < level)
+  {
+    for (unsigned int i = 0; i < this->children.size(); i++)
+    {
+      numberOfNodes +=
+          recursiveNodesOnLevel(wipLevel, level, this->children.at(i));
+    }
+  }
+
+  return numberOfNodes;
+}
+
+int STNode::recursiveNodesOnLevel(int wipLevel, int level, STNode workingNode) const
+{
+  wipLevel++;
+
+  int numberOfNodes = 0;
+
+  if (wipLevel == level)
+  {
+    return 1;
+  }
+  else if (wipLevel < level)
+  {
+    for (unsigned int i = 0; i < workingNode.children.size(); i++)
+    {
+      numberOfNodes +=
+          recursiveNodesOnLevel(wipLevel, level, workingNode.children.at(i));
+    }
+  }
+
+  return numberOfNodes;
+}
+
+int STNode::getMaxDepth() const
+{
+  int maxDepth = 1;
+
+  std::vector<int> depths;
+
+  for (unsigned int i = 0; i < this->children.size(); i++)
+  {
+    depths.push_back(recursiveGetMaxDepth(this->children.at(i), maxDepth));
+  }
+
+  for (unsigned int i = 0; i < depths.size(); i++)
+  {
+    // std::cout << "Iteration: " << i << " - " << depths.at(i) << "\n";
+    if (maxDepth < depths.at(i))
+      maxDepth = depths.at(i);
+  }
+
+  return maxDepth;
+}
+
+int STNode::recursiveGetMaxDepth(STNode workingNode, int previousDepth) const
+{
+  previousDepth++;
+
+  if (workingNode.children.size() == 0)
+    return previousDepth;
+
+  std::vector<int> depths;
+
+  for (unsigned int i = 0; i < workingNode.children.size(); i++)
+  {
+    depths.push_back(
+        recursiveGetMaxDepth(workingNode.children.at(i), previousDepth));
+  }
+
+  int maxDepth = 0;
+
+  for (unsigned int i = 0; i < depths.size(); i++)
+  {
+    if (maxDepth < depths.at(i))
+      maxDepth = depths.at(i);
+  }
+
+  return maxDepth;
+}
+
+std::string STNode::getText() const
+{
+  return this->value->getIdentifier();
+}

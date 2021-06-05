@@ -69,6 +69,7 @@ void TextVisualisationVisitor::visitCYKVisualiser(
       auto cell = ""s;
       for (const auto& highlighted_cell : highlighted_cells)
         if (highlighted_cell.first.first == m && highlighted_cell.first.second == n)
+          // TODO: I don't think reading the position like this is correct
           cell += "* "s;
       for (const auto& symbol : matrix[m][n])
       {
@@ -145,6 +146,5 @@ static std::string subtree_printer(const STNode& node,
 
 void TextVisualisationVisitor::visitSTVisualiser(const STVisualiser& visualiser)
 {
-  const auto& tree = visualiser.root_node();
-  m_text = subtree_printer(tree);
+  m_text = subtree_printer(*visualiser.root_node);
 }

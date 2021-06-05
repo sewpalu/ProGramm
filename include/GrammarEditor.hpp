@@ -1,15 +1,21 @@
 #ifndef GRAMMAR_EDITOR_HPP
 #define GRAMMAR_EDITOR_HPP
 
+#include <vector>
+
 #include "wx/wxprec.h"
 #ifndef WX_PRECOMP
 #include "wx/wx.h"
 #endif
 
-#include <AlphabetDisplay.hpp>
+#include "AlphabetDisplay.hpp"
+#include "VisualisationTab.hpp"
 
 class GrammarEditor : public wxPanel
 {
+private:
+  std::vector<VisualisationTab*> m_visualisation_tabs;
+
 public:
   GrammarEditor();
 
@@ -21,6 +27,10 @@ private:
   void on_create(wxWindowCreateEvent& evt);
 
   AlphabetDisplay* m_alpha_display;
+
+  void on_change(wxCommandEvent& evt);
+
+  void load_visualisation_tabs();
 
   wxDECLARE_DYNAMIC_CLASS(GrammarEditor);
   wxDECLARE_EVENT_TABLE();

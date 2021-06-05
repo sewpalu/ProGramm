@@ -33,8 +33,6 @@ bool GUIApplication::OnInit()
     return false;
 
   wxImage::AddHandler(new wxPNGHandler{});
-  //auto splash = SplashScreen{"resources/splash.png", "Gramma"};
-  //auto delay = TimerDelay::sec(3.14);
 
   init_xrc();
 

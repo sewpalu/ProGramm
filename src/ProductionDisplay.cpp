@@ -47,11 +47,11 @@ void ProductionDisplay::on_refresh(wxPaintEvent& evt)
   std::vector<wxString> wx_productions;
   for (Production production : this->m_productions)
   {
-    std::string production_string = "'" + production.lhs.getIdentifier() + "' -> ";
+    std::string production_string = "'" + production.lhs().getIdentifier() + "' -> ";
 
-    for (size_t i = 0; i < production.rhs.size(); i++)
+    for (size_t i = 0; i < production.rhs().size(); i++)
     {
-      production_string += "'" + production.rhs.at(i)->getIdentifier() + "'";
+      production_string += "'" + production.rhs().at(i)->getIdentifier() + "'";
     }
     wx_productions.push_back(wxString(production_string));
   }

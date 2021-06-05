@@ -2,8 +2,7 @@
 #include <initializer_list>
 
 const FormalGrammar DummyGrammarParser::demo_grammar = FormalGrammar{
-    Nonterminal{"S"},
-    {
+    .rules = {
         {Nonterminal{"S"}, {{new Nonterminal{"A"}, new Nonterminal{"B"}}}},
         {Nonterminal{"A"}, {{new Nonterminal{"B"}, new Nonterminal{"C"}}}},
         {Nonterminal{"B"}, {{new Nonterminal{"B"}, new Nonterminal{"C"}}}},
@@ -14,7 +13,8 @@ const FormalGrammar DummyGrammarParser::demo_grammar = FormalGrammar{
          {std::initializer_list<Symbol*>{new Terminal{"b", "b"}}}},
         {Nonterminal{"C"},
          {std::initializer_list<Symbol*>{new Terminal{"c", "c"}}}},
-    }};
+    },
+    .start = Nonterminal{"S"}};
 
 const Production DummyGrammarParser::demo_production =
     Production{Nonterminal{{}}, {}};

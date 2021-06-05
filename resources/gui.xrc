@@ -2,11 +2,11 @@
 <resource xmlns="http://www.wxwindows.org/wxxrc" version="2.3.0.1">
 	<object class="wxFrame" name="main_window">
 		<style>wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL</style>
-		<size>800,600</size>
-		<title>Gramma</title>
+		<title>ProGramm</title>
 		<centered>1</centered>
 		<aui_managed>0</aui_managed>
 		<object class="wxBoxSizer">
+			<minsize>500,300</minsize>
 			<orient>wxHORIZONTAL</orient>
 			<object class="sizeritem">
 				<option>1</option>
@@ -17,7 +17,7 @@
 				</object>
 			</object>
 			<object class="sizeritem">
-				<option>1</option>
+				<option>3</option>
 				<flag>wxEXPAND | wxALL</flag>
 				<border>5</border>
 				<object class="wxPanel" name="m_panel12">
@@ -41,55 +41,22 @@
 								<object class="notebookpage">
 									<label>CYK</label>
 									<selected>1</selected>
-									<object class="wxPanel" name="m_panel2">
+									<object class="wxPanel" name="cyk_tab" subclass="CYKVisualisationTab">
 										<style>wxTAB_TRAVERSAL</style>
-										<object class="wxBoxSizer">
-											<orient>wxVERTICAL</orient>
-											<object class="sizeritem">
-												<option>1</option>
-												<flag>wxEXPAND | wxALL</flag>
-												<border>5</border>
-												<object class="wxPanel" name="m_panel9" subclass="CYKVisualisationTab">
-													<style>wxTAB_TRAVERSAL</style>
-												</object>
-											</object>
-										</object>
 									</object>
 								</object>
 								<object class="notebookpage">
-									<label>Ableitungen</label>
+									<label>Syntax tree</label>
 									<selected>0</selected>
-									<object class="wxPanel" name="m_panel4">
+									<object class="wxPanel" name="st_tab" subclass="STVisualisationTab">
 										<style>wxTAB_TRAVERSAL</style>
-										<object class="wxBoxSizer">
-											<orient>wxVERTICAL</orient>
-											<object class="sizeritem">
-												<option>1</option>
-												<flag>wxEXPAND | wxALL</flag>
-												<border>5</border>
-												<object class="wxPanel" name="m_panel10" subclass="STVisualisationTab">
-													<style>wxTAB_TRAVERSAL</style>
-												</object>
-											</object>
-										</object>
 									</object>
 								</object>
 								<object class="notebookpage">
-									<label>Grammatik Manager</label>
+									<label>Grammar manager</label>
 									<selected>0</selected>
-									<object class="wxPanel" name="m_panel5">
+									<object class="wxPanel" name="manager_tab" subclass="ManagerTab">
 										<style>wxTAB_TRAVERSAL</style>
-										<object class="wxBoxSizer">
-											<orient>wxVERTICAL</orient>
-											<object class="sizeritem">
-												<option>1</option>
-												<flag>wxEXPAND | wxALL</flag>
-												<border>5</border>
-												<object class="wxPanel" name="m_panel11" subclass="ManagerTab">
-													<style>wxTAB_TRAVERSAL</style>
-												</object>
-											</object>
-										</object>
 									</object>
 								</object>
 							</object>
@@ -113,10 +80,39 @@
 			</object>
 			<object class="sizeritem">
 				<option>1</option>
-				<flag>wxEXPAND|wxALL</flag>
+				<flag>wxEXPAND</flag>
 				<border>5</border>
-				<object class="wxPanel" name="cyk_visualisation" subclass="VisualisationWidget">
-					<style>wxTAB_TRAVERSAL</style>
+				<object class="wxBoxSizer">
+					<orient>wxVERTICAL</orient>
+					<object class="spacer">
+						<option>1</option>
+						<flag>wxEXPAND</flag>
+						<border>5</border>
+						<size>0,0</size>
+					</object>
+					<object class="sizeritem">
+						<option>0</option>
+						<flag>wxALL|wxALIGN_CENTER_HORIZONTAL</flag>
+						<border>5</border>
+						<object class="wxGrid" name="cyk_grid" />
+					</object>
+					<object class="sizeritem">
+						<option>0</option>
+						<flag>wxALL|wxEXPAND</flag>
+						<border>20</border>
+						<object class="wxStaticText" name="cyk_diagnostics">
+							<style>wxALIGN_CENTER_HORIZONTAL</style>
+							<hidden>1</hidden>
+							<label>&lt;b&gt;No diagnostics&lt;/b&gt;\n&lt;i&gt;Reason&lt;/i&gt;\nAll good\n* hi</label>
+							<wrap>-1</wrap>
+						</object>
+					</object>
+					<object class="spacer">
+						<option>1</option>
+						<flag>wxEXPAND</flag>
+						<border>5</border>
+						<size>0,0</size>
+					</object>
 				</object>
 			</object>
 			<object class="sizeritem">
@@ -183,12 +179,46 @@
 					<style>wxTAB_TRAVERSAL</style>
 				</object>
 			</object>
-			<object class="sizeritem">
+			<object class="spacer">
 				<option>1</option>
+				<flag>wxEXPAND</flag>
+				<border>5</border>
+				<size>0,0</size>
+			</object>
+			<object class="sizeritem">
+				<option>8</option>
 				<flag>wxEXPAND | wxALL</flag>
 				<border>5</border>
-				<object class="wxPanel" name="st_visualisation" subclass="VisualisationWidget">
+				<object class="wxPanel" name="st_visualisation">
 					<style>wxTAB_TRAVERSAL</style>
+				</object>
+			</object>
+			<object class="sizeritem">
+				<option>0</option>
+				<flag>wxALL|wxEXPAND</flag>
+				<border>5</border>
+				<object class="wxStaticText" name="st_diagnostics">
+					<style>wxALIGN_CENTER_HORIZONTAL</style>
+					<hidden>1</hidden>
+					<label>&lt;b&gt;No diagnostics&lt;/b&gt;\n&lt;i&gt;Reason&lt;/i&gt;\nAll good\n* hi</label>
+					<wrap>-1</wrap>
+				</object>
+			</object>
+			<object class="spacer">
+				<option>1</option>
+				<flag>wxEXPAND</flag>
+				<border>5</border>
+				<size>0,0</size>
+			</object>
+			<object class="sizeritem">
+				<option>0</option>
+				<flag>wxALL|wxEXPAND</flag>
+				<border>5</border>
+				<object class="wxSlider" name="st_visualisation_zoom">
+					<style>wxSL_LABELS</style>
+					<value>100</value>
+					<min>50</min>
+					<max>500</max>
 				</object>
 			</object>
 		</object>
@@ -204,6 +234,15 @@
 				<object class="wxTextCtrl" name="m_textCtrl1">
 					<style>wxTE_MULTILINE</style>
 					<value>Grammar editor</value>
+				</object>
+			</object>
+			<object class="sizeritem">
+				<option>0</option>
+				<flag>wxALL|wxEXPAND</flag>
+				<border>5</border>
+				<object class="wxTextCtrl" name="word_input">
+					<style>wxTE_PROCESS_ENTER</style>
+					<value></value>
 				</object>
 			</object>
 		</object>

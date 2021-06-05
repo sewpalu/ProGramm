@@ -7,7 +7,7 @@
 
 FORCE_LINK_ME(AlphabetDisplay);
 
-//wxIMPLEMENT_DYNAMIC_CLASS(AlphabetDisplay, wxPanel);
+// wxIMPLEMENT_DYNAMIC_CLASS(AlphabetDisplay, wxPanel);
 
 BEGIN_EVENT_TABLE(AlphabetDisplay, wxPanel)
 EVT_WINDOW_CREATE(AlphabetDisplay::on_create)
@@ -15,7 +15,8 @@ EVT_PAINT(AlphabetDisplay::on_refresh)
 
 END_EVENT_TABLE()
 
-AlphabetDisplay::AlphabetDisplay(wxWindow* parent) : wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
+AlphabetDisplay::AlphabetDisplay(wxWindow* parent)
+    : wxPanel(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
 {
   this->sizer = new wxBoxSizer{wxHORIZONTAL};
 
@@ -24,8 +25,9 @@ AlphabetDisplay::AlphabetDisplay(wxWindow* parent) : wxPanel(parent, wxID_ANY, w
       new wxListBox(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
   terminal_sizer->Add(new wxStaticText(this, wxID_ANY, "Terminale",
                                        wxDefaultPosition, wxDefaultSize),
-                      0, wxEXPAND | wxLEFT | wxRIGHT, 0);
-  terminal_sizer->Add(this->m_terminal_display, 0, wxEXPAND | wxALL, 0);
+                      wxSizerFlags{}.Expand().Border(wxLEFT | wxRIGHT, 5));
+  terminal_sizer->Add(this->m_terminal_display,
+                      wxSizerFlags{}.Expand().Border(wxALL, 5));
   this->sizer->Add(terminal_sizer, 0, wxALL, 5);
 
   wxBoxSizer* nonterminal_sizer = new wxBoxSizer{wxVERTICAL};
@@ -33,9 +35,10 @@ AlphabetDisplay::AlphabetDisplay(wxWindow* parent) : wxPanel(parent, wxID_ANY, w
       new wxListBox(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
   nonterminal_sizer->Add(new wxStaticText(this, wxID_ANY, "Nichtterminale",
                                           wxDefaultPosition, wxDefaultSize),
-                         0, wxEXPAND | wxLEFT | wxRIGHT, 0);
-  nonterminal_sizer->Add(this->m_nonterminal_display, 0, wxEXPAND | wxALL, 0);
-  this->sizer->Add(nonterminal_sizer, 0, wxALL, 5);
+                         wxSizerFlags{}.Expand().Border(wxLEFT | wxRIGHT, 5));
+  nonterminal_sizer->Add(this->m_nonterminal_display,
+                         wxSizerFlags{}.Expand().Border(wxALL, 5));
+  this->sizer->Add(nonterminal_sizer, wxSizerFlags{}.Expand().Border(wxALL, 5));
 
   SetSizer(this->sizer);
   this->sizer->Layout();
@@ -53,13 +56,12 @@ void AlphabetDisplay::on_refresh(wxPaintEvent& evt)
 {
   this->m_terminal_display->Clear();
   std::vector<wxString> wx_terminals;
-  for (Terminal* temp_terminal : this->m_terminals) 
+  for (Terminal* temp_terminal : this->m_terminals)
   {
     wx_terminals.push_back(wxString(temp_terminal->getIdentifier()));
   }
   this->m_terminal_display->Append(wx_terminals);
 
-  
   this->m_nonterminal_display->Clear();
   std::vector<wxString> wx_nonterminals;
   for (Nonterminal* temp_nonterminal : this->m_nonterminals)
@@ -68,14 +70,14 @@ void AlphabetDisplay::on_refresh(wxPaintEvent& evt)
   }
   this->m_nonterminal_display->Append(wx_nonterminals);
 
-  //To readjust wxWrapSizer(s)
+  // To readjust wxWrapSizer(s)
   this->SetVirtualSize(this->GetParent()->GetSize());
 
   this->Layout();
 }
 
 void AlphabetDisplay::set_alphabet(std::vector<Nonterminal*> nonterminals,
-                  std::vector<Terminal*> terminals)
+                                   std::vector<Terminal*> terminals)
 {
   this->m_terminals = terminals;
   this->m_nonterminals = nonterminals;
