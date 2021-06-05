@@ -24,7 +24,7 @@ ProductionManager::ProductionManager()
 ProductionManager::ProductionManager(wxWindow* parent, wxWindowID id)
     : wxScrolledWindow(parent, id, wxDefaultPosition, wxDefaultSize, wxVSCROLL),
       number_of_rhs_symbols_selector(
-          new wxSpinCtrl())
+          new wxSpinCtrl(this))
 {
   // this->sizer = new wxScrolled(this, wxID_ANY, wxDefaultPosition,
   // wxDefaultSize, wxVSCROLL);
