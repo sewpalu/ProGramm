@@ -56,13 +56,13 @@ void ManagerTab::on_create(wxWindowCreateEvent& evt)
   if (!this->alpha_manager)
     std::cerr << "Unable to load alphabet tab in manager.\n";
 
-  this->prod_manager =
-      dynamic_cast<ProductionManager*>(FindWindowByName("manager_production_tab"));
+  this->prod_manager = dynamic_cast<ProductionManager*>(
+      FindWindowByName("manager_production_tab"));
   if (!this->prod_manager)
     std::cerr << "Unable to load productions tab in manager\n";
 
-  this->overview_tab =
-      dynamic_cast<GrammarOverviewTab*>(FindWindowByName("manager_overview_tab"));
+  this->overview_tab = dynamic_cast<GrammarOverviewTab*>(
+      FindWindowByName("manager_overview_tab"));
   if (!this->overview_tab)
     std::cerr << "Unable to load overview tab in manager\n";
 
@@ -80,9 +80,7 @@ void ManagerTab::page_changed(wxBookCtrlEvent& evt)
   if (!(evt.GetOldSelection() < 0))
   {
     // Check which page has been left, in order to save the data from that page
-    if (std::strcmp(
-            this->grammar_steps->GetPageText(evt.GetOldSelection()).c_str(),
-            "Alphabet") == 0)
+    if (this->grammar_steps->GetPage(evt.GetOldSelection()) == this->alpha_manager)
     {
       this->terminal_alphabet = this->alpha_manager->get_terminal_alphabet();
       this->nonterminal_alphabet =
@@ -92,15 +90,11 @@ void ManagerTab::page_changed(wxBookCtrlEvent& evt)
         this->start_symbol = this->alpha_manager->get_start_symbol();
       }
     }
-    else if (std::strcmp(this->grammar_steps->GetPageText(evt.GetOldSelection())
-                             .c_str(),
-                         "Produktionen") == 0)
+    else if (this->grammar_steps->GetPage(evt.GetOldSelection()) == this->prod_manager)
     {
       this->productions = this->prod_manager->get_productions();
     }
-    else if (std::strcmp(this->grammar_steps->GetPageText(evt.GetOldSelection())
-                             .c_str(),
-                         "Kontrolle") == 0)
+    else if (this->grammar_steps->GetPage(evt.GetOldSelection()) == this->overview_tab)
     {
       this->nonterminal_alphabet =
           this->overview_tab->get_nonterminal_alphabet();
@@ -115,8 +109,7 @@ void ManagerTab::page_changed(wxBookCtrlEvent& evt)
     }
   }
 
-  if (std::strcmp(this->grammar_steps->GetPageText(evt.GetSelection()).c_str(),
-                  "Produktionen") == 0)
+  if (this->grammar_steps->GetCurrentPage() == this->prod_manager)
   {
     this->prod_manager->set_nonterminal_alphabet(
         this->alpha_manager->get_nonterminal_alphabet());
@@ -125,15 +118,11 @@ void ManagerTab::page_changed(wxBookCtrlEvent& evt)
     // this->prod_manager->set_productions(this->productions);
     this->prod_manager->Refresh();
   }
-  else if (std::strcmp(
-               this->grammar_steps->GetPageText(evt.GetSelection()).c_str(),
-               "Alphabet") == 0)
+  else if (this->grammar_steps->GetCurrentPage() == this->alpha_manager)
   {
     this->alpha_manager->Refresh();
   }
-  else if (std::strcmp(
-               this->grammar_steps->GetPageText(evt.GetSelection()).c_str(),
-               "Kontrolle") == 0)
+  else if (this->grammar_steps->GetCurrentPage() == this->overview_tab)
   {
     this->overview_tab->set_nonterminal_alphabet(
         this->alpha_manager->get_nonterminal_alphabet());
@@ -146,7 +135,7 @@ void ManagerTab::page_changed(wxBookCtrlEvent& evt)
 
 void ManagerTab::on_erase_background(wxEraseEvent& event)
 {
-  // Erasing the background would cause flickering of the GUI elemnts.
+  // Erasing the background would cause flickering of the GUI elements.
   // However in this case erasing is not necessary,
-  // so the event is catched and not handled.
+  // so the event is caught and not handled.
 }
