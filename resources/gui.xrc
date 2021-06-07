@@ -40,7 +40,7 @@
 							<object class="wxNotebook" name="tabs">
 								<object class="notebookpage">
 									<label>CYK</label>
-									<selected>1</selected>
+									<selected>0</selected>
 									<object class="wxPanel" name="cyk_tab" subclass="CYKVisualisationTab">
 										<style>wxTAB_TRAVERSAL</style>
 									</object>
@@ -54,7 +54,7 @@
 								</object>
 								<object class="notebookpage">
 									<label>Grammar manager</label>
-									<selected>0</selected>
+									<selected>1</selected>
 									<object class="wxPanel" name="manager_tab" subclass="ManagerTab">
 										<style>wxTAB_TRAVERSAL</style>
 									</object>
@@ -166,15 +166,15 @@
 						<label>Alphabet</label>
 						<selected>0</selected>
 						<object class="wxScrolledWindow" name="manager_alphabet_tab" subclass="AlphabetManager">
-							<style>wxHSCROLL|wxVSCROLL</style>
+							<style>wxVSCROLL</style>
 							<scrollrate>5,5</scrollrate>
 						</object>
 					</object>
 					<object class="notebookpage">
 						<label>Productions</label>
-						<selected>0</selected>
+						<selected>1</selected>
 						<object class="wxScrolledWindow" name="manager_production_tab" subclass="ProductionManager">
-							<style>wxHSCROLL|wxVSCROLL</style>
+							<style>wxVSCROLL</style>
 							<scrollrate>5,5</scrollrate>
 						</object>
 					</object>
@@ -182,7 +182,7 @@
 						<label>Overview</label>
 						<selected>0</selected>
 						<object class="wxScrolledWindow" name="manager_overview_tab" subclass="GrammarOverviewTab">
-							<style>wxHSCROLL|wxVSCROLL</style>
+							<style>wxVSCROLL</style>
 							<scrollrate>5,5</scrollrate>
 						</object>
 					</object>
@@ -195,8 +195,8 @@
 		<object class="wxBoxSizer">
 			<orient>wxVERTICAL</orient>
 			<object class="sizeritem">
-				<option>1</option>
-				<flag>wxEXPAND</flag>
+				<option>0</option>
+				<flag></flag>
 				<border>5</border>
 				<object class="wxWrapSizer">
 					<orient>wxHORIZONTAL</orient>
@@ -330,69 +330,86 @@
 		<object class="wxBoxSizer">
 			<orient>wxVERTICAL</orient>
 			<object class="sizeritem">
-				<option>1</option>
+				<option>0</option>
 				<flag>wxEXPAND</flag>
 				<border>5</border>
 				<object class="wxWrapSizer">
 					<orient>wxHORIZONTAL</orient>
 					<flags>wxWRAPSIZER_DEFAULT_FLAGS</flags>
 					<object class="sizeritem">
-						<option>0</option>
-						<flag>wxALL</flag>
-						<border>5</border>
-						<object class="wxComboBox" name="production_lhs_selector">
-							<value></value>
-							<content />
-						</object>
-					</object>
-					<object class="sizeritem">
-						<option>0</option>
-						<flag>wxALL</flag>
-						<border>5</border>
-						<object class="wxStaticText" name="m_staticText7">
-							<label>produces</label>
-							<wrap>-1</wrap>
-						</object>
-					</object>
-					<object class="sizeritem">
 						<option>1</option>
 						<flag>wxEXPAND</flag>
 						<border>5</border>
-						<object class="wxWrapSizer">
+						<object class="wxBoxSizer">
 							<orient>wxHORIZONTAL</orient>
-							<flags>wxWRAPSIZER_DEFAULT_FLAGS</flags>
 							<object class="sizeritem">
 								<option>0</option>
-								<flag>wxALL</flag>
+								<flag>wxALL|wxALIGN_CENTER_VERTICAL</flag>
 								<border>5</border>
-								<object class="wxStaticText" name="production_rhs_sizer_dummy_item">
-									<hidden>1</hidden>
-									<label></label>
+								<object class="wxComboBox" name="production_lhs_selector">
+									<value></value>
+									<content />
+								</object>
+							</object>
+							<object class="sizeritem">
+								<option>0</option>
+								<flag>wxALL|wxALIGN_CENTER_VERTICAL</flag>
+								<border>5</border>
+								<object class="wxStaticText" name="m_staticText7">
+									<label>produces</label>
 									<wrap>-1</wrap>
 								</object>
 							</object>
-						</object>
-					</object>
-					<object class="sizeritem">
-						<option>0</option>
-						<flag>wxALL</flag>
-						<border>5</border>
-						<object class="wxButton" name="production_entry_button">
-							<label>Add production!</label>
-							<default>0</default>
-							<markup>0</markup>
-							<bitmap />
-						</object>
-					</object>
-					<object class="sizeritem">
-						<option>0</option>
-						<flag>wxALL</flag>
-						<border>5</border>
-						<object class="wxSpinCtrl" name="production_n_symbols_selector">
-							<style>wxSP_ARROW_KEYS</style>
-							<value>1</value>
-							<min>1</min>
-							<max>10</max>
+							<object class="sizeritem">
+								<option>1</option>
+								<flag>wxALL|wxEXPAND</flag>
+								<border>5</border>
+								<object class="wxScrolledWindow" name="production_rhs_container">
+									<style>wxHSCROLL</style>
+									<scrollrate>5,5</scrollrate>
+									<object class="wxBoxSizer">
+										<orient>wxHORIZONTAL</orient>
+									</object>
+								</object>
+							</object>
+							<object class="sizeritem">
+								<option>0</option>
+								<flag>wxEXPAND | wxALL</flag>
+								<border>5</border>
+								<object class="wxStaticLine" name="m_staticline1">
+									<style>wxLI_VERTICAL</style>
+								</object>
+							</object>
+							<object class="sizeritem">
+								<option>0</option>
+								<flag>wxEXPAND</flag>
+								<border>5</border>
+								<object class="wxBoxSizer">
+									<orient>wxVERTICAL</orient>
+									<object class="sizeritem">
+										<option>0</option>
+										<flag>wxALL|wxEXPAND</flag>
+										<border>5</border>
+										<object class="wxSpinCtrl" name="production_n_symbols_selector">
+											<style>wxSP_ARROW_KEYS</style>
+											<value>1</value>
+											<min>1</min>
+											<max>10</max>
+										</object>
+									</object>
+									<object class="sizeritem">
+										<option>0</option>
+										<flag>wxALL|wxEXPAND</flag>
+										<border>5</border>
+										<object class="wxButton" name="production_entry_button">
+											<label>Add production!</label>
+											<default>0</default>
+											<markup>0</markup>
+											<bitmap />
+										</object>
+									</object>
+								</object>
+							</object>
 						</object>
 					</object>
 				</object>
@@ -401,28 +418,27 @@
 				<option>1</option>
 				<flag>wxEXPAND</flag>
 				<border>5</border>
-				<object class="wxWrapSizer">
+				<object class="wxBoxSizer">
 					<orient>wxHORIZONTAL</orient>
-					<flags>wxWRAPSIZER_DEFAULT_FLAGS</flags>
 					<object class="sizeritem">
-						<option>0</option>
-						<flag>wxALL</flag>
+						<option>1</option>
+						<flag>wxALL|wxEXPAND</flag>
 						<border>5</border>
 						<object class="wxCheckListBox" name="production_display">
 							<content />
 						</object>
 					</object>
-					<object class="sizeritem">
-						<option>0</option>
-						<flag>wxALL</flag>
-						<border>5</border>
-						<object class="wxButton" name="production_delete_button">
-							<label>Delete production!</label>
-							<default>0</default>
-							<markup>0</markup>
-							<bitmap />
-						</object>
-					</object>
+				</object>
+			</object>
+			<object class="sizeritem">
+				<option>0</option>
+				<flag>wxALL|wxALIGN_RIGHT</flag>
+				<border>5</border>
+				<object class="wxButton" name="production_delete_button">
+					<label>Delete production!</label>
+					<default>0</default>
+					<markup>0</markup>
+					<bitmap />
 				</object>
 			</object>
 		</object>
@@ -536,6 +552,7 @@
 	</object>
 	<object class="wxPanel" name="alphabet_display_panel">
 		<style>wxTAB_TRAVERSAL</style>
+		<size>110,200</size>
 		<object class="wxBoxSizer">
 			<orient>wxVERTICAL</orient>
 			<object class="sizeritem">
@@ -558,6 +575,7 @@
 						<flag>wxALL|wxEXPAND</flag>
 						<border>5</border>
 						<object class="wxListBox" name="alphabet_terminals_display">
+							<style>wxLB_SORT</style>
 							<content />
 						</object>
 					</object>
@@ -583,6 +601,7 @@
 						<flag>wxALL|wxEXPAND</flag>
 						<border>5</border>
 						<object class="wxListBox" name="alphabet_nonterminals_display">
+							<style>wxLB_SORT</style>
 							<content />
 						</object>
 					</object>

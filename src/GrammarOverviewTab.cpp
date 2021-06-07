@@ -10,10 +10,7 @@ FORCE_LINK_ME(GrammarOverviewTab);
 wxIMPLEMENT_DYNAMIC_CLASS(GrammarOverviewTab, wxScrolledWindow);
 
 BEGIN_EVENT_TABLE(GrammarOverviewTab, wxScrolledWindow)
-
 EVT_WINDOW_CREATE(GrammarOverviewTab::on_create)
-EVT_PAINT(GrammarOverviewTab::on_refresh)
-
 END_EVENT_TABLE()
 
 GrammarOverviewTab::GrammarOverviewTab()
@@ -106,15 +103,17 @@ void GrammarOverviewTab::on_create(wxWindowCreateEvent& evt)
   delete_grammars_button->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED,
                                  &GrammarOverviewTab::delete_grammars, this);
 
+  this->update_displays();
+
   this->FitInside();
   this->SetScrollRate(1, 1);
 }
 
-void GrammarOverviewTab::on_refresh(wxPaintEvent& evt)
+void GrammarOverviewTab::update_displays()
 {
+  this->m_prod_display->set_productions(this->productions);
   this->m_alpha_display->set_alphabet(this->nonterminal_alphabet,
                                       this->terminal_alphabet);
-  this->m_prod_display->set_productions(this->productions);
 
   if (this->grammars_display->GetCount() !=
       this->converter.get_grammar_names().size())
@@ -123,28 +122,27 @@ void GrammarOverviewTab::on_refresh(wxPaintEvent& evt)
     this->grammars_display->Append(this->converter.get_grammar_names());
   }
 
-  this->SetVirtualSize(this->GetParent()->GetSize());
-
-  this->Layout();
-
-  Refresh();
   Layout();
+  Refresh();
 }
 
 void GrammarOverviewTab::set_productions(std::vector<Production> productions)
 {
   this->productions = productions;
+  this->update_displays();
 }
 
 void GrammarOverviewTab::set_nonterminal_alphabet(
     std::vector<Nonterminal*> nonterminals)
 {
   this->nonterminal_alphabet = nonterminals;
+  this->update_displays();
 }
 
 void GrammarOverviewTab::set_terminal_alphabet(std::vector<Terminal*> terminals)
 {
   this->terminal_alphabet = terminals;
+  this->update_displays();
 }
 
 void GrammarOverviewTab::save_grammar(wxCommandEvent& evt)
@@ -152,10 +150,10 @@ void GrammarOverviewTab::save_grammar(wxCommandEvent& evt)
   std::cout << "Saving grammar\n";
   std::string grammar_name;
   grammar_name = this->grammar_name_entry->GetValue();
-  if (grammar_name == "Namen eingeben!")
+  if (!this->grammar_name_entry->IsModified())
   {
     wxMessageBox(
-        wxT("Bitte geben Sie einen gültigen Namen für die Grammnatik ein!"));
+        wxString::FromUTF8("Bitte geben Sie einen gültigen Namen für die Grammatik ein!"));
     return;
   }
   else
@@ -167,7 +165,7 @@ void GrammarOverviewTab::save_grammar(wxCommandEvent& evt)
       std::cout << "Constructing parent\n";
 
       wxMessageDialog* overwrite_grammar_dialog =
-          new wxMessageDialog(this, msg_box_text, "Caption",
+          new wxMessageDialog(this, wxString::FromUTF8(msg_box_text), "Caption",
                               wxYES_NO | wxCENTER, wxDefaultPosition);
       overwrite_grammar_dialog->Show();
       if (!(overwrite_grammar_dialog->ShowModal() == wxID_YES))
@@ -179,6 +177,7 @@ void GrammarOverviewTab::save_grammar(wxCommandEvent& evt)
                                              this->terminal_alphabet,
                                              this->productions, grammar_name);
   }
+  this->update_displays();
   Refresh();
 }
 
@@ -203,7 +202,7 @@ void GrammarOverviewTab::load_grammar(wxCommandEvent& evt)
         "Sie müssen eine Grammatik auswählen, um sie zu laden!\n";
 
     wxMessageDialog* no_grammar_selected = new wxMessageDialog(
-        this, msg_box_text, "Caption", wxOK | wxCENTER, wxDefaultPosition);
+        this, wxString::FromUTF8(msg_box_text), "Caption", wxOK | wxCENTER, wxDefaultPosition);
     no_grammar_selected->ShowModal();
     return;
   }
@@ -218,12 +217,13 @@ void GrammarOverviewTab::load_grammar(wxCommandEvent& evt)
   else
   {
     wxMessageDialog* too_many_grammars = new wxMessageDialog(
-        this, "Sie müssen exakt eine Grammatik auswählen um sie zu laden!\n",
+        this, wxString::FromUTF8("Sie müssen exakt eine Grammatik auswählen um sie zu laden!\n"),
         "Caption", wxOK | wxCENTER, wxDefaultPosition);
     too_many_grammars->ShowModal();
     return;
   }
 
+  this->update_displays();
   Refresh();
   Layout();
 }
@@ -241,6 +241,7 @@ void GrammarOverviewTab::delete_grammars(wxCommandEvent& evt)
           this->grammars_display->GetString(i).ToStdString());
     }
   }
+  this->update_displays();
   Refresh();
   Layout();
 }

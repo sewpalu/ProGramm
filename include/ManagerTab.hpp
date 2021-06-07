@@ -45,8 +45,6 @@ private:
 
   void on_page_changed(wxChildFocusEvent& evt);
 
-  void on_refresh(wxPaintEvent& evt);
-
   void page_changed(wxBookCtrlEvent& evt);
 
   void on_erase_background(wxEraseEvent& event);

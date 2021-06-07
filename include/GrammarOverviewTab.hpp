@@ -60,12 +60,12 @@ private:
    */
   void on_create(wxWindowCreateEvent& evt);
 
-  void on_refresh(wxPaintEvent& evt);
-
   void save_grammar(wxCommandEvent& evt);
 
   void load_grammar(wxCommandEvent& evt);
   void delete_grammars(wxCommandEvent& evt);
+
+  void update_displays();
 
   GrammarConverter converter;
 

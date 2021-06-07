@@ -28,7 +28,6 @@ private:
    * This is necessary because this wxPanel isn't complete at construction time.
    */
   void on_create(wxWindowCreateEvent& evt);
-  void on_refresh(wxPaintEvent& evt);
 
   std::vector<Production> m_productions;
 

@@ -14,11 +14,7 @@ BEGIN_EVENT_TABLE(ManagerTab, wxPanel)
 
 EVT_WINDOW_CREATE(ManagerTab::on_create)
 EVT_CHILD_FOCUS(ManagerTab::on_page_changed)
-
-EVT_PAINT(ManagerTab::on_refresh)
-
 EVT_ERASE_BACKGROUND(ManagerTab::on_erase_background)
-
 END_EVENT_TABLE()
 
 ManagerTab::ManagerTab()
@@ -67,11 +63,6 @@ void ManagerTab::on_create(wxWindowCreateEvent& evt)
     std::cerr << "Unable to load overview tab in manager\n";
 
   Layout();
-}
-
-void ManagerTab::on_refresh(wxPaintEvent& evt)
-{
-  this->grammar_steps->SetSize(this->GetSize());
 }
 
 void ManagerTab::page_changed(wxBookCtrlEvent& evt)

@@ -11,8 +11,6 @@ wxIMPLEMENT_DYNAMIC_CLASS(AlphabetDisplay, wxPanel);
 
 BEGIN_EVENT_TABLE(AlphabetDisplay, wxPanel)
 EVT_WINDOW_CREATE(AlphabetDisplay::on_create)
-EVT_PAINT(AlphabetDisplay::on_refresh)
-
 END_EVENT_TABLE()
 
 AlphabetDisplay::AlphabetDisplay()
@@ -49,8 +47,12 @@ void AlphabetDisplay::on_create(wxWindowCreateEvent& evt)
   Layout();
 }
 
-void AlphabetDisplay::on_refresh(wxPaintEvent& evt)
+void AlphabetDisplay::set_alphabet(std::vector<Nonterminal*> nonterminals,
+                                   std::vector<Terminal*> terminals)
 {
+  this->m_terminals = terminals;
+  this->m_nonterminals = nonterminals;
+
   this->m_terminal_display->Clear();
   std::vector<wxString> wx_terminals;
   for (Terminal* temp_terminal : this->m_terminals)
@@ -68,15 +70,10 @@ void AlphabetDisplay::on_refresh(wxPaintEvent& evt)
   this->m_nonterminal_display->Append(wx_nonterminals);
 
   // To readjust wxWrapSizer(s)
-  this->SetVirtualSize(this->GetParent()->GetSize());
+  //this->SetVirtualSize(this->GetParent()->GetSize());
+  // NOTE: Commented out, because it makes the panel extend to the full width
+  //       of the notebook page; At least on Linux ...
 
   this->Layout();
-}
-
-void AlphabetDisplay::set_alphabet(std::vector<Nonterminal*> nonterminals,
-                                   std::vector<Terminal*> terminals)
-{
-  this->m_terminals = terminals;
-  this->m_nonterminals = nonterminals;
   this->Refresh();
 }

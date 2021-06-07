@@ -21,3 +21,9 @@ clean:
 justrun:
 	build/form_lang gui >/dev/null
 
+gdb:
+	gdb --args build/form_lang gui
+
+gdb-gtk:
+	G_DEBUG=fatal-warnings gdb --args build/form_lang gui
+

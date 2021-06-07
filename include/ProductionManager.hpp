@@ -48,8 +48,6 @@ private:
 
   void on_page_changed(wxChildFocusEvent& evt);
 
-  void on_refresh(wxPaintEvent& evt);
-
   void on_rhs_change(wxSpinEvent& evt);
 
   std::vector<FormalGrammar> loadedGrammars;
@@ -72,8 +70,10 @@ private:
 
   wxSpinCtrl* number_of_rhs_symbols_selector;
 
-  wxWrapSizer* rhs_sizer;
+  wxSizer* rhs_sizer;
+  wxWindow* rhs_container;
 
+  void update_controls();
   void update_symbol_selectors();
 
   void draw_arrow(wxBufferedPaintDC* dc);

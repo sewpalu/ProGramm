@@ -12,8 +12,6 @@ wxIMPLEMENT_DYNAMIC_CLASS(ProductionDisplay, wxPanel);
 
 BEGIN_EVENT_TABLE(ProductionDisplay, wxPanel)
 EVT_WINDOW_CREATE(ProductionDisplay::on_create)
-EVT_PAINT(ProductionDisplay::on_refresh)
-
 END_EVENT_TABLE()
 
 ProductionDisplay::ProductionDisplay()
@@ -42,8 +40,11 @@ void ProductionDisplay::on_create(wxWindowCreateEvent& evt)
   Layout();
 }
 
-void ProductionDisplay::on_refresh(wxPaintEvent& evt)
+
+void ProductionDisplay::set_productions(std::vector<Production> productions)
 {
+  this->m_productions = productions;
+
   this->m_production_display->Clear();
   std::vector<wxString> wx_productions;
   for (Production production : this->m_productions)
@@ -60,13 +61,10 @@ void ProductionDisplay::on_refresh(wxPaintEvent& evt)
   this->m_production_display->Append(wx_productions);
 
   // To readjust wxWrapSizer(s)
-  this->SetVirtualSize(this->GetParent()->GetSize());
+  //this->SetVirtualSize(this->GetParent()->GetSize());
+  // NOTE: Commented out, because it makes the panel extend to the full width
+  //       of the notebook page; At least on Linux ...
 
   this->Layout();
-}
-
-void ProductionDisplay::set_productions(std::vector<Production> productions)
-{
-  this->m_productions = productions;
   this->Refresh();
 }
