@@ -30,7 +30,7 @@ void ProductionDisplay::on_create(wxWindowCreateEvent& evt)
   SetSizer(sizer);
 
   this->m_production_display = dynamic_cast<wxListBox*>(
-      FindWindowByName("production_productions_display"));
+      FindWindowByName("production_productions_display", this));
   if (!m_production_display)
   {
     std::cerr << "Unable to load productions display in production display.\n";

@@ -109,7 +109,7 @@ void STVisualisationTab::render_input()
   {
     m_visualisation_panel->Show(false);
     steps.at(0).highlight = true;
-    show_diagnostics("Input grammar and input word not set",
+    show_diagnostics("Input grammar or input word not set",
                      DiagnosticsLevel::info);
     m_steps->show_steps(steps);
     return;

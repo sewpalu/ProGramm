@@ -78,7 +78,8 @@ GrammarConverter::GrammarStruct GrammarConverter::load_grammar_from_std_file(
         std::string terminal_identifier =
             grammars_data.at(grammar_number)["alphabet"]["nonterminals"].at(
                 nonterminal_index);
-        nonterminals.push_back(new Nonterminal(terminal_identifier));
+        bool is_start = output_grammar.start_symbol.getIdentifier() == output_grammar.start_symbol.getIdentifier();
+        nonterminals.push_back(new Nonterminal(terminal_identifier, is_start));
       }
 
       output_grammar.nonterminals = nonterminals;

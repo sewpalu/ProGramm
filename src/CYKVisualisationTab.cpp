@@ -65,7 +65,7 @@ void CYKVisualisationTab::render_input()
   {
     m_table->Show(false);
     steps.at(0).highlight = true;
-    show_diagnostics("Input grammar and input word not set",
+    show_diagnostics("Input grammar or input word not set",
                      DiagnosticsLevel::info);
     m_steps->show_steps(steps);
     return;
@@ -78,7 +78,7 @@ void CYKVisualisationTab::render_input()
     steps.at(0).highlight = true;
     show_diagnostics(
         "<b>Grammar plausibility check failed</b>\n<i>Reason</i>\n" + why_not,
-        DiagnosticsLevel::warn);
+        DiagnosticsLevel::info);
     m_steps->show_steps(steps);
     return;
   }

@@ -20,8 +20,18 @@ EVT_TEXT_ENTER(wxID_ANY, GrammarEditor::on_change)
 END_EVENT_TABLE()
 
 GrammarEditor::GrammarEditor()
+    : m_grammar({.rules = {}, .start = Nonterminal{""}})
 {
   Show();
+}
+
+void GrammarEditor::set_grammar(const FormalGrammar& grammar)
+{
+  m_grammar = grammar;
+  m_productions_display->set_productions(m_grammar.rules);
+  m_startsymbol_display->SetLabel(
+      wxString::FromUTF8(m_grammar.start.getIdentifier()));
+  notify_visualisation();
 }
 
 void GrammarEditor::on_create(wxWindowCreateEvent& evt)
@@ -35,44 +45,41 @@ void GrammarEditor::on_create(wxWindowCreateEvent& evt)
   sizer->Add(panel, wxSizerFlags().Proportion(1).Expand().Border(wxALL, 5));
   SetSizer(sizer);
   sizer->Layout();
+
+  m_word_input = dynamic_cast<wxTextCtrl*>(FindWindowByName("side_word_input"));
+  if (!m_word_input)
+  {
+    std::cerr << "Unable to load word input in side panel\n";
+    return;
+  }
+
+  m_productions_display = dynamic_cast<ProductionDisplay*>(
+      FindWindowByName("side_productions_display"));
+  if (!m_productions_display)
+  {
+    std::cerr << "Unable to load productions display in side panel\n";
+    return;
+  }
+
+  m_startsymbol_display =
+      dynamic_cast<wxStaticText*>(FindWindowByName("side_startsymbol_display"));
+  if (!m_startsymbol_display)
+  {
+    std::cerr << "Unable to load start symbol display in side panel\n";
+    return;
+  }
+
+  load_visualisation_tabs();
 }
 
-void GrammarEditor::on_change(wxCommandEvent& evt)
+void GrammarEditor::on_change(wxCommandEvent&)
 {
-  load_visualisation_tabs();
-
-  if (auto* word_input = dynamic_cast<wxTextCtrl*>(evt.GetEventObject());
-      word_input)
-  {
-    auto word = static_cast<std::string>(word_input->GetValue());
-
-    // FIXME: Grammar is hard coded for now
-    auto grammar = FormalGrammar{
-        .rules = {
-         Production{Nonterminal{"S"},
-                    {new Nonterminal{"B"}, new Nonterminal{"A"}}},
-          Production{Nonterminal{"A"}, {new Terminal{"a", "a"}}},
-         Production{Nonterminal{"B"}, {new Terminal{"b", "b"}}},
-         Production{Nonterminal{"C"}, {new Terminal{"c", "c"}}},
-         Production{Nonterminal{"A"},
-                    {new Nonterminal{"C"}, new Nonterminal{"B"}}},
-         Production{Nonterminal{"B"},
-                    {new Nonterminal{"C"}, new Nonterminal{"B"}}},
-         Production{Nonterminal{"C"},
-                    {new Nonterminal{"A"}, new Nonterminal{"C"}}}},
-        .start = Nonterminal{"S", true}};
-
-    // S -> BA
-    // A -> a
-    // B -> b
-    // C -> c
-    // A -> CB
-    // B -> CB
-    // C -> AC
-
-    for (auto* tab : m_visualisation_tabs)
-      tab->update_input(grammar, word);
-  }
+  notify_visualisation();
+}
+void GrammarEditor::notify_visualisation()
+{
+  for (auto* tab : m_visualisation_tabs)
+    tab->update_input(m_grammar, m_word_input->GetValue().ToStdString());
 }
 
 void GrammarEditor::load_visualisation_tabs()

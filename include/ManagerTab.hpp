@@ -20,16 +20,17 @@
 
 #include <wx/notebook.h>
 
-#include <vector>
 #include <optional>
 #include <typeinfo>
+#include <vector>
 
 #include "FormalGrammar.hpp"
+#include "GrammarEditor.hpp"
 #include "Terminal.hpp"
 
 #include "AlphabetManager.hpp"
-#include "ProductionManager.hpp"
 #include "GrammarOverviewTab.hpp"
+#include "ProductionManager.hpp"
 
 class ManagerTab : public wxPanel
 {
@@ -51,6 +52,10 @@ private:
 
   void saveToFile(std::string file_name);
 
+  void activate_grammar(wxCommandEvent& evt);
+
+  void load_grammar_from_tab(const wxWindow* tab);
+
   std::vector<FormalGrammar> loadedGrammars;
 
   std::vector<Production> productions;
@@ -59,11 +64,12 @@ private:
   std::vector<Nonterminal*> nonterminal_alphabet;
   std::vector<Terminal*> terminal_alphabet;
 
-  //Combo box for selecting whether an added symbol is supposed to be a Terminal or Nonterminal
+  // Combo box for selecting whether an added symbol is supposed to be a
+  // Terminal or Nonterminal
   wxComboBox* symbol_type_selector;
-  //Text field for entering the value of a new symbol
+  // Text field for entering the value of a new symbol
   wxTextCtrl* symbol_value_entry;
-  //Checkbox to declare start symbol
+  // Checkbox to declare start symbol
   wxCheckBox* start_symbol_selector;
 
   wxListBox* terminal_display;
@@ -77,6 +83,8 @@ private:
   ProductionManager* prod_manager;
   GrammarOverviewTab* overview_tab;
 
+  GrammarEditor* app_grammar_panel;
+
   wxWindowID grammar_steps_id;
 
   wxDECLARE_DYNAMIC_CLASS(ManagerTab);
@@ -84,4 +92,3 @@ private:
 };
 
 #endif /* ifndef MANAGER_TAB_HPP */
-

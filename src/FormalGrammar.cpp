@@ -51,7 +51,7 @@ std::pair<bool, std::string> FormalGrammar::is_plausible() const
   if (!any_of(rules.begin(), rules.end(), [this](const auto& rule) {
         return rule.lhs().identifier == start.identifier;
       }))
-    return {false, "Start symbol does not cause and productions."};
+    return {false, "Start symbol does not cause any productions."};
 
   return {true, {}};
 }
