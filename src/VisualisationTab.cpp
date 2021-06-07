@@ -55,7 +55,8 @@ void VisualisationTab::show_diagnostics(const std::string& msg,
   switch (level)
   {
   case DiagnosticsLevel::info:
-    m_diagnostics->SetBackgroundColour(wxTransparentColour);
+    m_diagnostics->SetBackgroundColour(
+        m_diagnostics->GetDefaultAttributes().colBg);
     m_diagnostics->SetForegroundColour(
         m_diagnostics->GetDefaultAttributes().colFg);
     break;

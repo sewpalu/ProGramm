@@ -1,6 +1,6 @@
 #include "StepsDisplay.hpp"
 
-#include "wx/gtk/control.h"
+#include "wx/control.h"
 #include "wx/html/forcelnk.h"
 #include "wx/sizer.h"
 #include "wx/statline.h"
