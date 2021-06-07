@@ -18,6 +18,8 @@ wxIMPLEMENT_DYNAMIC_CLASS(STVisualisationTab, wxPanel);
 BEGIN_EVENT_TABLE(STVisualisationTab, wxPanel)
 EVT_WINDOW_CREATE(STVisualisationTab::on_create)
 
+EVT_SIZE(STVisualisationTab::on_resize)
+
 EVT_SCROLL(STVisualisationTab::sliderMoved)
 
 END_EVENT_TABLE()
@@ -160,6 +162,12 @@ void STVisualisationTab::render_input()
   m_steps->show_steps(steps);
   visualise();
 }
+
+void STVisualisationTab::on_resize(wxSizeEvent& evt)
+{
+  this->Refresh();
+  evt.Skip();
+} 
 
 void STVisualisationTab::on_page_changed(wxBookCtrlEvent& evt)
 {
