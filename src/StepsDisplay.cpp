@@ -57,9 +57,10 @@ void StepsDisplay::show_steps(const std::vector<Step>& steps)
       indicator = text;
     }
 
-    indicator->SetLabelMarkup(wxString::FromUTF8(step.text));
     if (step.highlight)
-      indicator->SetBackgroundColour(*wxGREEN);
+      indicator->SetLabelMarkup(wxString::FromUTF8("<i><b>" + step.text + "</b></i>"));
+    else
+      indicator->SetLabelMarkup(wxString::FromUTF8(step.text));
 
     sizer->Add(indicator,
                wxSizerFlags{}.Border(wxALL, 5).Align(wxALIGN_CENTRE_VERTICAL));

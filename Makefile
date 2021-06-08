@@ -19,7 +19,7 @@ clean:
 	rm -rf build
 
 justrun:
-	build/form_lang gui # >/dev/null
+	GTK_THEME=Sweet-Mars build/form_lang gui # >/dev/null
 
 gdb:
 	gdb --args build/form_lang gui

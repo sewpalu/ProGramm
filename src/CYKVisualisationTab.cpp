@@ -146,13 +146,12 @@ void CYKVisualisationTab::draw_table(const Table& table)
   {
     m_table->SetCellValue(cell.coord.y, cell.coord.x, cell.text);
     if (cell.highlight)
-      m_table->SetCellBackgroundColour(cell.coord.y, cell.coord.x, *wxGREEN);
+      m_table->SetCellFont(cell.coord.y, cell.coord.x,
+                           wxFont{wxFontInfo{16}.Bold().Italic()});
     else
-      m_table->SetCellBackgroundColour(
-          cell.coord.y, cell.coord.x,
-          m_table->GetDefaultCellBackgroundColour());
-    if (cell.on_click)
-      m_cell_click_handlers[cell.coord] = cell.on_click;
+      m_table->SetCellFont(cell.coord.y, cell.coord.x, wxFont{wxFontInfo{16}});
+
+    m_cell_click_handlers[cell.coord] = cell.on_click;
   }
 
   Layout();
@@ -212,19 +211,19 @@ void CYKVisualisationTab::on_create(wxWindowCreateEvent& evt)
     std::cerr << "Failure loading cyk table\n";
     return;
   }
-    m_table->CreateGrid(0, 0, wxGrid::wxGridSelectNone);
-    m_table->HideColLabels();
-    m_table->HideRowLabels();
-    m_table->SetDefaultCellAlignment(wxALIGN_CENTER, wxALIGN_CENTER);
-    m_table->AutoSizeColumns();
-    m_table->EnableEditing(false);
-    m_table->EnableDragGridSize(false);
-    m_table->EnableGridLines(true);
-    m_table->EnableDragColMove(false);
-    m_table->EnableDragColSize(false);
-    m_table->EnableDragRowSize(false);
-    m_table->SetCellHighlightPenWidth(0);
-    m_table->SetCellHighlightROPenWidth(0);
+  m_table->CreateGrid(0, 0, wxGrid::wxGridSelectNone);
+  m_table->HideColLabels();
+  m_table->HideRowLabels();
+  m_table->SetDefaultCellAlignment(wxALIGN_CENTER, wxALIGN_CENTER);
+  m_table->AutoSizeColumns();
+  m_table->EnableEditing(false);
+  m_table->EnableDragGridSize(false);
+  m_table->EnableGridLines(true);
+  m_table->EnableDragColMove(false);
+  m_table->EnableDragColSize(false);
+  m_table->EnableDragRowSize(false);
+  m_table->SetCellHighlightPenWidth(0);
+  m_table->SetCellHighlightROPenWidth(0);
 
   m_prev_button = dynamic_cast<wxButton*>(FindWindowByName("prev_button"));
   m_next_button = dynamic_cast<wxButton*>(FindWindowByName("next_button"));

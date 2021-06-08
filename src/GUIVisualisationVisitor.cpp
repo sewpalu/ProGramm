@@ -38,8 +38,7 @@ void GUIVisualisationVisitor::visitCYKVisualiser(
       [steps = visualiser.steps, idx](auto& gui) mutable {
         if (steps.empty() || steps.size() > std::numeric_limits<int>::max())
           return;
-        *idx = *idx >= static_cast<int>(steps.size() - 1) ? 0
-                                                        : (*idx + 1);
+        *idx = *idx >= static_cast<int>(steps.size() - 1) ? 0 : (*idx + 1);
         gui.draw_table(GUIVisualisationVisitor::to_gui_table(steps.at(*idx)));
       },
       GUIVisualisationInterface::Position::right);
@@ -62,7 +61,7 @@ GUIVisualisationInterface::Table GUIVisualisationVisitor::to_gui_table(
     {
       auto productions = cyk_step.at(selected_cell->y)
                              .at(selected_cell->x)
-                             .at(0) // TODO: Make individual options selectable
+                             .at(0)  // TODO: Make individual options selectable
                              .getProductions();
       highlighted_cells.push_back(selected_cell.value());
       std::transform(productions.begin(), productions.end(),
@@ -85,21 +84,27 @@ GUIVisualisationInterface::Table GUIVisualisationVisitor::to_gui_table(
         continue;
       }
 
-      auto text = std::string{};
+      auto highlighted =
+          std::find(highlighted_cells.begin(), highlighted_cells.end(),
+                    GUIVisualisationInterface::Coord{x, y}) !=
+          highlighted_cells.end();
+      auto selected = selected_cell &&
+                      GUIVisualisationInterface::Coord{x, y} == selected_cell;
+
+      auto text = selected ? std::string{"* "} : std::string{};
       for (const auto& element : cyk_step.at(y).at(x))
         text += element.getRoot().getIdentifier() + ",";
       if (!text.empty())
         text.pop_back();
-      result.push_back(
-          {.coord = {x, y},
-           .text = text,
-           .highlight =
-               std::find(highlighted_cells.begin(), highlighted_cells.end(),
-                         GUIVisualisationInterface::Coord{x, y}) !=
-               highlighted_cells.end(),
-           .on_click = [cyk_step, x, y](auto& gui) {
-             gui.draw_table(to_gui_table(cyk_step, {{x, y}}));
-           }});
+      result.push_back({.coord = {x, y},
+                        .text = text,
+                        .highlight = highlighted,
+                        .on_click = [cyk_step, selected, x, y](auto& gui) {
+                          if (selected)
+                            gui.draw_table(to_gui_table(cyk_step));
+                          else
+                            gui.draw_table(to_gui_table(cyk_step, {{x, y}}));
+                        }});
     }
 
   return result;

@@ -207,7 +207,7 @@
 			<orient>wxVERTICAL</orient>
 			<object class="sizeritem">
 				<option>0</option>
-				<flag></flag>
+				<flag>wxEXPAND</flag>
 				<border>5</border>
 				<object class="wxWrapSizer">
 					<orient>wxHORIZONTAL</orient>
@@ -268,9 +268,8 @@
 				<option>1</option>
 				<flag>wxEXPAND</flag>
 				<border>5</border>
-				<object class="wxWrapSizer">
+				<object class="wxBoxSizer">
 					<orient>wxHORIZONTAL</orient>
-					<flags>wxWRAPSIZER_DEFAULT_FLAGS</flags>
 					<object class="sizeritem">
 						<option>1</option>
 						<flag>wxEXPAND</flag>
@@ -321,17 +320,17 @@
 							</object>
 						</object>
 					</object>
-					<object class="sizeritem">
-						<option>0</option>
-						<flag>wxALL|wxALIGN_BOTTOM</flag>
-						<border>5</border>
-						<object class="wxButton" name="alphabet_symbol_deletion_button">
-							<label>Delete symbols!</label>
-							<default>0</default>
-							<markup>0</markup>
-							<bitmap />
-						</object>
-					</object>
+				</object>
+			</object>
+			<object class="sizeritem">
+				<option>0</option>
+				<flag>wxALIGN_RIGHT|wxALL</flag>
+				<border>5</border>
+				<object class="wxButton" name="alphabet_symbol_deletion_button">
+					<label>Delete symbols!</label>
+					<default>0</default>
+					<markup>0</markup>
+					<bitmap />
 				</object>
 			</object>
 		</object>
@@ -456,63 +455,8 @@
 	</object>
 	<object class="wxPanel" name="manager_overview_panel">
 		<style>wxTAB_TRAVERSAL</style>
-		<object class="wxWrapSizer">
-			<orient>wxHORIZONTAL</orient>
-			<flags>wxWRAPSIZER_DEFAULT_FLAGS</flags>
-			<object class="sizeritem">
-				<option>1</option>
-				<flag>wxEXPAND | wxALL</flag>
-				<border>5</border>
-				<object class="wxPanel" name="overview_alphabet_display" subclass="AlphabetDisplay">
-					<style>wxTAB_TRAVERSAL</style>
-				</object>
-			</object>
-			<object class="sizeritem">
-				<option>1</option>
-				<flag>wxEXPAND | wxALL</flag>
-				<border>5</border>
-				<object class="wxPanel" name="overview_production_display" subclass="ProductionDisplay">
-					<style>wxTAB_TRAVERSAL</style>
-				</object>
-			</object>
-			<object class="sizeritem">
-				<option>1</option>
-				<flag>wxEXPAND</flag>
-				<border>5</border>
-				<object class="wxBoxSizer">
-					<orient>wxVERTICAL</orient>
-					<object class="sizeritem">
-						<option>0</option>
-						<flag>wxALL|wxEXPAND</flag>
-						<border>5</border>
-						<object class="wxButton" name="overview_check_button">
-							<label>Check grammar!</label>
-							<default>0</default>
-							<markup>0</markup>
-							<bitmap />
-						</object>
-					</object>
-					<object class="sizeritem">
-						<option>0</option>
-						<flag>wxALL|wxEXPAND</flag>
-						<border>5</border>
-						<object class="wxTextCtrl" name="overview_name_entry">
-							<value>Insert name!</value>
-						</object>
-					</object>
-					<object class="sizeritem">
-						<option>0</option>
-						<flag>wxALL|wxEXPAND</flag>
-						<border>5</border>
-						<object class="wxButton" name="overview_save_button">
-							<label>Save grammar!</label>
-							<default>0</default>
-							<markup>0</markup>
-							<bitmap />
-						</object>
-					</object>
-				</object>
-			</object>
+		<object class="wxBoxSizer">
+			<orient>wxVERTICAL</orient>
 			<object class="sizeritem">
 				<option>1</option>
 				<flag>wxEXPAND</flag>
@@ -520,11 +464,103 @@
 				<object class="wxBoxSizer">
 					<orient>wxHORIZONTAL</orient>
 					<object class="sizeritem">
-						<option>0</option>
-						<flag>wxALL</flag>
+						<option>1</option>
+						<flag>wxEXPAND | wxALL</flag>
 						<border>5</border>
-						<object class="wxCheckListBox" name="overview_grammar_selection">
-							<content />
+						<object class="wxPanel" name="overview_alphabet_display" subclass="AlphabetDisplay">
+							<style>wxTAB_TRAVERSAL</style>
+						</object>
+					</object>
+					<object class="sizeritem">
+						<option>1</option>
+						<flag>wxEXPAND | wxALL</flag>
+						<border>5</border>
+						<object class="wxPanel" name="overview_production_display" subclass="ProductionDisplay">
+							<style>wxTAB_TRAVERSAL</style>
+						</object>
+					</object>
+				</object>
+			</object>
+			<object class="sizeritem">
+				<option>0</option>
+				<flag>wxEXPAND</flag>
+				<border>5</border>
+				<object class="wxWrapSizer">
+					<orient>wxHORIZONTAL</orient>
+					<flags>wxWRAPSIZER_DEFAULT_FLAGS</flags>
+					<object class="sizeritem">
+						<option>1</option>
+						<flag>wxEXPAND</flag>
+						<border>5</border>
+						<object class="wxBoxSizer">
+							<orient>wxVERTICAL</orient>
+							<object class="sizeritem">
+								<option>0</option>
+								<flag>wxALL|wxEXPAND</flag>
+								<border>5</border>
+								<object class="wxButton" name="overview_check_button">
+									<label>Check grammar!</label>
+									<default>0</default>
+									<markup>0</markup>
+									<bitmap />
+								</object>
+							</object>
+							<object class="spacer">
+								<option>1</option>
+								<flag>wxEXPAND</flag>
+								<border>5</border>
+								<size>0,0</size>
+							</object>
+							<object class="sizeritem">
+								<option>0</option>
+								<flag>wxEXPAND | wxALL</flag>
+								<border>5</border>
+								<object class="wxStaticLine" name="m_staticline2">
+									<style>wxLI_HORIZONTAL</style>
+								</object>
+							</object>
+							<object class="spacer">
+								<option>1</option>
+								<flag>wxEXPAND</flag>
+								<border>5</border>
+								<size>0,0</size>
+							</object>
+							<object class="sizeritem">
+								<option>0</option>
+								<flag>wxEXPAND</flag>
+								<border>5</border>
+								<object class="wxBoxSizer">
+									<orient>wxHORIZONTAL</orient>
+									<object class="sizeritem">
+										<option>0</option>
+										<flag>wxALL|wxALIGN_CENTER_VERTICAL</flag>
+										<border>5</border>
+										<object class="wxStaticText" name="m_staticText14">
+											<label>Name:</label>
+											<wrap>-1</wrap>
+										</object>
+									</object>
+									<object class="sizeritem">
+										<option>1</option>
+										<flag>wxALL</flag>
+										<border>5</border>
+										<object class="wxTextCtrl" name="overview_name_entry">
+											<value></value>
+										</object>
+									</object>
+								</object>
+							</object>
+							<object class="sizeritem">
+								<option>0</option>
+								<flag>wxALL|wxEXPAND</flag>
+								<border>5</border>
+								<object class="wxButton" name="overview_save_button">
+									<label>Save grammar!</label>
+									<default>0</default>
+									<markup>0</markup>
+									<bitmap />
+								</object>
+							</object>
 						</object>
 					</object>
 					<object class="sizeritem">
@@ -534,25 +570,41 @@
 						<object class="wxBoxSizer">
 							<orient>wxVERTICAL</orient>
 							<object class="sizeritem">
-								<option>0</option>
-								<flag>wxALL</flag>
+								<option>1</option>
+								<flag>wxALL|wxEXPAND</flag>
 								<border>5</border>
-								<object class="wxButton" name="overview_load_button">
-									<label>Load</label>
-									<default>0</default>
-									<markup>0</markup>
-									<bitmap />
+								<object class="wxCheckListBox" name="overview_grammar_selection">
+									<content />
 								</object>
 							</object>
 							<object class="sizeritem">
 								<option>0</option>
-								<flag>wxALL</flag>
+								<flag>wxEXPAND</flag>
 								<border>5</border>
-								<object class="wxButton" name="overview_delete_button">
-									<label>Delete</label>
-									<default>0</default>
-									<markup>0</markup>
-									<bitmap />
+								<object class="wxBoxSizer">
+									<orient>wxHORIZONTAL</orient>
+									<object class="sizeritem">
+										<option>0</option>
+										<flag>wxALL</flag>
+										<border>5</border>
+										<object class="wxButton" name="overview_load_button">
+											<label>Load</label>
+											<default>0</default>
+											<markup>0</markup>
+											<bitmap />
+										</object>
+									</object>
+									<object class="sizeritem">
+										<option>0</option>
+										<flag>wxALL</flag>
+										<border>5</border>
+										<object class="wxButton" name="overview_delete_button">
+											<label>Delete</label>
+											<default>0</default>
+											<markup>0</markup>
+											<bitmap />
+										</object>
+									</object>
 								</object>
 							</object>
 						</object>
@@ -582,7 +634,7 @@
 						</object>
 					</object>
 					<object class="sizeritem">
-						<option>0</option>
+						<option>1</option>
 						<flag>wxALL|wxEXPAND</flag>
 						<border>5</border>
 						<object class="wxListBox" name="alphabet_terminals_display">
@@ -608,7 +660,7 @@
 						</object>
 					</object>
 					<object class="sizeritem">
-						<option>0</option>
+						<option>1</option>
 						<flag>wxALL|wxEXPAND</flag>
 						<border>5</border>
 						<object class="wxListBox" name="alphabet_nonterminals_display">
