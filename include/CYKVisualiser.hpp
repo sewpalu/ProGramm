@@ -15,9 +15,12 @@ class CYKVisualiser : public Visualiser
 
 public:
   std::vector<std::vector<std::vector<CYKLink>>> matrix;
+  std::vector<decltype(matrix)> steps;
+  bool success = false;
+  std::string error = {};
 
   CYKVisualiser(unsigned int wordlength);
-  CYKVisualiser();
+  CYKVisualiser() = default;
   ~CYKVisualiser();
 
   void setResult(std::pair<unsigned int, unsigned int> position,
@@ -31,6 +34,11 @@ public:
                    std::string nonterminalIdentifier);
 
   std::vector<SyntaxTree> convertToSyntaxTree(FormalGrammar grammar);
+
+  /*
+   * Saves the current state of the cyk matrix as a step, for future lookup.
+   */
+  void saveStep();
 
   // std::pair<std::pair<std::pair<unsigned int, unsigned int>,
   // std::pair<unsigned int, unsigned int>>, std::pair<Symbol, Symbol>>
@@ -48,5 +56,4 @@ public:
 
 private:
   std::vector<STNode> addChildrenFromLink(CYKLink inputLink);
-
 };

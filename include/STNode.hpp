@@ -3,6 +3,7 @@
 #include "Symbol.hpp"
 #include <memory>
 #include <vector>
+#include <iostream>
 
 class STNode
 {
@@ -29,4 +30,14 @@ public:
   }
 
   void addChildren(std::vector<STNode> children_input);
+
+  int getNumberOfLeaves() const;
+  int getMaxDepth() const;
+  int getNumberOfNodesOnLevel(int level) const;
+
+  std::string getText() const;
+
+private:
+  int recursiveGetMaxDepth(STNode workingNode, int previousDepth) const;
+  int recursiveNodesOnLevel(int wipLevel, int level, STNode workingNode) const;
 };

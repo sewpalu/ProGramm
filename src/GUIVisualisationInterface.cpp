@@ -109,12 +109,3 @@ std::size_t GUIVisualisationInterface::Tree::depth_helper(
 
   return depth;
 }
-
-bool GUIVisualisationInterface::Coord::operator<(const Coord& other) const
-{
-  if (y < other.y)
-    return true;
-  if (y == other.y && x < other.x)
-    return true;
-  return false;
-}

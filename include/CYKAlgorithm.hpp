@@ -20,7 +20,7 @@ class CYKAlgorithm :
 {
 
 public:
-    std::pair<std::vector<SyntaxTree>, std::shared_ptr<Visualiser>> parse(FormalGrammar grammar, Word input) override;
+    std::vector<SyntaxTree> parse(FormalGrammar grammar, Word input) override;
 
     CYKAlgorithm();
     ~CYKAlgorithm();

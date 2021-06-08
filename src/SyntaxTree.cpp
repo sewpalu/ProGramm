@@ -1,9 +1,11 @@
 #include "SyntaxTree.hpp"
+#include <memory>
 
 SyntaxTree::SyntaxTree(STNode root_input)
-      : Visualisable(std::unique_ptr<Visualiser>{new STVisualiser{root}})
+    : Visualisable(
+          std::make_unique<STVisualiser>(std::make_shared<STNode>(root_input))),
+      root(dynamic_cast<const STVisualiser&>(visualiser()).root_node)
 {
-	this->root = root_input;
 }
 
 SyntaxTree::~SyntaxTree()
@@ -11,16 +13,22 @@ SyntaxTree::~SyntaxTree()
 }
 
 SyntaxTree::SyntaxTree()
-      : Visualisable(std::unique_ptr<Visualiser>{new STVisualiser{root}})
+    : Visualisable(std::make_unique<STVisualiser>(std::make_shared<STNode>())),
+      root(dynamic_cast<const STVisualiser&>(visualiser()).root_node)
 {
 }
 
-STNode SyntaxTree::getRoot()
+std::vector<STNode> SyntaxTree::getChildren() const
 {
-	return this->root;
+  return this->root->children;
 }
 
-std::vector<STNode> SyntaxTree::getChildren()
+int SyntaxTree::getNumberOfLeaves() const
 {
-	return this->root.children;
+  return this->root->getNumberOfLeaves();
+}
+
+STNode SyntaxTree::getRoot() const
+{
+  return *this->root;
 }

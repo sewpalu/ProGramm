@@ -11,18 +11,13 @@ std::vector<std::pair<std::pair<unsigned int, unsigned int>, CYKLink>> CYKLink::
 }
 
 CYKLink::CYKLink(Nonterminal root_input, std::vector<std::pair<std::pair<unsigned, unsigned int>, CYKLink>> productions_input)
-{
-    this->root = root_input;
-    this->productions = productions_input;
-}
-
-CYKLink::CYKLink()
+  : root(root_input), productions(productions_input)
 {
 }
 
 CYKLink::CYKLink(Nonterminal root_input)
+  : root(root_input)
 {
-    this->root = root_input;
 }
 
 CYKLink::~CYKLink()

@@ -23,7 +23,7 @@ public:
   }
 
 protected:
-  Visualisable(std::unique_ptr<Visualiser> visualiser)
+  explicit Visualisable(std::unique_ptr<Visualiser> visualiser)
       : m_visualiser(std::move(visualiser))
   {
   }
