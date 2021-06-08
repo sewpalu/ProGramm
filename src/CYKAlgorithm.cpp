@@ -303,7 +303,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
             .at(0)
             .at(nonterminalCounter)
             .getRoot()
-            .isStartSymbol())
+            .getIdentifier() == grammar.start.getIdentifier())
     {
       included = true;
     }
