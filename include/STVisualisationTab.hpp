@@ -51,6 +51,7 @@ private:
   void on_paint(wxPaintEvent& evt);
   void mouseMoved(wxMouseEvent& evt);
   void sliderMoved(wxScrollEvent& evt);
+  void on_resize(wxSizeEvent& evt);
   /**
    * Used to load XRC resources.
    * This is necessary because this wxPanel isn't complete at construction time.
