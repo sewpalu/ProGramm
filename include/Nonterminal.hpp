@@ -3,22 +3,24 @@
 
 #include <string>
 
+#include <iostream>
+
 class Nonterminal :
     public Symbol
 {
 
 public:
-    Nonterminal(std::string identifier_input, bool startSymbolInput);
-    explicit Nonterminal(std::string identifier_input);
-    Nonterminal() = default;
+    explicit Nonterminal(std::string identifier_input, bool startSymbolInput = false);
+    Nonterminal() = delete;
     ~Nonterminal() = default;
 
-    bool isStartSymbol();
+    bool isStartSymbol() const;
     void setStartSymbol(bool startSymbolStatus);
 
 
     std::unique_ptr<Symbol> clone() override
     {
+      //std::cout << "Cloning: " << this->identifier << "\n";
       return std::make_unique<Nonterminal>(*this);
     }
 

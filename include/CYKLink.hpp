@@ -22,8 +22,8 @@ public:
 	//bool wasUsed();
 
 	CYKLink(Nonterminal root_input, std::vector<std::pair<std::pair<unsigned, unsigned int>, CYKLink>> productions_input);
-	CYKLink();
-	CYKLink(Nonterminal root_input);
+	CYKLink() = delete;
+	explicit CYKLink(Nonterminal root_input);
 	~CYKLink();
 
 	void setRoot(Nonterminal root_input);

@@ -3,18 +3,18 @@
 #include <memory>
 #include <vector>
 
-#include "SyntaxTree.hpp"
-#include "Word.hpp"
 #include "FormalGrammar.hpp"
+#include "SyntaxTree.hpp"
+#include "Visualisable.hpp"
+#include "Word.hpp"
 
-class WordParser
+class WordParser : public Visualisable
 {
 
 public:
-	virtual std::pair<std::vector<SyntaxTree>, std::shared_ptr<Visualiser>> parse(FormalGrammar grammar, Word input) = 0;
+  virtual std::vector<SyntaxTree> parse(
+      FormalGrammar grammar, Word input) = 0;
 
-	WordParser();
-	virtual ~WordParser();
-
+  WordParser(std::unique_ptr<Visualiser> visualiser);
+  virtual ~WordParser();
 };
-

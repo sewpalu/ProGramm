@@ -8,17 +8,12 @@ class STNode;
 
 class STVisualiser : public Visualiser
 {
-private:
-  const STNode& m_root_node;
-
 public:
-  explicit STVisualiser(const STNode& root_node) : m_root_node(root_node)
-  {
-  }
+  std::shared_ptr<const STNode> root_node;
 
-  const STNode& root_node() const
+  explicit STVisualiser(const std::shared_ptr<const STNode> root_node)
+      : root_node(root_node)
   {
-    return m_root_node;
   }
 
   void accept(VisualisationVisitor& visitor) const override

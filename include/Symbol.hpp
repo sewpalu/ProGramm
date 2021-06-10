@@ -3,6 +3,8 @@
 #include <string>
 #include <memory>
 
+#include <iostream>
+
 class Symbol
 {
 
@@ -13,7 +15,7 @@ public:
   ~Symbol();
   Symbol(std::string identifier_input);
 
-  std::string getIdentifier();
+  std::string getIdentifier() const;
 
   virtual std::unique_ptr<Symbol> clone() = 0;
 };

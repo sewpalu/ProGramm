@@ -1,10 +1,13 @@
 #include "CYKAlgorithm.hpp"
 #include <memory>
+#include <stdexcept>
+#include <system_error>
 
-std::pair<std::vector<SyntaxTree>, std::shared_ptr<Visualiser>> CYKAlgorithm::
-    parse(FormalGrammar grammar,
-          Word input)  // FormalGrammar grammar, Word input
+std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
 {
+  if (!input.getSize())
+    return {};
+
   std::pair<unsigned int, unsigned int> position1 = {0, 0};
   std::pair<unsigned int, unsigned int> position2 = {1, 1};
 
@@ -14,9 +17,14 @@ std::pair<std::vector<SyntaxTree>, std::shared_ptr<Visualiser>> CYKAlgorithm::
   // void setResult(std::pair<unsigned int, unsigned int> position, CYKLink
   // production);
 
-  std::shared_ptr<CYKVisualiser> cykVisSolution =
-      std::make_shared<CYKVisualiser>(input.getSize());
-  std::cout << "Vorher: " << cykVisSolution->matrix.at(1).at(1).size()
+  m_visualiser = std::make_unique<CYKVisualiser>(input.getSize());
+  CYKVisualiser* const cykVisSolution =
+      dynamic_cast<CYKVisualiser*>(m_visualiser.get());
+  if (!cykVisSolution)
+    throw std::runtime_error{"m_visualiser was falsely initialised to "
+                             "something that isn't a CYKVisualiser"};
+
+  std::cout << "Vorher: " << cykVisSolution->matrix.at(0).at(0).size()
             << "\n\n\n";
 
   Terminal testTerminal;
@@ -35,20 +43,20 @@ std::pair<std::vector<SyntaxTree>, std::shared_ptr<Visualiser>> CYKAlgorithm::
           productions;
       // for first round of CYK only rules with length are relevant, as it's
       // looking for rules that produce exactly one Terminal ("letter" of word)
-      if (grammar.rules.at(rulePos).rhs.size() == 1)
+      if (grammar.rules.at(rulePos).rhs().size() == 1)
       {
         // See Symbol (it's known this is a Terminal) has same Terminal in word
-        if (grammar.rules.at(rulePos).rhs.at(0)->getIdentifier() ==
+        if (grammar.rules.at(rulePos).rhs().at(0)->getIdentifier() ==
             testTerminal.getIdentifier())
         {
           // Generate CYKLink to represent lowermost link in CYK Matrix - This
           // has no productions
-          CYKLink bottomCYKLink(
-              Nonterminal(grammar.rules.at(rulePos).rhs.at(0)->getIdentifier()));
+          CYKLink bottomCYKLink(Nonterminal(
+              grammar.rules.at(rulePos).rhs().at(0)->getIdentifier()));
           // Push the info to the productions vector
           productions.push_back({{rulePos, wordPos}, bottomCYKLink});
           // Create the final CYKLink
-          CYKLink terminalLink(grammar.rules.at(rulePos).lhs, productions);
+          CYKLink terminalLink(grammar.rules.at(rulePos).lhs(), productions);
           std::vector<CYKLink> bootomCYKLinkVector = {terminalLink};
           // First at set to 0, as this is always the case in first line of CYK
           std::cout << "Bottom CYKLinks: " << bootomCYKLinkVector.size()
@@ -57,6 +65,7 @@ std::pair<std::vector<SyntaxTree>, std::shared_ptr<Visualiser>> CYKAlgorithm::
         }
       }
     }
+    cykVisSolution->saveStep();
   }
 
   cykVisSolution->dumpAll();
@@ -141,7 +150,7 @@ std::pair<std::vector<SyntaxTree>, std::shared_ptr<Visualiser>> CYKAlgorithm::
         {
           // If the rhs has a length <2 (=1) that means it has already been
           // handled above
-          if ((grammar.rules.at(prodCounter).rhs.size() == 2))
+          if ((grammar.rules.at(prodCounter).rhs().size() == 2))
           {
             // Loop through possible Nonterminals on left side
             for (unsigned int numberOfLeftNonterminal = 0;
@@ -149,11 +158,11 @@ std::pair<std::vector<SyntaxTree>, std::shared_ptr<Visualiser>> CYKAlgorithm::
                  numberOfLeftNonterminal++)
             {
               // std::cout << "Comparison left Nonterminal: " <<
-              // grammar.rules.at(prodCounter).rhs.at(0).getIdentifier() << " vs.
-              // " <<
+              // grammar.rules.at(prodCounter).rhs().at(0).getIdentifier() << "
+              // vs. " <<
               // searchSymbolLeft.at(numberOfLeftNonterminal).getIdentifier() <<
               // "\n";
-              if (grammar.rules.at(prodCounter).rhs.at(0)->getIdentifier() ==
+              if (grammar.rules.at(prodCounter).rhs().at(0)->getIdentifier() ==
                   searchSymbolLeft.at(numberOfLeftNonterminal).getIdentifier())
               {
                 // std::cout << " - left equal! \n";
@@ -163,11 +172,13 @@ std::pair<std::vector<SyntaxTree>, std::shared_ptr<Visualiser>> CYKAlgorithm::
                      numberOfRightNonterminal++)
                 {
                   // std::cout << "Comparison right Nonterminal: " <<
-                  // grammar.rules.at(prodCounter).rhs.at(1).getIdentifier() << "
-                  // vs. " <<
+                  // grammar.rules.at(prodCounter).rhs().at(1).getIdentifier() <<
+                  // " vs. " <<
                   // searchSymbolRight.at(numberOfRightNonterminal).getIdentifier()
                   // << "\n";
-                  if (grammar.rules.at(prodCounter).rhs.at(1)->getIdentifier() ==
+                  if (grammar.rules.at(prodCounter)
+                          .rhs().at(1)
+                          ->getIdentifier() ==
                       searchSymbolRight.at(numberOfRightNonterminal)
                           .getIdentifier())
                   {
@@ -175,36 +186,57 @@ std::pair<std::vector<SyntaxTree>, std::shared_ptr<Visualiser>> CYKAlgorithm::
                     // std::cout <<
                     // cykVisSolution.matrix.at(cykLine).at(cykCol).size() <<
                     // "\n"; std::wcout << " - right equal! \n";
-                    CYKLink tempResult(grammar.rules.at(prodCounter).lhs);
+                    CYKLink tempResult(grammar.rules.at(prodCounter).lhs());
                     // if (tempResult.getRoot().getIdentifier() == "") std::cout
                     // << "Root Alarm IIIIIIIIIIIIIIIIIIIIIIIIIIIII"; std::cout
                     // << tempResult.getRoot().getIdentifier(); Get the exact
                     // CYKLink(s) being referenced in the CYK Matrix
-                    CYKLink leftLink =
-                        cykVisSolution->matrix.at(combination).at(cykCol).at(0);
-                    CYKLink rightLink =
-                        cykVisSolution->matrix.at(cykLine - combination - 1)
-                            .at(cykCol + combination + 1)
-                            .at(0);
-                    std::cout << "\n";
-                    // tempPositions = { { { cykLine, cykCol }, leftLink }, {{
-                    // cykLine - combination - 1, cykCol + combination + 1},
-                    // rightLink } }; tempPositions = { { 0, combination }, {
-                    // combination, input.getSize() - combination } };
-                    if (!(leftLink.getRoot().getIdentifier() == ""))
-                      tempResult.addProduction({{cykLine, cykCol}, leftLink});
-                    if (!(rightLink.getRoot().getIdentifier() == ""))
+                    
+                    std::vector<CYKLink> links;
+
+                    for (size_t i = 0;
+                         i < cykVisSolution->matrix.at(combination).at(cykCol).size();
+                         i++)
+                    {
+                      if (grammar.rules.at(prodCounter).rhs().at(0)->getIdentifier() ==
+                          cykVisSolution->matrix.at(combination)
+                              .at(cykCol)
+                              .at(i).getRoot().getIdentifier())
+                      {
+                        links.push_back(cykVisSolution->matrix.at(combination)
+                                            .at(cykCol)
+                                            .at(i));
+                      }
+                    }
+
+                    for (size_t i = 0; i < cykVisSolution->matrix
+                                               .at(cykLine - combination - 1)
+                                               .at(cykCol + combination + 1).size();
+                         i++)
+                    {
+                      if (grammar.rules.at(prodCounter)
+                              .rhs().at(1)
+                              ->getIdentifier() ==
+                          cykVisSolution->matrix.at(cykLine - combination - 1)
+                              .at(cykCol + combination + 1)
+                              .at(i).getRoot().getIdentifier())
+                      {
+                        links.push_back(
+                            cykVisSolution->matrix.at(cykLine - combination - 1)
+                                .at(cykCol + combination + 1)
+                                .at(i));
+                      }
+                    }
+
+                    if (!(links.at(0).getRoot().getIdentifier() == ""))
+                      tempResult.addProduction(
+                          {{combination, cykCol}, links.at(0)});
+                    if (!(links.at(1).getRoot().getIdentifier() == ""))
                       tempResult.addProduction({{cykLine - combination - 1,
                                                  cykCol + combination + 1},
-                                                rightLink});
-                    // if (!(rightLink.getRoot().getIdentifier() == ""))
-                    // tempResult.addProduction({ { cykLine - combination - 1,
-                    // cykCol + combination + 1}, rightLink });
+                                                links.at(1)});
                     if (tempResult.getProductions().size() > 0)
                       tempProductions.push_back(tempResult);
-                    // Clear productions. Root must not be reset as it is set in
-                    // every iteration without condition
-                    // tempResult.emptyProductions();
                   }
                 }
               }
@@ -254,7 +286,7 @@ std::pair<std::vector<SyntaxTree>, std::shared_ptr<Visualiser>> CYKAlgorithm::
 
         std::cout << "\n\n";
       }
-      cykVisSolution->dumpContent();
+      cykVisSolution->saveStep();
     }
   }
 
@@ -271,7 +303,7 @@ std::pair<std::vector<SyntaxTree>, std::shared_ptr<Visualiser>> CYKAlgorithm::
             .at(0)
             .at(nonterminalCounter)
             .getRoot()
-            .isStartSymbol())
+            .getIdentifier() == grammar.start.getIdentifier())
     {
       included = true;
     }
@@ -284,15 +316,14 @@ std::pair<std::vector<SyntaxTree>, std::shared_ptr<Visualiser>> CYKAlgorithm::
   else
   {
     std::cout << "Better luck next time!\n";
+    cykVisSolution->error = "Word is not in grammar";
   }
 
-  std::pair<std::vector<SyntaxTree>, std::shared_ptr<Visualiser>> finalResult(
-      cykVisSolution->convertToSyntaxTree(grammar),
-      dynamic_cast<Visualiser*>(cykVisSolution.get()));
-  return finalResult;
+  cykVisSolution->success = included;
+  return cykVisSolution->convertToSyntaxTree(grammar);
 }
 
-CYKAlgorithm::CYKAlgorithm()
+CYKAlgorithm::CYKAlgorithm() : WordParser(std::make_unique<CYKVisualiser>())
 {
 }
 
