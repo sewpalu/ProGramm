@@ -12,7 +12,7 @@ class Nonterminal :
 public:
     explicit Nonterminal(std::string identifier_input, bool startSymbolInput = false);
     Nonterminal() = delete;
-    ~Nonterminal() = default;
+    virtual ~Nonterminal() = default;
 
     bool isStartSymbol() const;
     void setStartSymbol(bool startSymbolStatus);
