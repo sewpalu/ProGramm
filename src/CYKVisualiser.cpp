@@ -91,12 +91,12 @@ void CYKVisualiser::dumpContent()
                     << "elementCount: " << elementCount << "\n";
         }
       }
-      std::cout << displayPlace;
-      std::cout << " | ";
+      //std::cout << displayPlace;
+      //std::cout << " | ";
     }
-    std::cout << "\n";
+    //std::cout << "\n";
   }
-  std::cout << "-----------\n";
+  //std::cout << "-----------\n";
 }
 
 void CYKVisualiser::dumpAll()
@@ -274,7 +274,7 @@ void CYKVisualiser::dumpContent(unsigned int coordinate1,
 std::vector<SyntaxTree> CYKVisualiser::convertToSyntaxTree(
     FormalGrammar grammar)
 {
-  std::cout << "Converting to SyntaxTree: \n";
+  //std::cout << "Converting to SyntaxTree: \n";
   // Important to keep track of how often the functions need to be called
   std::size_t wordLength = this->matrix.size();
 
@@ -296,20 +296,20 @@ std::vector<SyntaxTree> CYKVisualiser::convertToSyntaxTree(
   std::vector<SyntaxTree> resultTrees;
 
   // For development: Show all identifiers in CYKMatrix
-  this->dumpAll();
+  //this->dumpAll();
 
   // Create the SyntaxTree for each possible starting position
   for (unsigned int startPosCounter = 0;
        startPosCounter < startPositions.size(); startPosCounter++)
   {
-    std::cout
+    /*std::cout
         << "Hello from the loop ----------------------------- (iteration: "
-        << startPosCounter << ") \n";
+        << startPosCounter << ") \n";*/
     CYKLink startPosition = this->matrix.at(wordLength - 1)
                                 .at(0)
                                 .at(startPositions.at(startPosCounter));
-    std::cout << "Start position: " << startPosition.getRoot().getIdentifier()
-              << "\n";
+    /*std::cout << "Start position: " << startPosition.getRoot().getIdentifier()
+              << "\n";*/
     STNode treeRoot(
         std::make_unique<Nonterminal>(startPosition.getRoot().getIdentifier()));
 
@@ -333,7 +333,7 @@ std::vector<STNode> CYKVisualiser::addChildrenFromLink(CYKLink inputLink)
 
   // std::cout << "Kinder gefunden: " << inputLink.getProductions().size() <<
   // "\n";
-  std::cout << "Child counter: " << inputLink.getProductions().size() << "\n";
+  /*std::cout << "Child counter: " << inputLink.getProductions().size() << "\n";
   std::cout << "children: \n";
   for (unsigned int i = 0; i < inputLink.getProductions().size(); i++)
   {
@@ -341,7 +341,7 @@ std::vector<STNode> CYKVisualiser::addChildrenFromLink(CYKLink inputLink)
         << inputLink.getProductions().at(i).second.getRoot().getIdentifier()
         << "   ";
   }
-  std::cout << "\n";
+  std::cout << "\n";*/
   for (unsigned int childCounter = 0;
        childCounter < inputLink.getProductions().size(); childCounter++)
   {

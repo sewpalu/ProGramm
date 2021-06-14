@@ -24,8 +24,8 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
     throw std::runtime_error{"m_visualiser was falsely initialised to "
                              "something that isn't a CYKVisualiser"};
 
-  std::cout << "Vorher: " << cykVisSolution->matrix.at(0).at(0).size()
-            << "\n\n\n";
+  /*std::cout << "Vorher: " << cykVisSolution->matrix.at(0).at(0).size()
+            << "\n\n\n";*/
 
   Terminal testTerminal;
 
@@ -59,8 +59,8 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
           CYKLink terminalLink(grammar.rules.at(rulePos).lhs(), productions);
           std::vector<CYKLink> bootomCYKLinkVector = {terminalLink};
           // First at set to 0, as this is always the case in first line of CYK
-          std::cout << "Bottom CYKLinks: " << bootomCYKLinkVector.size()
-                    << "\n";
+          /*std::cout << "Bottom CYKLinks: " << bootomCYKLinkVector.size()
+                    << "\n";*/
           cykVisSolution->matrix.at(0).at(wordPos) = bootomCYKLinkVector;
         }
       }
@@ -68,7 +68,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
     cykVisSolution->saveStep();
   }
 
-  cykVisSolution->dumpAll();
+  //cykVisSolution->dumpAll();
 
   std::vector<Nonterminal> searchSymbolLeft;
   std::vector<Nonterminal> searchSymbolRight;
@@ -78,7 +78,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
   std::vector<std::pair<std::pair<unsigned, unsigned int>, CYKLink>>
       tempPositions;
 
-  std::cout << "Test im Algorithmus: \n\n\n";
+  //std::cout << "Test im Algorithmus: \n\n\n";
 
   // Loop to go through CYK Lines from bottom to top
   // Go through line of CYK matrix, start in second (1 in vector) row
@@ -88,10 +88,8 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
     // With each line up, there's one column less
     for (unsigned int cykCol = 0; cykCol < input.getSize() - cykLine; cykCol++)
     {
-      std::cout << "Checking: (" << cykLine << "/" << cykCol
-                << ") "
-                   "-----------------------------------------------------------"
-                   "-------------------------------------------------------\n";
+      /*std::cout << "Checking: (" << cykLine << "/" << cykCol
+                << ") -------------------------------------------------------\n";*/
 
       tempProductions.clear();
 
@@ -250,30 +248,30 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
       }
       if ((cykLine == 1) && (cykCol == 1))
       {
-        std::cout << "\n Inspection with " << tempProductions.size()
+        /*std::cout << "\n Inspection with " << tempProductions.size()
                   << "----------------------------------------\n";
         for (unsigned int i = 0; i < tempProductions.size(); i++)
         {
           std::cout << tempProductions.at(i).getRoot().getIdentifier()
                     << " ::: ";
         }
-        std::cout << "\n Inspection----------------------------------------\n";
+        std::cout << "\n Inspection----------------------------------------\n";*/
       }
       // std::cout << "Post comparison: " << tempProductions.size() << " vs. "
       // << cykVisSolution->matrix.at(cykLine).at(cykCol).size() << "\n";
       if (!(tempProductions.size() ==
             cykVisSolution->matrix.at(cykLine).at(cykCol).size()))
       {
-        std::cout << "Missverhaeltnis (temp vs. matrix) in Zeile " << cykCol
+        /*std::cout << "Missverhaeltnis (temp vs. matrix) in Zeile " << cykCol
                   << " und Spalte " << cykCol << "\n";
         for (unsigned int i = 0; i < tempProductions.size(); i++)
         {
           std::cout << tempProductions.at(i).getRoot().getIdentifier() << ", ";
-        }
+        }*/
 
-        std::cout << "\n";
+        //std::cout << "\n";
 
-        for (unsigned int i = 0;
+        /*for (unsigned int i = 0;
              i < cykVisSolution->matrix.at(cykCol).at(cykLine).size(); i++)
         {
           std::cout << cykVisSolution->matrix.at(cykCol)
@@ -284,13 +282,13 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                     << ", ";
         }
 
-        std::cout << "\n\n";
+        std::cout << "\n\n";*/
       }
       cykVisSolution->saveStep();
     }
   }
 
-  std::cout << "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII\n\n\n";
+  //std::cout << "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII\n\n\n";
 
   bool included = false;
 
@@ -315,7 +313,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
   }
   else
   {
-    std::cout << "Better luck next time!\n";
+    std::cout << "Wort nicht enthalten!\n";
     cykVisSolution->error = "Word is not in grammar";
   }
 
