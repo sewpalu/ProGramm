@@ -58,6 +58,8 @@ void ProductionManager::on_create(wxWindowCreateEvent& evt)
   this->number_of_rhs_symbols_selector->Bind<>(
       wxEVT_SPINCTRL, &ProductionManager::on_rhs_change, this);
 
+  this->number_of_rhs_symbols_selector->SetMax(loader.load_int_parameter("max_rhs"));
+
   this->rhs_container =
       dynamic_cast<wxWindow*>(FindWindowByName("production_rhs_container"));
   this->rhs_sizer = rhs_container->GetSizer();
@@ -360,6 +362,7 @@ void ProductionManager::update_symbol_selectors()
 
 void ProductionManager::on_rhs_change(wxSpinEvent& evt)
 {
+  this->number_of_rhs_symbols_selector->SetMax(loader.load_int_parameter("max_rhs"));
   this->update_symbol_selectors();
 }
 
