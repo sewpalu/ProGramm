@@ -5,6 +5,7 @@
 #include "wx/xrc/xmlres.h"
 
 #include <iostream>
+#include <optional>
 #include <stdexcept>
 
 FORCE_LINK_ME(ManagerTab);
@@ -121,6 +122,7 @@ void ManagerTab::load_grammar_from_tab(const wxWindow* tab)
     }
     catch (std::runtime_error)
     {
+      this->start_symbol = {};
     }
   }
 }
