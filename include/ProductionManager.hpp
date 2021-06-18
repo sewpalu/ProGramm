@@ -30,6 +30,8 @@
 #include "FormalGrammar.hpp"
 #include "Terminal.hpp"
 
+#include "ConfigManager.hpp"
+
 class ProductionManager : public wxScrolledWindow
 {
 public:

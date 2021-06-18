@@ -242,6 +242,8 @@ void ProductionManager::add_production(wxCommandEvent& evt)
   std::cout << "\n";
 
   update_controls();
+
+  //ConfigManager* manager = new ConfigManager();
 }
 
 void ProductionManager::set_terminal_alphabet(

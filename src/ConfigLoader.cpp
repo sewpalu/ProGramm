@@ -148,3 +148,30 @@ void ConfigLoader::set_string_parameter(std::string identifier,
   output_file << output_data << std::endl;
   output_file.close();
 }
+
+nlohmann::json ConfigLoader::get_content()
+{
+  nlohmann::json output;
+
+  try
+  {
+    std::ifstream input_file = std::ifstream(this->config_file_name, std::ifstream::in);
+
+    if (input_file.is_open())
+    {
+      input_file >> output;
+
+      input_file.close();
+    }
+    else
+    {
+      std::cout << "Not open!\n";
+      // old_data
+    }
+  }
+  catch (...)
+  {
+    std::cout << "Cannot open the file" << this->config_file_name << "\n";
+  }
+  return output;
+}

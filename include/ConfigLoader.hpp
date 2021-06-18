@@ -22,6 +22,8 @@ public:
 
   std::string load_string_parameter(std::string identifier);
   void set_string_parameter(std::string identifier, std::string value);
+
+  nlohmann::json get_content();
   
 private:
   std::string config_file_name = "config.json";
