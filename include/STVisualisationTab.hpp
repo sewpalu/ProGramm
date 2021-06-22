@@ -26,26 +26,21 @@ private:
 
   std::unique_ptr<SyntaxTree> m_tree = nullptr;
 
+  std::vector<std::function<void(GUIVisualisationInterface&)>> m_option_handlers;
+
   wxSlider* m_zoom_slider;
   wxPanel* m_visualisation_panel;
+  wxListBox* m_options_display;
+  wxStaticText* m_options_display_label;
 
 public:
   STVisualisationTab();
 
-  void draw_tree(SyntaxTree* tree) final;
-
-  void draw_table(const Table&) final
-  {
-    throw std::runtime_error(
-        "Table drawing not supported by STVisualisationTab");
-  }
+  void draw_tree(const SyntaxTree& tree) final;
 
   void draw_empty() final;
 
-  void add_button(const std::string&, Callback, Position = Position::left) final
-  {
-    throw std::runtime_error("Buttons not supported by STVisualisationTab");
-  }
+  void set_options(const std::vector<Option>& options) final;
 
 private:
   void on_paint(wxPaintEvent& evt);

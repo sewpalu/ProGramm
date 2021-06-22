@@ -8,6 +8,7 @@
 
 #include "CYKVisualiser.hpp"
 #include "STVisualiser.hpp"
+#include "STreesVisualiser.hpp"
 
 GUIVisualisationVisitor::GUIVisualisationVisitor(
     GUIVisualisationInterface& gui_interface)
@@ -24,7 +25,7 @@ void GUIVisualisationVisitor::visitCYKVisualiser(
   m_gui.draw_table(to_gui_table(visualiser.steps.front()));
 
   auto idx = std::make_shared<int>(0);
-  m_gui.add_button(
+  m_gui.set_button(
       "previous step",
       [steps = visualiser.steps, idx](auto& gui) mutable {
         if (steps.empty() || steps.size() > std::numeric_limits<int>::max())
@@ -33,7 +34,7 @@ void GUIVisualisationVisitor::visitCYKVisualiser(
         gui.draw_table(GUIVisualisationVisitor::to_gui_table(steps.at(*idx)));
       },
       GUIVisualisationInterface::Position::left);
-  m_gui.add_button(
+  m_gui.set_button(
       "next step",
       [steps = visualiser.steps, idx](auto& gui) mutable {
         if (steps.empty() || steps.size() > std::numeric_limits<int>::max())
@@ -46,7 +47,29 @@ void GUIVisualisationVisitor::visitCYKVisualiser(
 
 void GUIVisualisationVisitor::visitSTVisualiser(const STVisualiser& visualiser)
 {
-  m_gui.draw_tree(new SyntaxTree{*visualiser.root_node});
+  m_gui.draw_empty();
+  m_gui.draw_tree(SyntaxTree{*visualiser.root_node});
+}
+
+void GUIVisualisationVisitor::visitSTreesVisualiser(
+    const STreesVisualiser& visualiser)
+{
+  auto options = std::vector<GUIVisualisationInterface::Option>{};
+
+  for (auto idx = 0; const auto& tree : *visualiser.trees)
+  {
+    options.push_back({.text = std::to_string(idx),
+                       .selected = (idx == 0),
+                       .on_click = [tree](auto& gui) { gui.draw_tree(tree); }});
+
+    if (idx == 0)
+    {
+      m_gui.draw_tree(tree);
+    }
+    ++idx;
+  }
+
+  m_gui.set_options(options);
 }
 
 GUIVisualisationInterface::Table GUIVisualisationVisitor::to_gui_table(

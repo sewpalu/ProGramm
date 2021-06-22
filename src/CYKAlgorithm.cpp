@@ -36,7 +36,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
     testTerminal = input.at(wordPos);
 
     // Iterate through rules to see if a rule (with a Nonterminal on the left
-    // sight) can produce the Terminal
+    // side) can produce the Terminal
     for (unsigned int rulePos = 0; rulePos < grammar.rules.size(); rulePos++)
     {
       std::vector<std::pair<std::pair<unsigned int, unsigned int>, CYKLink>>
@@ -57,11 +57,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
           productions.push_back({{rulePos, wordPos}, bottomCYKLink});
           // Create the final CYKLink
           CYKLink terminalLink(grammar.rules.at(rulePos).lhs(), productions);
-          std::vector<CYKLink> bootomCYKLinkVector = {terminalLink};
-          // First at set to 0, as this is always the case in first line of CYK
-          std::cout << "Bottom CYKLinks: " << bootomCYKLinkVector.size()
-                    << "\n";
-          cykVisSolution->matrix.at(0).at(wordPos) = bootomCYKLinkVector;
+          cykVisSolution->matrix.at(0).at(wordPos).push_back(terminalLink);
         }
       }
     }
@@ -320,7 +316,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
   }
 
   cykVisSolution->success = included;
-  return cykVisSolution->convertToSyntaxTree(grammar);
+  return cykVisSolution->convertToSyntaxTrees(grammar);
 }
 
 CYKAlgorithm::CYKAlgorithm() : WordParser(std::make_unique<CYKVisualiser>())
