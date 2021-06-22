@@ -69,7 +69,13 @@ void GrammarEditor::on_create(wxWindowCreateEvent& evt)
     return;
   }
 
-  load_visualisation_tabs();
+  m_tabs = dynamic_cast<wxNotebook*>(FindWindowByName("tabs"));
+  if (!m_tabs)
+  {
+    std::cerr << "Unable to load visualisation tabs notebook from side panel\n";
+    return;
+  }
+  m_tabs->Bind(wxEVT_NOTEBOOK_PAGE_CHANGED, &GrammarEditor::on_change, this);
 }
 
 void GrammarEditor::on_change(wxCommandEvent&)
@@ -78,12 +84,26 @@ void GrammarEditor::on_change(wxCommandEvent&)
 }
 void GrammarEditor::notify_visualisation()
 {
+  load_visualisation_tabs();
+
   for (auto* tab : m_visualisation_tabs)
-    tab->update_input(m_grammar, m_word_input->GetValue().ToStdString());
+    if (tab)
+      tab->update_input(m_grammar, m_word_input->GetValue().ToStdString());
 }
 
 void GrammarEditor::load_visualisation_tabs()
 {
+  if (!m_tabs)
+  {
+    m_tabs = dynamic_cast<wxNotebook*>(FindWindowByName("tabs"));
+    if (!m_tabs)
+    {
+      std::cerr
+          << "Unable to load visualisation tabs notebook from side panel\n";
+      return;
+    }
+    m_tabs->Bind(wxEVT_NOTEBOOK_PAGE_CHANGED, &GrammarEditor::on_change, this);
+  }
   m_visualisation_tabs.resize(2, nullptr);
 
   if (std::all_of(m_visualisation_tabs.begin(), m_visualisation_tabs.end(),
