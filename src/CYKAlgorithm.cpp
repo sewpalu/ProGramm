@@ -284,9 +284,13 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
 
         std::cout << "\n\n";*/
       }
+      //std::cout << "Checked: " << cykLine << " | " << cykCol << "\n";
+      //cykVisSolution->dumpAll();
       cykVisSolution->saveStep();
     }
   }
+
+  //cykVisSolution->dumpAll();
 
   //std::cout << "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII\n\n\n";
 

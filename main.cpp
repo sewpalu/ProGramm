@@ -13,7 +13,6 @@
 
 int main(int argc, char** argv)
 {
-  std::vector<FormalGrammar> test_grammars;
   std::vector<Word> test_words;
   PerformanceTests test_handler = PerformanceTests();
 
@@ -22,24 +21,70 @@ int main(int argc, char** argv)
   std::chrono::steady_clock::time_point begin;
   std::chrono::steady_clock::time_point end;
 
-  for (size_t i = 0; i < 3; i++)
+  std::vector<FormalGrammar> test_grammars;
+
+  for (size_t j = 0; j < 3; j++)
   {
-    test_grammars.push_back(test_handler.generate_random_grammar(5, 5, 5));
+    test_grammars.push_back(test_handler.generate_random_grammar(8,8,8));
   }
+  std::cout << "Startsymbol: "
+            << test_grammars.at(0).start.getIdentifier() << "\n";
+
+  for (size_t i = 0; i < test_grammars.at(0).rules.size(); i++)
+  {
+    std::cout
+        << test_grammars.at(0).rules.at(i).lhs().getIdentifier();
+    std::cout << " -> ";
+    for (size_t j = 0;
+         j < test_grammars.at(0).rules.at(i).rhs().size(); j++)
+    {
+      std::cout << test_grammars.at(0)
+                       .rules.at(i)
+                       .rhs()
+                       .at(j)
+                       ->getIdentifier();
+    }
+    std::cout << "\n";
+  }
+  std::cout << "\n";
 
   int number_of_passes = 3;
 
-  
   std::ofstream log_file;
   log_file.open("cyk_log.csv");
-  log_file << "length,grammar,pass,microseconds,included\n";
+  log_file << "length,grammar,pass,microseconds\n";
 
-  for (size_t length = 1; length < 13; length++)
+  for (size_t length = 1; length < 9; length++)
   {
     std::cout << "Length: " << length << "\n";
     for (size_t grammar_number = 0; grammar_number < test_grammars.size(); grammar_number++)
     {
       std::cout << "      Grammar: " << grammar_number << "\n";
+
+      std::cout << "Startsymbol: "
+                << test_grammars.at(grammar_number).start.getIdentifier()
+                << "\n";
+
+      for (size_t i = 0; i < test_grammars.at(grammar_number).rules.size(); i++)
+      {
+        std::cout << test_grammars.at(grammar_number)
+                         .rules.at(i)
+                         .lhs()
+                         .getIdentifier();
+        std::cout << " -> ";
+        for (size_t j = 0; j < test_grammars.at(grammar_number).rules.at(i).rhs().size(); j++)
+        {
+          std::cout << test_grammars.at(grammar_number)
+                           .rules.at(i)
+                           .rhs()
+                           .at(j)
+                           ->getIdentifier();
+        }
+        std::cout << "\n";
+      }
+      std::cout << "\n";
+
+
       for (size_t pass = 0; pass < number_of_passes; pass++)
       {
         std::cout << "            Pass: " << pass << "\n";
@@ -59,21 +104,10 @@ int main(int argc, char** argv)
         //std::cout << "Done with cyk\n";
         end = std::chrono::steady_clock::now();
 
-        std::string included_status = "";
-        if (trees.size() > 0)
-        {
-          included_status = "true";
-        }
-        else
-        {
-          included_status = "false";
-        }
-
         log_file << length << "," << grammar_number << "," << pass << ","
                  << std::chrono::duration_cast<std::chrono::microseconds>(end -
                                                                           begin)
-                        .count()
-                 << included_status << "\n";
+                        .count() << "\n";
         std::cout << "Time: "
                   << std::chrono::duration_cast<std::chrono::microseconds>(
                          end - begin)

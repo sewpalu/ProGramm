@@ -13,7 +13,6 @@ PerformanceTests::~PerformanceTests()
 FormalGrammar PerformanceTests::generate_random_grammar(
     int number_of_nonterminals, int number_of_terminals, int number_of_extra_productions)
 {
-
   std::random_device rd;
   std::default_random_engine en(rd());
   std::uniform_int_distribution<int> distr(0, 25);

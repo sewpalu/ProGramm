@@ -45,17 +45,17 @@ void CYKVisualiser::setResult(std::pair<unsigned int, unsigned int> position,
 
 void CYKVisualiser::dumpContent()
 {
-  // std::cout << "Visualiser Content: \n";
+  std::cout << "Visualiser Content: \n";
 
-  // std::cout << "Info from dump: \n";
+  std::cout << "Info from dump: \n";
   for (int lineCount = static_cast<int>(this->matrix.size()) - 1; lineCount >= 0; lineCount--)
   {
     for (unsigned int colCount = 0;
          colCount < this->matrix.at(lineCount).size(); colCount++)
     {
       std::string displayPlace = "";
-      // std::cout << "Line Count: " << lineCount << " | Column Count: " <<
-      // colCount << "\n";
+      std::cout << "Line Count: " << lineCount << " | Column Count: " <<
+      colCount << "\n";
       for (unsigned int elementCount = 0;
            elementCount < this->matrix.at(lineCount).at(colCount).size();
            elementCount++)
@@ -91,12 +91,12 @@ void CYKVisualiser::dumpContent()
                     << "elementCount: " << elementCount << "\n";
         }
       }
-      //std::cout << displayPlace;
-      //std::cout << " | ";
+      std::cout << displayPlace;
+      std::cout << " | ";
     }
-    //std::cout << "\n";
+    std::cout << "\n";
   }
-  //std::cout << "-----------\n";
+  std::cout << "-----------\n";
 }
 
 void CYKVisualiser::dumpAll()
@@ -107,7 +107,7 @@ void CYKVisualiser::dumpAll()
   {
     for (unsigned int j = 0; j < this->matrix.at(i).size(); j++)
     {
-      std::string displayPlace = "";
+      std::string displayPlace = "Symbols:" + std::to_string(this->matrix.at(i).at(j).size()) + "-";
       for (unsigned int k = 0; k < this->matrix.at(i).at(j).size(); k++)
       {
         try
@@ -121,9 +121,9 @@ void CYKVisualiser::dumpAll()
           }
           displayPlace =
               displayPlace +
-              this->matrix.at(i).at(j).at(k).getRoot().getIdentifier() +
+              this->matrix.at(i).at(j).at(k).getRoot().getIdentifier()/* +
               std::to_string(
-                  this->matrix.at(i).at(j).at(k).getProductions().size());
+                  this->matrix.at(i).at(j).at(k).getProductions().size())*/;
           if (this->matrix.at(i).at(j).at(k).getRoot().getIdentifier() == "")
           {
             displayPlace = displayPlace + "EmptyNonterminal";
