@@ -23,9 +23,9 @@ int main(int argc, char** argv)
 
   std::vector<FormalGrammar> test_grammars;
 
-  for (size_t j = 0; j < 3; j++)
+  for (size_t j = 0; j < 5; j++)
   {
-    test_grammars.push_back(test_handler.generate_random_grammar(8,8,8));
+    test_grammars.push_back(test_handler.generate_random_grammar(10,10,10));
   }
   std::cout << "Startsymbol: "
             << test_grammars.at(0).start.getIdentifier() << "\n";
@@ -48,13 +48,13 @@ int main(int argc, char** argv)
   }
   std::cout << "\n";
 
-  int number_of_passes = 3;
+  int number_of_passes = 20;
 
   std::ofstream log_file;
   log_file.open("cyk_log.csv");
   log_file << "length,grammar,pass,microseconds\n";
 
-  for (size_t length = 1; length < 9; length++)
+  for (size_t length = 1; length < 21; length++)
   {
     std::cout << "Length: " << length << "\n";
     for (size_t grammar_number = 0; grammar_number < test_grammars.size(); grammar_number++)
