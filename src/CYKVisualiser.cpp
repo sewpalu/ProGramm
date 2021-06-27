@@ -43,6 +43,13 @@ void CYKVisualiser::setResult(std::pair<unsigned int, unsigned int> position,
   this->matrix.at(position.first).at(position.second) = productions;
 }
 
+
+void CYKVisualiser::addResult(std::pair<unsigned int, unsigned int> position,
+               CYKLink production)
+{
+  this->matrix.at(position.first).at(position.second).push_back(production);
+}
+
 void CYKVisualiser::dumpContent()
 {
   std::cout << "Visualiser Content: \n";
@@ -107,7 +114,8 @@ void CYKVisualiser::dumpAll()
   {
     for (unsigned int j = 0; j < this->matrix.at(i).size(); j++)
     {
-      std::string displayPlace = "Symbols:" + std::to_string(this->matrix.at(i).at(j).size()) + "-";
+      std::string displayPlace =
+          "Symbols:" + std::to_string(this->matrix.at(i).at(j).size()) + "-";
       for (unsigned int k = 0; k < this->matrix.at(i).at(j).size(); k++)
       {
         try

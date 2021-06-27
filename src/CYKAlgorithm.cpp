@@ -70,8 +70,8 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
 
   //cykVisSolution->dumpAll();
 
-  std::vector<Nonterminal> searchSymbolLeft;
-  std::vector<Nonterminal> searchSymbolRight;
+  std::vector<CYKLink> searchSymbolsLeft;
+  std::vector<CYKLink> searchSymbolsRight;
 
   std::vector<CYKLink> tempProductions;
   // CYKLink tempResult;
@@ -88,8 +88,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
     // With each line up, there's one column less
     for (unsigned int cykCol = 0; cykCol < input.getSize() - cykLine; cykCol++)
     {
-      /*std::cout << "Checking: (" << cykLine << "/" << cykCol
-                << ") -------------------------------------------------------\n";*/
+      std::cout << "Checking: (" << cykLine << "/" << cykCol << ") ------\n";
 
       tempProductions.clear();
 
@@ -97,9 +96,10 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
       // rightside of the possible production rule
       for (unsigned int combination = 0; combination < cykLine; combination++)
       {
+        std::cout << "Checking Combination " << combination << "\n";
         // Clear for each iteration
-        searchSymbolLeft.clear();
-        searchSymbolRight.clear();
+        searchSymbolsLeft.clear();
+        searchSymbolsRight.clear();
 
         // Loop to get all roots in left cell of CYK Matrix that is being
         // checked
@@ -111,10 +111,9 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
           if (cykVisSolution->matrix.at(combination).at(cykCol).size() >
               nonterminalCounter)
           {
-            searchSymbolLeft.push_back(cykVisSolution->matrix.at(combination)
+            searchSymbolsLeft.push_back(cykVisSolution->matrix.at(combination)
                                            .at(cykCol)
-                                           .at(nonterminalCounter)
-                                           .getRoot());
+                                           .at(nonterminalCounter));
           }
         }
 
@@ -131,15 +130,14 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                   .at(cykCol + combination + 1)
                   .size() > nonterminalCounter)
           {
-            searchSymbolRight.push_back(
+            searchSymbolsRight.push_back(
                 cykVisSolution->matrix.at(cykLine - combination - 1)
                     .at(cykCol + combination + 1)
-                    .at(nonterminalCounter)
-                    .getRoot());
+                    .at(nonterminalCounter));
           }
         }
-        // unsigned int numberOfLeftNonterminals = searchSymbolLeft.size();
-        // unsigned int numberOfRightNonterminals = searchSymbolRight.size();
+        // unsigned int numberOfLeftNonterminals = searchSymbolsLeft.size();
+        // unsigned int numberOfRightNonterminals = searchSymbolsRight.size();
 
         // Loop through possible productions (max given by number of rules in
         // grammar)
@@ -152,99 +150,86 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
           {
             // Loop through possible Nonterminals on left side
             for (unsigned int numberOfLeftNonterminal = 0;
-                 numberOfLeftNonterminal < searchSymbolLeft.size();
+                 numberOfLeftNonterminal < searchSymbolsLeft.size();
                  numberOfLeftNonterminal++)
             {
               // std::cout << "Comparison left Nonterminal: " <<
               // grammar.rules.at(prodCounter).rhs().at(0).getIdentifier() << "
               // vs. " <<
-              // searchSymbolLeft.at(numberOfLeftNonterminal).getIdentifier() <<
+              // searchSymbolsLeft.at(numberOfLeftNonterminal).getIdentifier() <<
               // "\n";
               if (grammar.rules.at(prodCounter).rhs().at(0)->getIdentifier() ==
-                  searchSymbolLeft.at(numberOfLeftNonterminal).getIdentifier())
+                  searchSymbolsLeft.at(numberOfLeftNonterminal).getRoot().getIdentifier())
               {
                 // std::cout << " - left equal! \n";
                 // Loop through possible Nonterminals on right side
                 for (unsigned int numberOfRightNonterminal = 0;
-                     numberOfRightNonterminal < searchSymbolRight.size();
+                     numberOfRightNonterminal < searchSymbolsRight.size();
                      numberOfRightNonterminal++)
                 {
-                  // std::cout << "Comparison right Nonterminal: " <<
-                  // grammar.rules.at(prodCounter).rhs().at(1).getIdentifier() <<
-                  // " vs. " <<
-                  // searchSymbolRight.at(numberOfRightNonterminal).getIdentifier()
-                  // << "\n";
                   if (grammar.rules.at(prodCounter)
                           .rhs().at(1)
                           ->getIdentifier() ==
-                      searchSymbolRight.at(numberOfRightNonterminal)
-                          .getIdentifier())
+                      searchSymbolsRight.at(numberOfRightNonterminal)
+                          .getRoot().getIdentifier())
                   {
-                    // std::cout << "Inside: \n";
-                    // std::cout <<
-                    // cykVisSolution.matrix.at(cykLine).at(cykCol).size() <<
-                    // "\n"; std::wcout << " - right equal! \n";
-                    CYKLink tempResult(grammar.rules.at(prodCounter).lhs());
-                    // if (tempResult.getRoot().getIdentifier() == "") std::cout
-                    // << "Root Alarm IIIIIIIIIIIIIIIIIIIIIIIIIIIII"; std::cout
-                    // << tempResult.getRoot().getIdentifier(); Get the exact
-                    // CYKLink(s) being referenced in the CYK Matrix
+                    CYKLink link(grammar.rules.at(prodCounter).lhs());
                     
-                    std::vector<CYKLink> links;
-
-                    for (size_t i = 0;
-                         i < cykVisSolution->matrix.at(combination).at(cykCol).size();
-                         i++)
-                    {
-                      if (grammar.rules.at(prodCounter).rhs().at(0)->getIdentifier() ==
+                    link.addProduction({
+                      {combination, cykCol},
                           cykVisSolution->matrix.at(combination)
                               .at(cykCol)
-                              .at(i).getRoot().getIdentifier())
-                      {
-                        links.push_back(cykVisSolution->matrix.at(combination)
-                                            .at(cykCol)
-                                            .at(i));
-                      }
-                    }
+                              .at(numberOfLeftNonterminal)
+                    });
 
-                    for (size_t i = 0; i < cykVisSolution->matrix
-                                               .at(cykLine - combination - 1)
-                                               .at(cykCol + combination + 1).size();
-                         i++)
-                    {
-                      if (grammar.rules.at(prodCounter)
-                              .rhs().at(1)
-                              ->getIdentifier() ==
+                    link.addProduction({
+                      {cykCol + combination + 1, cykCol + combination + 1},
                           cykVisSolution->matrix.at(cykLine - combination - 1)
                               .at(cykCol + combination + 1)
-                              .at(i).getRoot().getIdentifier())
-                      {
-                        links.push_back(
-                            cykVisSolution->matrix.at(cykLine - combination - 1)
-                                .at(cykCol + combination + 1)
-                                .at(i));
-                      }
-                    }
+                              .at(numberOfRightNonterminal)
+                    });
 
-                    if (!(links.at(0).getRoot().getIdentifier() == ""))
-                      tempResult.addProduction(
-                          {{combination, cykCol}, links.at(0)});
-                    if (!(links.at(1).getRoot().getIdentifier() == ""))
-                      tempResult.addProduction({{cykLine - combination - 1,
-                                                 cykCol + combination + 1},
-                                                links.at(1)});
-                    if (tempResult.getProductions().size() > 0)
-                      tempProductions.push_back(tempResult);
+                    tempProductions.push_back(link);
+
+                    //Output the currently found link that's been added to the cyk matrix
+                    std::cout << "'" << link.getRoot().getIdentifier() << "->"
+                              << link.getProductions()
+                                     .at(0)
+                                     .second.getRoot()
+                                     .getIdentifier()
+                              << link.getProductions()
+                                     .at(1)
+                                     .second.getRoot()
+                                     .getIdentifier()
+                              << "', ";
                   }
                 }
               }
             }
           }
         }
+        //std::cout << "\n";
       }
       if (tempProductions.size() > 0)
       {
         cykVisSolution->setResult({cykLine, cykCol}, tempProductions);
+        /*for (size_t i = 0; i < tempProductions.size(); i++)
+        {
+          bool exists = false;
+          for (size_t j = 0; j < cykVisSolution->matrix.at(cykLine).at(cykCol).size(); j++)
+          {
+            if (cykVisSolution->matrix.at(cykLine).at(cykCol).at(j).equals(tempProductions.at(i)))
+            {
+              exists = true;
+              break;
+            }
+          }
+          if (!exists)
+          {
+            cykVisSolution->matrix.at(cykLine).at(cykCol).push_back(
+                tempProductions.at(i));
+          }
+        }*/
       }
       if ((cykLine == 1) && (cykCol == 1))
       {
@@ -285,12 +270,12 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
         std::cout << "\n\n";*/
       }
       //std::cout << "Checked: " << cykLine << " | " << cykCol << "\n";
-      //cykVisSolution->dumpAll();
+      cykVisSolution->dumpAll();
       cykVisSolution->saveStep();
     }
   }
 
-  //cykVisSolution->dumpAll();
+  cykVisSolution->dumpAll();
 
   //std::cout << "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII\n\n\n";
 
