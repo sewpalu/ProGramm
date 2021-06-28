@@ -5,17 +5,9 @@
 
 std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
 {
-  if (!input.getSize())
-    return {};
+  //if (!input.getSize())
+  //  return {};
 
-  std::pair<unsigned int, unsigned int> position1 = {0, 0};
-  std::pair<unsigned int, unsigned int> position2 = {1, 1};
-
-  std::vector<std::pair<unsigned, unsigned int>> testPairs = {position1,
-                                                              position2};
-
-  // void setResult(std::pair<unsigned int, unsigned int> position, CYKLink
-  // production);
 
   m_visualiser = std::make_unique<CYKVisualiser>(input.getSize());
   CYKVisualiser* const cykVisSolution =
@@ -24,8 +16,24 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
     throw std::runtime_error{"m_visualiser was falsely initialised to "
                              "something that isn't a CYKVisualiser"};
 
-  /*std::cout << "Vorher: " << cykVisSolution->matrix.at(0).at(0).size()
-            << "\n\n\n";*/
+  if (input.content.size() == 0)
+  {
+    for (size_t rule = 0; rule < grammar.rules.size(); rule++)
+    {
+      if (grammar.rules.at(rule).rhs().size() == 0)
+      {
+        if (grammar.rules.at(rule).lhs().isStartSymbol())
+        {
+          std::cout << "Wort enthalten!\n";
+          cykVisSolution->saveStep();
+          return {SyntaxTree(
+              STNode(std::make_unique<Nonterminal>(grammar.rules.at(rule).lhs())))};
+        }
+      }
+    }
+    std::cout << "Wort nicht enthalten!\n";
+    return {};
+  }
 
   Terminal testTerminal;
 
@@ -88,7 +96,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
     // With each line up, there's one column less
     for (unsigned int cykCol = 0; cykCol < input.getSize() - cykLine; cykCol++)
     {
-      std::cout << "Checking: (" << cykLine << "/" << cykCol << ") ------\n";
+      //std::cout << "Checking: (" << cykLine << "/" << cykCol << ") ------\n";
 
       tempProductions.clear();
 
@@ -96,7 +104,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
       // rightside of the possible production rule
       for (unsigned int combination = 0; combination < cykLine; combination++)
       {
-        std::cout << "Checking Combination " << combination << "\n";
+        //std::cout << "Checking Combination " << combination << "\n";
         // Clear for each iteration
         searchSymbolsLeft.clear();
         searchSymbolsRight.clear();
@@ -192,7 +200,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                     tempProductions.push_back(link);
 
                     //Output the currently found link that's been added to the cyk matrix
-                    std::cout << "'" << link.getRoot().getIdentifier() << "->"
+                    /*std::cout << "'" << link.getRoot().getIdentifier() << "->"
                               << link.getProductions()
                                      .at(0)
                                      .second.getRoot()
@@ -201,7 +209,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                                      .at(1)
                                      .second.getRoot()
                                      .getIdentifier()
-                              << "', ";
+                              << "', ";*/
                   }
                 }
               }
@@ -270,12 +278,12 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
         std::cout << "\n\n";*/
       }
       //std::cout << "Checked: " << cykLine << " | " << cykCol << "\n";
-      cykVisSolution->dumpAll();
+      //cykVisSolution->dumpAll();
       cykVisSolution->saveStep();
     }
   }
 
-  cykVisSolution->dumpAll();
+  //cykVisSolution->dumpAll();
 
   //std::cout << "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII\n\n\n";
 
