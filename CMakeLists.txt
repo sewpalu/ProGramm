@@ -16,8 +16,6 @@ file(GLOB ${PROJECT_NAME}_src "src/*")
 ## BUILD
 ##
 
-#find_package(nlohmann_json 3.2.0 REQUIRED)
-
 add_library(${PROJECT_NAME}lib STATIC ${${PROJECT_NAME}_src})
 target_include_directories(${PROJECT_NAME}lib PRIVATE ${PROJECT_SOURCE_DIR}/include)
 target_link_libraries(${PROJECT_NAME}lib docopt_s wx::net wx::core wx::base wx::xrc nlohmann_json::nlohmann_json)

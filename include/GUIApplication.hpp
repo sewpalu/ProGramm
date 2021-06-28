@@ -12,6 +12,7 @@ class GUIApplication : public wxApp
 {
 private:
   MainWindow* m_main_window;
+  wxLocale m_locale;
 
 public:
   /**

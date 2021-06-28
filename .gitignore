@@ -11,3 +11,6 @@ Debug/
 *.user
 node_modules
 grammars.json
+*.mo
+*.pot
+*\~

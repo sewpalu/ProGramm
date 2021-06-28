@@ -4,6 +4,7 @@
 
 #include "wx/image.h"
 #include "wx/init.h"
+#include "wx/language.h"
 #include "wx/xrc/xmlres.h"
 
 #include "MainWindow.hpp"
@@ -33,6 +34,11 @@ bool GUIApplication::OnInit()
     return false;
 
   wxImage::AddHandler(new wxPNGHandler{});
+
+  wxLocale::AddCatalogLookupPathPrefix("i18n");
+  if (!m_locale.Init(wxLocale::GetSystemLanguage()) ||
+      !m_locale.AddCatalog("pro_gramm"))
+    std::cerr << "Failure loading translations\n";
 
   init_xrc();
 

@@ -69,8 +69,7 @@ void ProductionManager::on_create(wxWindowCreateEvent& evt)
   }
   this->rhs_sizer->Clear(true);
 
-  this->rhs_selectors.push_back(
-      new wxComboBox(rhs_container, wxID_ANY));
+  this->rhs_selectors.push_back(new wxComboBox(rhs_container, wxID_ANY));
 
   for (unsigned int i = 0; i < this->terminal_alphabet.size(); i++)
   {
@@ -151,7 +150,7 @@ void ProductionManager::add_production(wxCommandEvent& evt)
   {
 
     wxMessageBox(wxString::FromUTF8(
-        "Wählen Sie ein Symbol für die linke Seite der Produktionsregel aus!"));
+        _("Please select a symbol for the left side of the production!")));
     return;
   }
 
@@ -167,11 +166,10 @@ void ProductionManager::add_production(wxCommandEvent& evt)
   if (!lhs_exists)
   {
     wxString msg_output;
-    msg_output.Printf(wxString::FromUTF8("Das Symbol '%s"
-                                         "' ist nicht im Alphabet enthalten."
-                                         "Fügen Sie es hinzu, um es zu "
-                                         "verwenden."),
-                      this->lhs_selector->GetValue().ToStdString());
+    msg_output.Printf(
+        wxString::FromUTF8(_("The symbol '%s' is not in the alphabet. Please "
+                             "add it to use it.")),
+        this->lhs_selector->GetValue().ToStdString());
     wxMessageBox(msg_output);
     return;
   }
@@ -183,10 +181,9 @@ void ProductionManager::add_production(wxCommandEvent& evt)
   {
     if (this->rhs_selectors.at(i)->GetValue().ToStdString() == "")
     {
-      wxMessageBox(wxString::FromUTF8(
-          "Sie müssen für jede Auswahlmöglichkeit ein Symbol auswählen. "
-          "Alternativ können sie die Anzahl der Symbole auf der rechten "
-          "Seite der Produktion reduzieren."));
+      wxMessageBox(wxString::FromUTF8(_(
+          "A symbol has to be selected for each position. Alternatively the "
+          "amount of symbols to the right of the production can be reduced.")));
       return;
     }
     bool exists_in_alphabet = false;
@@ -218,11 +215,10 @@ void ProductionManager::add_production(wxCommandEvent& evt)
     if (!exists_in_alphabet)
     {
       wxString msg_output;
-      msg_output.Printf(wxString::FromUTF8("Das Symbol '%s"
-                                           "' ist nicht im Alphabet enthalten."
-                                           "Fügen Sie es hinzu, um es zu "
-                                           "verwenden."),
-                        this->rhs_selectors.at(i)->GetValue().ToStdString());
+      msg_output.Printf(
+          wxString::FromUTF8(_("The symbol '%s' is not in the alphabet. Please "
+                               "add it to use it.")),
+          this->rhs_selectors.at(i)->GetValue().ToStdString());
       wxMessageBox(msg_output);
       return;
     }
@@ -314,8 +310,7 @@ void ProductionManager::update_symbol_selectors()
     for (unsigned int i = rhs_selectors.size();
          i < this->number_of_rhs_symbols_selector->GetValue(); i++)
     {
-      this->rhs_selectors.push_back(
-          new wxComboBox(rhs_container, wxID_ANY));
+      this->rhs_selectors.push_back(new wxComboBox(rhs_container, wxID_ANY));
 
       for (unsigned int j = 0; j < this->terminal_alphabet.size(); j++)
       {
@@ -349,10 +344,10 @@ void ProductionManager::update_symbol_selectors()
                          wxSizerFlags{}.Border(wxALL, 5).CentreVertical());
   }
   rhs_container->Layout();
-  //rhs_sizer->Fit(rhs_container);
+  // rhs_sizer->Fit(rhs_container);
   rhs_container->Fit();
   rhs_container->FitInside();
-  //rhs_container->SetMinSize(rhs_container->GetSize());
+  // rhs_container->SetMinSize(rhs_container->GetSize());
 
   Layout();
   Refresh();

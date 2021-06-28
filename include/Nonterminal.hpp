@@ -20,7 +20,6 @@ public:
 
     std::unique_ptr<Symbol> clone() override
     {
-      //std::cout << "Cloning: " << this->identifier << "\n";
       return std::make_unique<Nonterminal>(*this);
     }
 
