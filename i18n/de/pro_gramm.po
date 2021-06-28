@@ -1,0 +1,259 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-06-28 07:59+0200\n"
+"PO-Revision-Date: 2021-06-28 08:04+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.0\n"
+
+#: src/AlphabetManager.cpp:111 resources/gui.xrc:232
+msgid "Nonterminal"
+msgstr "Nichtterminal"
+
+#: src/AlphabetManager.cpp:115 resources/gui.xrc:231
+msgid "Terminal"
+msgstr "Terminal"
+
+#: src/AlphabetManager.cpp:120
+msgid "A Terminal cannot be a start symbol!"
+msgstr "Ein Terminal kann kein Startsymbol sein!"
+
+#: src/AlphabetManager.cpp:126
+msgid ""
+"Please select the type of symbol!\n"
+" Input '"
+msgstr ""
+"Bitte wählen Sie die Symbolart!\n"
+" Input '"
+
+#: src/AlphabetManager.cpp:128
+msgid "' is invalid."
+msgstr "' ist ungültig."
+
+#: src/AlphabetManager.cpp:134
+msgid "The symbol value must not be empty!"
+msgstr "Der Symbolwert kann nicht leer sein!"
+
+#: src/AlphabetManager.cpp:143 src/AlphabetManager.cpp:153
+msgid "There already exists a symbol with the value '"
+msgstr "Es gibt bereits ein Symbol mit dem Wert '"
+
+#: src/AlphabetManager.cpp:223
+msgid "Select one or multiple symbols to delete them."
+msgstr "Bitte wählen Sie ein oder mehrere Symbole zum löschen."
+
+#: src/CYKVisualisationTab.cpp:39 src/STVisualisationTab.cpp:85
+msgid "Input (grammar, word)"
+msgstr "Eingabe (Grammatik,  Wort)"
+
+#: src/CYKVisualisationTab.cpp:40 src/STVisualisationTab.cpp:86
+msgid "CNF check"
+msgstr "CNF Prüfung"
+
+#: src/CYKVisualisationTab.cpp:41 src/STVisualisationTab.cpp:88
+#: resources/gui.xrc:42
+msgid "CYK"
+msgstr "CYK"
+
+#: src/CYKVisualisationTab.cpp:43 src/STVisualisationTab.cpp:106
+#: resources/gui.xrc:49
+msgid "Syntax tree"
+msgstr "Ableitungsbaum"
+
+#: src/CYKVisualisationTab.cpp:68 src/STVisualisationTab.cpp:114
+msgid "Input grammar or input word not set"
+msgstr "Eingabegrammatik oder Eingabewort sind nicht gesetzt"
+
+#: src/CYKVisualisationTab.cpp:80 src/STVisualisationTab.cpp:126
+msgid ""
+"<b>Grammar plausibility check failed</b>\n"
+"<i>Reason</i>\n"
+msgstr ""
+"<b>Plausibilitätsprüfung der Grammatik ist fehlgeschlagen!</b>\n"
+"<i>Grund</i>\n"
+
+#: src/CYKVisualisationTab.cpp:90 src/STVisualisationTab.cpp:136
+msgid ""
+"<b>Grammar is not in CNF</b>\n"
+"<i>Reason</i>\n"
+msgstr ""
+"<b>Grammatik ist nicht in CNF!</b>\n"
+"<i>Grund!</i>\n"
+
+#: src/CYKVisualisationTab.cpp:108 src/STVisualisationTab.cpp:156
+msgid ""
+"<b>CYK algorithm failed</b>\n"
+"<i>Reason</i>\n"
+msgstr ""
+"<b>CYK Algorithmus is fehlgeschlagen!</b>\n"
+"<i>Grund</i>\n"
+
+#: src/GrammarOverviewTab.cpp:155
+msgid "Please enter a valid grammar name!"
+msgstr "Bitte geben Sie einen gültigen Namen für die Grammatik ein!"
+
+#: src/GrammarOverviewTab.cpp:163
+msgid "The grammar with the name '"
+msgstr "Die Grammatik mit dem Namen '"
+
+#: src/GrammarOverviewTab.cpp:164
+msgid "' already exists. Do you wish to override it?"
+msgstr "' existiert bereits. Möchten Sie sie überschreiben?"
+
+#: src/GrammarOverviewTab.cpp:168
+msgid "Confirmation"
+msgstr "Bestätigung"
+
+#: src/GrammarOverviewTab.cpp:201
+msgid "A grammar has to be selected to load it!"
+msgstr "Zum Laden muss eine Grammatik ausgewählt werden!"
+
+#: src/GrammarOverviewTab.cpp:204 src/GrammarOverviewTab.cpp:223
+msgid "Info"
+msgstr "Info"
+
+#: src/GrammarOverviewTab.cpp:222
+msgid "Exactly on grammar has to be selected to load it!"
+msgstr "Genau eine Grammatik muss ausgewählt werden um sie zu laden!"
+
+#: src/ProductionManager.cpp:153
+msgid "Please select a symbol for the left side of the production!"
+msgstr "Bitte wählen Sie ein Symbol für die linke Seite der Produktionsregel!"
+
+#: src/ProductionManager.cpp:170 src/ProductionManager.cpp:219
+#, c-format
+msgid "The symbol '%s' is not in the alphabet. Please add it to use it."
+msgstr ""
+"Das symbol '%s' ist nicht Teil des Alphabets. Bitte fügen Sie es hinzu, um "
+"es zu benutzen."
+
+#: src/ProductionManager.cpp:185
+msgid ""
+"A symbol has to be selected for each position. Alternatively the amount of "
+"symbols to the right of the production can be reduced."
+msgstr ""
+"Für jede Position muss ein Symbol gewählt werden. Alternativ kann die Anahl "
+"der Symbole auf der rechten Seite der Produktionsregel reduziert werden."
+
+#: resources/gui.xrc:5
+msgid "ProGramm"
+msgstr "ProGramm"
+
+#: resources/gui.xrc:32
+msgid "Visualisation"
+msgstr "Visualisierung"
+
+#: resources/gui.xrc:56
+msgid "Grammar manager"
+msgstr "Grammatikmanager"
+
+#: resources/gui.xrc:106 resources/gui.xrc:731
+msgid ""
+"<b>No diagnostics</b>\n"
+"<i>Reason</i>\n"
+"All good\n"
+"* hi"
+msgstr ""
+"<b>CYK Algorithmus is fehlgeschlagen!</b>\n"
+"<i>Grund</i>\n"
+"Keiner\n"
+"* Test"
+
+#: resources/gui.xrc:129
+msgid "Previous"
+msgstr "Zurück"
+
+#: resources/gui.xrc:146
+msgid "Next"
+msgstr "Weiter"
+
+#: resources/gui.xrc:166
+msgid "Alphabet"
+msgstr "Alphabet"
+
+#: resources/gui.xrc:174 resources/gui.xrc:684
+msgid "Productions"
+msgstr "Produktionen"
+
+#: resources/gui.xrc:182
+msgid "Overview"
+msgstr "Überblick"
+
+#: resources/gui.xrc:196
+msgid "Activate grammar!"
+msgstr "Grammatik aktivieren!"
+
+#: resources/gui.xrc:220
+msgid "Add symbol:"
+msgstr "Symbol hinzufügen:"
+
+#: resources/gui.xrc:250
+msgid "Is startsymbol"
+msgstr "Startsymbol"
+
+#: resources/gui.xrc:259
+msgid "Add symbol!"
+msgstr "Symbol hizufügen!"
+
+#: resources/gui.xrc:284 resources/gui.xrc:658
+msgid "Nonterminals"
+msgstr "Nichtterminal"
+
+#: resources/gui.xrc:309 resources/gui.xrc:632
+msgid "Terminals"
+msgstr "Terminal"
+
+#: resources/gui.xrc:330
+msgid "Delete symbols!"
+msgstr "Symbole löschen!"
+
+#: resources/gui.xrc:369
+msgid "produces"
+msgstr "produziert"
+
+#: resources/gui.xrc:415
+msgid "Add production!"
+msgstr "Produktion hinzufügen!"
+
+#: resources/gui.xrc:448
+msgid "Delete production!"
+msgstr "Produktion löschen!"
+
+#: resources/gui.xrc:502
+msgid "Check grammar!"
+msgstr "Grammatik prüfen!"
+
+#: resources/gui.xrc:539
+msgid "Name:"
+msgstr "Name:"
+
+#: resources/gui.xrc:558
+msgid "Save grammar!"
+msgstr "Grammatik speichern!"
+
+#: resources/gui.xrc:591
+msgid "Load"
+msgstr "Laden"
+
+#: resources/gui.xrc:602
+msgid "Delete"
+msgstr "Löschen"
+
+#: resources/gui.xrc:769
+msgid "Start symbol"
+msgstr "Startsymbol"
+
+#: resources/gui.xrc:803
+msgid "Input word"
+msgstr "Eingabewort"

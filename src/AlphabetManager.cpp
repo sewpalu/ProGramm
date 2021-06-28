@@ -108,30 +108,30 @@ void AlphabetManager::add_symbol(wxCommandEvent& evt)
 {
   bool isNonterminal;
 
-  if (this->symbol_type_selector->GetValue() == "Nonterminal")
+  if (this->symbol_type_selector->GetValue() == _("Nonterminal"))
   {
     isNonterminal = true;
   }
-  else if (this->symbol_type_selector->GetValue() == "Terminal")
+  else if (this->symbol_type_selector->GetValue() == _("Terminal"))
   {
     isNonterminal = false;
     if (this->start_symbol_selector->GetValue())
     {
-      wxMessageBox(wxT("Ein Terminal kann kein Startsymbol sein!"));
+      wxMessageBox(_("A Terminal cannot be a start symbol!"));
       return;
     }
   }
   else
   {
-    wxMessageBox(wxT("Bitte wählen Sie eine Symbolart aus!\n Eingabe '" +
-                     this->symbol_type_selector->GetValue() +
-                     "' ist nicht gültig."));
+    wxMessageBox(_("Please select the type of symbol!\n Input '") +
+                 this->symbol_type_selector->GetValue() +
+                 _("' is invalid."));
     return;
   }
 
   if (this->symbol_value_entry->GetValue() == "")
   {
-    wxMessageBox(wxT("Der Wert des Symbols darf nicht leer sein: ''"));
+    wxMessageBox(_("The symbol value must not be empty!"));
     return;
   }
 
@@ -140,8 +140,8 @@ void AlphabetManager::add_symbol(wxCommandEvent& evt)
     if (this->nonterminal_alphabet.at(i)->getIdentifier() ==
         this->symbol_value_entry->GetValue())
     {
-      wxMessageBox(wxT("Es gibt bereits ein Symbol mit dem Wert '" +
-                       this->symbol_value_entry->GetValue() + "'"));
+      wxMessageBox(_("There already exists a symbol with the value '") +
+                       this->symbol_value_entry->GetValue() + "'");
       return;
     }
   }
@@ -150,8 +150,8 @@ void AlphabetManager::add_symbol(wxCommandEvent& evt)
     if (this->terminal_alphabet.at(i)->getIdentifier() ==
         this->symbol_value_entry->GetValue())
     {
-      wxMessageBox(wxT("Es gibt bereits ein Symbol mit dem Wert '" +
-                       this->symbol_value_entry->GetValue() + "'"));
+      wxMessageBox(_("There already exists a symbol with the value '") +
+                       this->symbol_value_entry->GetValue() + "'");
       return;
     }
   }
@@ -220,7 +220,7 @@ void AlphabetManager::delete_symbol(wxCommandEvent& evt)
   Refresh();
 
   if (!deleted_a_symbol)
-    wxMessageBox(wxT("Wählen Sie ein Symbol aus, um es zu löschen!"));
+    wxMessageBox(_("Select one or multiple symbols to delete them."));
 }
 
 void AlphabetManager::on_refresh(wxPaintEvent& evt)
