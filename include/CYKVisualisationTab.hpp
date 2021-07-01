@@ -27,17 +27,11 @@ public:
 
   /// GUIVisualisationInterface implementation
 
-  void draw_tree(SyntaxTree*) final
-  {
-    throw std::runtime_error(
-        "Tree drawing not supported by CYKVisualisationTab");
-  }
-
   void draw_table(const Table& table) final;
 
   void draw_empty() final;
 
-  void add_button(const std::string& label, Callback on_click,
+  void set_button(const std::string& label, Callback on_click,
                   Position position = Position::left) final;
 
 private:

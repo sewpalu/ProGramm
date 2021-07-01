@@ -21,7 +21,7 @@ public:
     visitor.visitSTVisualiser(*this);
   }
 
-  std::unique_ptr<Visualiser> clone() override
+  std::unique_ptr<Visualiser> clone() const override
   {
     return std::make_unique<STVisualiser>(*this);
   }

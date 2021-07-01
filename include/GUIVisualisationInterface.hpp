@@ -1,11 +1,11 @@
 #ifndef GUI_VISUALISATION_INTERFACE_HPP
 #define GUI_VISUALISATION_INTERFACE_HPP
 
+#include <compare>
 #include <functional>
 #include <stddef.h>
 #include <string>
 #include <vector>
-#include <compare>
 
 #include "STNode.hpp"
 
@@ -58,12 +58,21 @@ public:
     right
   };
 
-  virtual void draw_tree(SyntaxTree* tree) = 0;
+  struct Option
+  {
+    std::string text;
+    bool selected;
+    Callback on_click;
+  };
+
+  virtual void draw_tree(const SyntaxTree& tree) = 0;
+  // virtual void draw_tree(Tree* tree) = 0;
   virtual void draw_table(const Table& table) = 0;
   virtual void draw_empty() = 0;
 
-  virtual void add_button(const std::string& label, Callback on_click,
+  virtual void set_button(const std::string& label, Callback on_click,
                           Position position = Position::left) = 0;
+  virtual void set_options(const std::vector<Option>& options) = 0;
 };
 
 #endif /* ifndef GUI_VISUALISATION_INTERFACE_HPP */

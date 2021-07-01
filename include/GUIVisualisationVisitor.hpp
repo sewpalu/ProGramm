@@ -17,6 +17,7 @@ public:
 
   void visitCYKVisualiser(const CYKVisualiser& visualiser) override;
   void visitSTVisualiser(const STVisualiser& visualiser) override;
+  void visitSTreesVisualiser(const STreesVisualiser& visualiser) override;
 
 private:
   static GUIVisualisationInterface::Table to_gui_table(

@@ -271,7 +271,7 @@ void CYKVisualiser::dumpContent(unsigned int coordinate1,
 
 // Option to handle all recursive calls to further functions in order to return
 // all possible SyntaxTrees that produce the word within the given grammar
-std::vector<SyntaxTree> CYKVisualiser::convertToSyntaxTree(
+std::vector<SyntaxTree> CYKVisualiser::convertToSyntaxTrees(
     FormalGrammar grammar)
 {
   std::cout << "Converting to SyntaxTree: \n";

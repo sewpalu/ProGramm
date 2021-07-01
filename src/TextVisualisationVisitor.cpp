@@ -5,6 +5,7 @@
 #include "CYKVisualiser.hpp"
 #include "STNode.hpp"
 #include "STVisualiser.hpp"
+#include "STreesVisualiser.hpp"
 
 #include <iostream>
 
@@ -147,4 +148,11 @@ static std::string subtree_printer(const STNode& node,
 void TextVisualisationVisitor::visitSTVisualiser(const STVisualiser& visualiser)
 {
   m_text = subtree_printer(*visualiser.root_node);
+}
+
+void TextVisualisationVisitor::visitSTreesVisualiser(const STreesVisualiser& visualiser)
+{
+  m_text = {};
+  for (const auto& st: *visualiser.trees)
+    m_text += subtree_printer(st.getRoot());
 }

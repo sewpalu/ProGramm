@@ -715,10 +715,44 @@
 			</object>
 			<object class="sizeritem">
 				<option>8</option>
-				<flag>wxEXPAND | wxALL</flag>
+				<flag>wxEXPAND</flag>
 				<border>5</border>
-				<object class="wxPanel" name="st_visualisation">
-					<style>wxTAB_TRAVERSAL</style>
+				<object class="wxBoxSizer">
+					<orient>wxHORIZONTAL</orient>
+					<object class="sizeritem">
+						<option>1</option>
+						<flag>wxALL|wxEXPAND</flag>
+						<border>5</border>
+						<object class="wxPanel" name="st_visualisation">
+							<style>wxTAB_TRAVERSAL</style>
+						</object>
+					</object>
+					<object class="sizeritem">
+						<option>0</option>
+						<flag>wxEXPAND</flag>
+						<border>5</border>
+						<object class="wxBoxSizer">
+							<orient>wxVERTICAL</orient>
+							<object class="sizeritem">
+								<option>0</option>
+								<flag>wxALL</flag>
+								<border>5</border>
+								<object class="wxStaticText" name="st_selection_label">
+									<label>Alternatives</label>
+									<wrap>-1</wrap>
+								</object>
+							</object>
+							<object class="sizeritem">
+								<option>1</option>
+								<flag>wxALL|wxEXPAND</flag>
+								<border>5</border>
+								<object class="wxListBox" name="st_selection">
+									<style>wxLB_SINGLE</style>
+									<content />
+								</object>
+							</object>
+						</object>
+					</object>
 				</object>
 			</object>
 			<object class="sizeritem">
