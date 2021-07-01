@@ -1,5 +1,10 @@
 #include "GrammarConverter.hpp"
 
+GrammarConverter::GrammarConverter(const std::string& file)
+    : grammar_file_name(file)
+{
+}
+
 GrammarConverter::GrammarStruct GrammarConverter::load_grammar_from_std_file(
     std::string grammar_name)
 {
@@ -41,10 +46,10 @@ GrammarConverter::GrammarStruct GrammarConverter::load_grammar_from_std_file(
       std::cout << "Grammar found\n";
       try
       {
-        if (!(grammars_data.at(grammar_number)["startsymbol"] == ""))
+        if (!(grammars_data.at(grammar_number)["alphabet"]["startsymbol"] == ""))
         {
           output_grammar.start_symbol =
-              Nonterminal(grammars_data.at(grammar_number)["startsymbol"]);
+              Nonterminal(grammars_data.at(grammar_number)["alphabet"]["startsymbol"]);
         }
       }
       catch (...)
@@ -78,7 +83,8 @@ GrammarConverter::GrammarStruct GrammarConverter::load_grammar_from_std_file(
         std::string terminal_identifier =
             grammars_data.at(grammar_number)["alphabet"]["nonterminals"].at(
                 nonterminal_index);
-        bool is_start = output_grammar.start_symbol.getIdentifier() == output_grammar.start_symbol.getIdentifier();
+        bool is_start = (terminal_identifier ==
+                         output_grammar.start_symbol.getIdentifier());
         nonterminals.push_back(new Nonterminal(terminal_identifier, is_start));
       }
 

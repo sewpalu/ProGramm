@@ -31,6 +31,8 @@ public:
   GrammarConverter() = default;
   ~GrammarConverter() = default;
 
+  explicit GrammarConverter(const std::string& file);
+
   GrammarStruct load_grammar_from_std_file(std::string grammar_name);
 
   // FormalGrammar load_grammar_from_file_path(std::string file_path);

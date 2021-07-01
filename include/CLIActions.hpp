@@ -5,15 +5,13 @@
 
 class CLIActions
 {
-private:
-  EngineFacade m_engine;
-
 public:
-  CLIActions(const EngineFacade& engine) : m_engine(engine)
-  {
-  }
+  void launch_gui(int argc, char** argv) const;
 
-  void visualiseProduction(const std::string& word);
+  void visualise_st(const std::string& word, const FormalGrammar& grammar,
+                    std::ostream& os) const;
+  void visualise_cyk(const std::string& word, const FormalGrammar& grammar,
+                     std::ostream& os) const;
 };
 
 #endif /* CLI_ACTIONS_H */

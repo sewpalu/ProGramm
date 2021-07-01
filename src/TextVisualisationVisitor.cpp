@@ -65,7 +65,7 @@ void TextVisualisationVisitor::visitCYKVisualiser(
           : decltype(matrix[0][0][0].getProductions()){};
 
   for (auto m = std::size_t{}; m < height; ++m)
-    for (auto n = std::size_t{}; n < width; ++n)
+    for (auto n = std::size_t{}; n < width - m; ++n)
     {
       auto cell = ""s;
       for (const auto& highlighted_cell : highlighted_cells)

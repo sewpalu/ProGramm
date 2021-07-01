@@ -23,25 +23,32 @@ private:
 
 Usage:
   form_lang gui [options]
-  form_lang parse (-f <file> | <pattern>) (-g <grammar_file> | <grammar>) [options]
+  form_lang parse (-f <word_file> | <word>) (-g <grammar_file> | <grammar>) (st|cyk)
+                  [-v text] [-o <output_file>] [options]
 
 Options:
-  -s <name>, --grammar-syntax <name>  Syntax of the grammar definition. One of: "bnf", "fahr" [default: "bnf"].
   -h, --help                          Show this help.
 
   `parse`
-  -g <file>, --grammar-file <file>  Read grammar from file.
-  -f <file>, --input-file <file>    Read input word from <file>.)";
+  -g <file>, --grammar-file <file>    Read grammar from file.
+                                      Currently only JSON files are supported.
+                                      For reference: Create and save a grammar with the
+                                      GUI and examine the created grammar.json file.
+                                      In the file, the grammar named "default" is used.
+  -f <file>, --in-file <file>         Read input word from <file>.
+  -v <format>, --vis-format <format>  Output format of the visualisation.
+                                      Currently only "text" is supported.
+                                      [default: "text"]
+  -o <file>, --output <file>          File the output is written to.
+                                      "-" means standard output. [default: "-"])";
 
 public:
   ArgumentsDispatcher(int argc, char** argv);
   void dispatch() const;
 
 private:
-  void dispatch_gui(const docopt::Options& args,
-                    std::unique_ptr<EngineFacade> engine) const;
-  void dispatch_parse(const docopt::Options& args,
-                      std::unique_ptr<EngineFacade> engine) const;
+  void dispatch_gui(const docopt::Options& args) const;
+  void dispatch_parse(const docopt::Options& args) const;
 };
 
 #endif /* ARGUMENTS_DISPATCHER_H */
