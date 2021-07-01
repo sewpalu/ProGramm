@@ -19,6 +19,7 @@ private:
 public:
   void visitCYKVisualiser(const CYKVisualiser& visualiser) override;
   void visitSTVisualiser(const STVisualiser& visualiser) override;
+  void visitSTreesVisualiser(const STreesVisualiser& visualiser) override;
 
   void setHighlighted(const Coord cell)
   {

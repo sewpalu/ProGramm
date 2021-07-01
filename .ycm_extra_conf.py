@@ -3,7 +3,7 @@ def Settings(**kwargs):
             'flags': [
                 '-x', 'c++',
                 '-std=c++20',
-                '-Wall', '-Wextra', '-Wpedantic'
+                '-Wall', '-Wextra', '-Wpedantic', '-Wconversion',
                 '-D_UNICODE', '-D__WXGTK3__', '-D__WXGTK__',
                 '-Iinclude',
                 '-Idepend/wxWidgets/include',

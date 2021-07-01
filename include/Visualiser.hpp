@@ -11,7 +11,7 @@ public:
 
   virtual void accept(VisualisationVisitor& visitor) const = 0;
 
-  virtual std::unique_ptr<Visualiser> clone() = 0;
+  virtual std::unique_ptr<Visualiser> clone() const = 0;
 };
 
 #endif /* VISUALISER_H */

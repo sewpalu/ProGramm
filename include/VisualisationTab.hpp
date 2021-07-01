@@ -40,6 +40,19 @@ public:
 
   void update_input(const FormalGrammar& grammar, const std::string& word);
 
+  ///
+  /// Default implementations for GUIVisualisationInterface
+  ///
+
+  virtual void draw_tree(const SyntaxTree&) override{};
+  // virtual void draw_tree(Tree* tree) override{};
+  virtual void draw_table(const Table&) override{};
+  virtual void draw_empty() override = 0;
+
+  virtual void set_button(const std::string&, Callback,
+                          Position = Position::left) override{};
+  virtual void set_options(const std::vector<Option>& options) override{};
+
 protected:
   virtual void render_input() = 0;
 

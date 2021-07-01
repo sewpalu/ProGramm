@@ -144,12 +144,15 @@ void CYKVisualisationTab::draw_table(const Table& table)
 
   for (const auto& cell : table)
   {
-    m_table->SetCellValue(cell.coord.y, cell.coord.x, cell.text);
+    m_table->SetCellValue(static_cast<int>(cell.coord.y),
+                          static_cast<int>(cell.coord.x), cell.text);
     if (cell.highlight)
-      m_table->SetCellFont(cell.coord.y, cell.coord.x,
+      m_table->SetCellFont(static_cast<int>(cell.coord.y),
+                          static_cast<int>(cell.coord.x),
                            wxFont{wxFontInfo{16}.Bold().Italic()});
     else
-      m_table->SetCellFont(cell.coord.y, cell.coord.x, wxFont{wxFontInfo{16}});
+      m_table->SetCellFont(static_cast<int>(cell.coord.y),
+                          static_cast<int>(cell.coord.x), wxFont{wxFontInfo{16}});
 
     m_cell_click_handlers[cell.coord] = cell.on_click;
   }
@@ -163,7 +166,7 @@ void CYKVisualisationTab::draw_empty()
   m_table->Show(false);
 }
 
-void CYKVisualisationTab::add_button(const std::string&, Callback on_click,
+void CYKVisualisationTab::set_button(const std::string&, Callback on_click,
                                      Position position)
 {
   wxButton* button;

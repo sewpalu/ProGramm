@@ -33,7 +33,7 @@ public:
   void dumpContent(unsigned int coordinate1, unsigned int coordinate2,
                    std::string nonterminalIdentifier);
 
-  std::vector<SyntaxTree> convertToSyntaxTree(FormalGrammar grammar);
+  std::vector<SyntaxTree> convertToSyntaxTrees(FormalGrammar grammar);
 
   /*
    * Saves the current state of the cyk matrix as a step, for future lookup.
@@ -49,7 +49,7 @@ public:
     visitor.visitCYKVisualiser(*this);
   }
 
-  std::unique_ptr<Visualiser> clone() override
+  std::unique_ptr<Visualiser> clone() const override
   {
     return std::make_unique<CYKVisualiser>(*this);
   }
