@@ -152,21 +152,21 @@ void GrammarOverviewTab::save_grammar(wxCommandEvent& evt)
   grammar_name = this->grammar_name_entry->GetValue();
   if (!this->grammar_name_entry->IsModified())
   {
-    wxMessageBox(
-        wxString::FromUTF8("Bitte geben Sie einen gültigen Namen für die Grammatik ein!"));
+    wxMessageBox(_("Please enter a valid grammar name!"));
     return;
   }
   else
   {
     if (this->converter.grammar_exists(grammar_name))
     {
-      std::string msg_box_text = "Die Grammatik mit dem Namen '" + grammar_name;
-      msg_box_text += "' existiert bereits. Möchten Sie sie überschreiben?";
+      std::string msg_box_text =
+          _("The grammar with the name '").ToStdString() + grammar_name;
+      msg_box_text += _("' already exists. Do you wish to override it?");
       std::cout << "Constructing parent\n";
 
-      wxMessageDialog* overwrite_grammar_dialog =
-          new wxMessageDialog(this, wxString::FromUTF8(msg_box_text), "Caption",
-                              wxYES_NO | wxCENTER, wxDefaultPosition);
+      wxMessageDialog* overwrite_grammar_dialog = new wxMessageDialog(
+          this, wxString::FromUTF8(msg_box_text), _("Confirmation"),
+          wxYES_NO | wxCENTER, wxDefaultPosition);
       overwrite_grammar_dialog->Show();
       if (!(overwrite_grammar_dialog->ShowModal() == wxID_YES))
       {
@@ -198,11 +198,11 @@ void GrammarOverviewTab::load_grammar(wxCommandEvent& evt)
 
   if (grammar_names.size() == 0)
   {
-    std::string msg_box_text =
-        "Sie müssen eine Grammatik auswählen, um sie zu laden!\n";
+    std::string msg_box_text = _("A grammar has to be selected to load it!").ToStdString();
 
-    wxMessageDialog* no_grammar_selected = new wxMessageDialog(
-        this, wxString::FromUTF8(msg_box_text), "Caption", wxOK | wxCENTER, wxDefaultPosition);
+    wxMessageDialog* no_grammar_selected =
+        new wxMessageDialog(this, wxString::FromUTF8(msg_box_text), _("Info"),
+                            wxOK | wxCENTER, wxDefaultPosition);
     no_grammar_selected->ShowModal();
     return;
   }
@@ -217,8 +217,10 @@ void GrammarOverviewTab::load_grammar(wxCommandEvent& evt)
   else
   {
     wxMessageDialog* too_many_grammars = new wxMessageDialog(
-        this, wxString::FromUTF8("Sie müssen exakt eine Grammatik auswählen um sie zu laden!\n"),
-        "Caption", wxOK | wxCENTER, wxDefaultPosition);
+        this,
+        wxString::FromUTF8(
+            _("Exactly on grammar has to be selected to load it!")),
+        _("Info"), wxOK | wxCENTER, wxDefaultPosition);
     too_many_grammars->ShowModal();
     return;
   }

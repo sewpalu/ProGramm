@@ -36,11 +36,11 @@ CYKVisualisationTab::CYKVisualisationTab()
 void CYKVisualisationTab::render_input()
 {
   auto steps = std::vector<StepsDisplay::Step>{
-      {.highlight = false, .text = {"Input (grammar, word)"}},
-      {.highlight = false, .text = {"CNF check"}},
-      {.highlight = false, .text = {"CYK"}},
+      {.highlight = false, .text = {_( "Input (grammar, word)" )}},
+      {.highlight = false, .text = {_( "CNF check" )}},
+      {.highlight = false, .text = {_( "CYK" )}},
       {.highlight = false,
-       .text = {"Syntax tree"},
+       .text = {_( "Syntax tree" )},
        .on_click =
            [this] {
              auto notebook = dynamic_cast<wxNotebook*>(GetParent());
@@ -65,7 +65,7 @@ void CYKVisualisationTab::render_input()
   {
     m_table->Show(false);
     steps.at(0).highlight = true;
-    show_diagnostics("Input grammar or input word not set",
+    show_diagnostics(_( "Input grammar or input word not set" ).ToStdString(),
                      DiagnosticsLevel::info);
     m_steps->show_steps(steps);
     return;
@@ -77,7 +77,7 @@ void CYKVisualisationTab::render_input()
     m_table->Show(false);
     steps.at(0).highlight = true;
     show_diagnostics(
-        "<b>Grammar plausibility check failed</b>\n<i>Reason</i>\n" + why_not,
+        _( "<b>Grammar plausibility check failed</b>\n<i>Reason</i>\n" ).ToStdString() + why_not,
         DiagnosticsLevel::info);
     m_steps->show_steps(steps);
     return;
@@ -87,7 +87,7 @@ void CYKVisualisationTab::render_input()
   {
     m_table->Show(false);
     steps.at(1).highlight = true;
-    show_diagnostics("<b>Grammar is not in CNF</b>\n<i>Reason</i>\n" + why_not,
+    show_diagnostics(_( "<b>Grammar is not in CNF</b>\n<i>Reason</i>\n" ).ToStdString() + why_not,
                      DiagnosticsLevel::warn);
     m_steps->show_steps(steps);
     return;
@@ -105,7 +105,7 @@ void CYKVisualisationTab::render_input()
           dynamic_cast<const CYKVisualiser&>(m_visualised_thing->visualiser());
       !cyk_visualiser.success)
   {
-    show_diagnostics("<b>CYK algorithm failed</b>\n<i>Reason</i>\n" +
+    show_diagnostics(_( "<b>CYK algorithm failed</b>\n<i>Reason</i>\n" ).ToStdString() +
                          cyk_visualiser.error,
                      DiagnosticsLevel::error);
   }

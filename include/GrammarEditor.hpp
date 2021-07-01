@@ -1,23 +1,26 @@
 #ifndef GRAMMAR_EDITOR_HPP
 #define GRAMMAR_EDITOR_HPP
 
-#include <vector>
 #include <optional>
+#include <vector>
 
 #include "wx/wxprec.h"
 #ifndef WX_PRECOMP
 #include "wx/wx.h"
 #endif
 
-#include "VisualisationTab.hpp"
+#include "wx/notebook.h"
+
 #include "FormalGrammar.hpp"
 #include "ProductionDisplay.hpp"
+#include "VisualisationTab.hpp"
 
 class GrammarEditor : public wxPanel
 {
 private:
   std::vector<VisualisationTab*> m_visualisation_tabs;
   FormalGrammar m_grammar;
+  wxNotebook* m_tabs;
   wxTextCtrl* m_word_input;
   ProductionDisplay* m_productions_display;
   wxStaticText* m_startsymbol_display;

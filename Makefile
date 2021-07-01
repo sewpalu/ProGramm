@@ -1,4 +1,4 @@
-.PHONY := run build config test
+.PHONY := default run build test config clean justrun gdb gdb-gtk i18n-de
 
 default: build
 
@@ -26,4 +26,10 @@ gdb:
 
 gdb-gtk:
 	G_DEBUG=fatal-warnings gdb --args build/form_lang gui
+
+i18n-de:
+	build/lib/wxrc -g -o .supp_messages resources/gui.xrc
+	xgettext -C -n -k_ src/* include/* .supp_messages -p i18n/de -o pro_gramm.pot
+	msgmerge -U i18n/de/pro_gramm.po i18n/de/pro_gramm.pot
+	poedit i18n/de/pro_gramm.po
 
