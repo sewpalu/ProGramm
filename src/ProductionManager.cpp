@@ -243,7 +243,7 @@ void ProductionManager::add_production(wxCommandEvent& evt)
 
   update_controls();
 
-  //ConfigManager* manager = new ConfigManager();
+  ConfigManager* manager = new ConfigManager();
 }
 
 void ProductionManager::set_terminal_alphabet(

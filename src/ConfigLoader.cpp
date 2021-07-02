@@ -26,10 +26,18 @@ int ConfigLoader::load_int_parameter(std::string identifier)
     std::cout << "Cannot open the file" << this->config_file_name << "\n";
   }
 
-  std::cout << "Loaded parameter: " << identifier << " with value "
-            << config_data[identifier] << "\n";
+  try
+  {
+    std::cout << "Loaded parameter: " << identifier << " with value "
+              << config_data[identifier] << "\n";
 
-  return config_data[identifier];
+    return config_data[identifier];
+  }
+  catch (...)
+  {
+    std::cout << "Couldn't load " << identifier << " from config file\n";
+    return 2;
+  }
 }
 
 void ConfigLoader::set_int_parameter(std::string identifier, int value)
@@ -174,4 +182,12 @@ nlohmann::json ConfigLoader::get_content()
     std::cout << "Cannot open the file" << this->config_file_name << "\n";
   }
   return output;
+}
+
+
+void ConfigLoader::write_json_config(nlohmann::json output_data)
+{
+  std::ofstream output_file(this->config_file_name);
+  output_file << output_data << std::endl;
+  output_file.close();
 }

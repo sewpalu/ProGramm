@@ -26,9 +26,15 @@ private:
 
   void on_refresh(wxPaintEvent& evt);
 
+  void save(wxCommandEvent& evt);
+
   ConfigLoader loader = ConfigLoader();
 
-  wxDataViewListCtrl* table;
+  wxGridSizer* table;
+  //Storage for the content of the Content Manager
+  //For each item the name is stored as wxStaticText and the value is stored as wxTextCtrl
+  //The data type is stored as string
+  std::vector<std::pair<wxStaticText*, std::pair<wxTextCtrl*, std::string>>> content;
 
   const wxString property_title = wxString("Eigenschaft");
   const wxString value_title = wxString("Wert");

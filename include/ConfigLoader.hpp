@@ -23,6 +23,8 @@ public:
   std::string load_string_parameter(std::string identifier);
   void set_string_parameter(std::string identifier, std::string value);
 
+  void write_json_config(nlohmann::json output_data);
+
   nlohmann::json get_content();
   
 private:
