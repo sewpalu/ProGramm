@@ -23,6 +23,10 @@ private:
   static GUIVisualisationInterface::Table to_gui_table(
       const std::vector<std::vector<std::vector<CYKLink>>>& cyk_step,
       std::optional<std::array<std::size_t, 3>> highlighted_cell = {});
+
+  static GUIVisualisationInterface::Coord apply_cyk_layout(
+      const GUIVisualisationInterface::Coord& coord,
+      const GUIVisualisationInterface::Coord max_coord);
 };
 
 #endif /* GUI_VISUALISATION_VISITOR_HPP */

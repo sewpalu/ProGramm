@@ -20,12 +20,16 @@ GUIVisualisationVisitor::GUIVisualisationVisitor(
 void GUIVisualisationVisitor::visitCYKVisualiser(
     const CYKVisualiser& visualiser)
 {
+  static constexpr auto skip_to_last_step = true;
+
   if (visualiser.steps.empty())
     return;
 
-  m_gui.draw_table(to_gui_table(visualiser.steps.front()));
+  m_gui.draw_table(to_gui_table(skip_to_last_step ? visualiser.steps.back()
+                                                  : visualiser.steps.front()));
 
-  auto idx = std::make_shared<int>(0);
+  auto idx = std::make_shared<int>(
+      skip_to_last_step ? visualiser.steps.size() - 1 : 0);
   m_gui.set_button(
       "previous step",
       [steps = visualiser.steps, idx](auto& gui) mutable {
@@ -114,15 +118,18 @@ GUIVisualisationInterface::Table GUIVisualisationVisitor::to_gui_table(
   for (auto y = std::size_t{}; y < cyk_step.size(); ++y)
     for (auto x = std::size_t{}; x < cyk_step.at(y).size(); ++x)
     {
+      auto display_coord =
+          apply_cyk_layout({x, y}, {cyk_step.size(), cyk_step.front().size()});
+
       if (cyk_step.at(y).at(x).empty())
       {
-        result.push_back({.coord = {x, y}});
+        result.push_back({.coord = display_coord});
         continue;
       }
 
       auto text = std::string{};
       auto cell_selected = false;
-      auto cell_highlighted= false;
+      auto cell_highlighted = false;
       for (auto symbol_idx = std::size_t{};
            symbol_idx < cyk_step.at(y).at(x).size(); ++symbol_idx)
       {
@@ -146,16 +153,55 @@ GUIVisualisationInterface::Table GUIVisualisationVisitor::to_gui_table(
       }
       if (!text.empty())
         text.pop_back();
-      result.push_back({.coord = {x, y},
-                        .text = text,
-                        .highlight = cell_highlighted,
-                        .on_click = [cyk_step, cell_selected, selected_cell, x, y](auto& gui) {
-                          if (cell_selected)
-                            gui.draw_table(to_gui_table(cyk_step, {{y, x, cyk_step.at(y).at(x).size() > selected_cell.value()[2] + 1 ? selected_cell.value()[2] + 1 : 0}}));
-                          else
-                            gui.draw_table(to_gui_table(cyk_step, {{y, x, 0}}));
-                        }});
+
+      result.push_back(
+          {.coord = display_coord,
+           .text = text,
+           .highlight = cell_highlighted,
+           .on_click = [cyk_step, cell_selected, selected_cell, x,
+                        y](auto& gui) {
+             if (cell_selected)
+               gui.draw_table(to_gui_table(
+                   cyk_step,
+                   cyk_step.at(y).at(x).size() > selected_cell.value()[2] + 1
+                       ? std::optional<std::array<
+                             std::size_t, 3>>{{y, x,
+                                               selected_cell.value()[2] + 1}}
+                       : std::optional<std::array<std::size_t, 3>>{}));
+             else
+               gui.draw_table(to_gui_table(cyk_step, {{y, x, 0}}));
+           }});
     }
 
   return result;
+}
+
+namespace
+{
+enum class CYKLayout
+{
+  diagonal,
+  top,
+  bottom
+};
+}  // namespace
+
+GUIVisualisationInterface::Coord GUIVisualisationVisitor::apply_cyk_layout(
+    const GUIVisualisationInterface::Coord& coord,
+    const GUIVisualisationInterface::Coord max_coord)
+{
+  static constexpr auto layout = CYKLayout::diagonal;
+  auto [x, y] = coord;
+
+  switch (layout)
+  {
+  case CYKLayout::diagonal:
+    return {y + x, x};
+  case CYKLayout::top:
+    return {x, y};
+  case CYKLayout::bottom:
+    return {x, max_coord.y - y};
+  }
+
+  return {};
 }
