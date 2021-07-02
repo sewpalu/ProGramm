@@ -1,6 +1,7 @@
 #include "GUIVisualisationVisitor.hpp"
 
 #include <algorithm>
+#include <cassert>
 #include <iterator>
 #include <limits>
 #include <memory>
@@ -74,28 +75,40 @@ void GUIVisualisationVisitor::visitSTreesVisualiser(
 
 GUIVisualisationInterface::Table GUIVisualisationVisitor::to_gui_table(
     const std::vector<std::vector<std::vector<CYKLink>>>& cyk_step,
-    std::optional<GUIVisualisationInterface::Coord> selected_cell)
+    std::optional<std::array<std::size_t, 3>> selected_cell)
 {
   auto result = GUIVisualisationInterface::Table{};
 
-  auto highlighted_cells = std::vector<GUIVisualisationInterface::Coord>();
+  auto highlighted_symbols = std::vector<std::array<std::size_t, 3>>{};
   if (selected_cell)
     try
     {
-      auto productions = cyk_step.at(selected_cell->y)
-                             .at(selected_cell->x)
-                             .at(0)  // TODO: Make individual options selectable
+      auto productions = cyk_step.at(selected_cell.value()[0])
+                             .at(selected_cell.value()[1])
+                             .at(selected_cell.value()[2])
                              .getProductions();
-      highlighted_cells.push_back(selected_cell.value());
-      std::transform(productions.begin(), productions.end(),
-                     std::back_inserter(highlighted_cells),
-                     [](const auto& link) -> GUIVisualisationInterface::Coord {
-                       return {link.first.second, link.first.first};
-                     });
+      highlighted_symbols.push_back(*selected_cell);
+      std::transform(
+          productions.begin(), productions.end(),
+          std::back_inserter(highlighted_symbols),
+          [&cyk_step](const auto& link) -> std::array<std::size_t, 3> {
+            // Matrix indices
+            auto& [m, n] = link.first;
+            auto& candidates = cyk_step.at(m).at(n);
+            auto symbol_idx = std::distance(
+                candidates.begin(),
+                std::find_if(candidates.begin(), candidates.end(),
+                             [&link](const auto& elem) {
+                               return elem.getRoot() == link.second.getRoot();
+                             }));
+            assert(symbol_idx >= 0);
+
+            return {m, n, static_cast<unsigned long>(symbol_idx)};
+          });
     }
     catch (std::out_of_range)
     {
-      highlighted_cells.clear();
+      highlighted_symbols.clear();
     }
 
   for (auto y = std::size_t{}; y < cyk_step.size(); ++y)
@@ -107,26 +120,40 @@ GUIVisualisationInterface::Table GUIVisualisationVisitor::to_gui_table(
         continue;
       }
 
-      auto highlighted =
-          std::find(highlighted_cells.begin(), highlighted_cells.end(),
-                    GUIVisualisationInterface::Coord{x, y}) !=
-          highlighted_cells.end();
-      auto selected = selected_cell &&
-                      GUIVisualisationInterface::Coord{x, y} == selected_cell;
+      auto text = std::string{};
+      auto cell_selected = false;
+      auto cell_highlighted= false;
+      for (auto symbol_idx = std::size_t{};
+           symbol_idx < cyk_step.at(y).at(x).size(); ++symbol_idx)
+      {
+        auto& elem = cyk_step.at(y).at(x).at(symbol_idx);
+        auto symbol_string = elem.getRoot().getIdentifier();
 
-      auto text = selected ? std::string{"* "} : std::string{};
-      for (const auto& element : cyk_step.at(y).at(x))
-        text += element.getRoot().getIdentifier() + ",";
+        auto highlighted =
+            std::find(highlighted_symbols.begin(), highlighted_symbols.end(),
+                      std::array<std::size_t, 3>{y, x, symbol_idx}) !=
+            highlighted_symbols.end();
+        auto selected =
+            selected_cell && std::array<std::size_t, 3>{y, x, symbol_idx} ==
+                                 selected_cell.value();
+        cell_highlighted |= highlighted || selected;
+        cell_selected |= selected;
+        if (selected)
+          symbol_string = "‣" + symbol_string;
+        else if (highlighted)
+          symbol_string = "›" + symbol_string + "‹";
+        text += symbol_string + ",";
+      }
       if (!text.empty())
         text.pop_back();
       result.push_back({.coord = {x, y},
                         .text = text,
-                        .highlight = highlighted,
-                        .on_click = [cyk_step, selected, x, y](auto& gui) {
-                          if (selected)
-                            gui.draw_table(to_gui_table(cyk_step));
+                        .highlight = cell_highlighted,
+                        .on_click = [cyk_step, cell_selected, selected_cell, x, y](auto& gui) {
+                          if (cell_selected)
+                            gui.draw_table(to_gui_table(cyk_step, {{y, x, cyk_step.at(y).at(x).size() > selected_cell.value()[2] + 1 ? selected_cell.value()[2] + 1 : 0}}));
                           else
-                            gui.draw_table(to_gui_table(cyk_step, {{x, y}}));
+                            gui.draw_table(to_gui_table(cyk_step, {{y, x, 0}}));
                         }});
     }
 

@@ -14,6 +14,8 @@ public:
     Nonterminal() = delete;
     virtual ~Nonterminal() = default;
 
+    auto operator<=>(const Nonterminal& other) const = default;
+
     bool isStartSymbol() const;
     void setStartSymbol(bool startSymbolStatus);
 
