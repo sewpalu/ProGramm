@@ -147,7 +147,9 @@ void STVisualisationTab::render_input()
     draw_empty();
     steps.at(0).highlight = true;
     show_diagnostics(
-        _( "<b>Grammar plausibility check failed</b>\n<i>Reason</i>\n" ).ToStdString() + why_not,
+        _("<b>Grammar plausibility check failed</b>\n<i>Reason</i>\n")
+                .ToStdString() +
+            why_not,
         DiagnosticsLevel::info);
     m_steps->show_steps(steps);
     return;
@@ -157,8 +159,10 @@ void STVisualisationTab::render_input()
   {
     draw_empty();
     steps.at(1).highlight = true;
-    show_diagnostics(_( "<b>Grammar is not in CNF</b>\n<i>Reason</i>\n" ).ToStdString() + why_not,
-                     DiagnosticsLevel::warn);
+    show_diagnostics(
+        _("<b>Grammar is not in CNF</b>\n<i>Reason</i>\n").ToStdString() +
+            why_not,
+        DiagnosticsLevel::warn);
     m_steps->show_steps(steps);
     return;
   }
@@ -168,17 +172,19 @@ void STVisualisationTab::render_input()
   engine.setGrammar(*m_current_grammar);
   auto cyk = CYKAlgorithm{};
   auto parse_result = engine.parseWord(cyk, *m_current_word);
-  m_visualised_thing = parse_result.empty() ? nullptr : std::make_unique<SyntaxTrees>(parse_result);
+  m_visualised_thing = parse_result.empty()
+                           ? nullptr
+                           : std::make_unique<SyntaxTrees>(parse_result);
 
   if (auto& cyk_visualiser =
           dynamic_cast<const CYKVisualiser&>(cyk.visualiser());
       !cyk_visualiser.success)
   {
-    show_diagnostics("<b>CYK algorithm failed</b>\n<i>Reason</i>\n" +
     draw_empty();
-    show_diagnostics(_( "<b>CYK algorithm failed</b>\n<i>Reason</i>\n" ).ToStdString() +
-                         cyk_visualiser.error,
-                     DiagnosticsLevel::error);
+    show_diagnostics(
+        _("<b>CYK algorithm failed</b>\n<i>Reason</i>\n").ToStdString() +
+            cyk_visualiser.error,
+        DiagnosticsLevel::error);
   }
 
   steps.at(3).highlight = true;
