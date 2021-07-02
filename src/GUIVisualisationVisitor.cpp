@@ -1,5 +1,6 @@
 #include "GUIVisualisationVisitor.hpp"
 
+#include <map>
 #include <algorithm>
 #include <cassert>
 #include <iterator>
@@ -127,14 +128,18 @@ GUIVisualisationInterface::Table GUIVisualisationVisitor::to_gui_table(
         continue;
       }
 
-      auto text = std::string{};
-      auto cell_selected = false;
-      auto cell_highlighted = false;
+      struct SymbolState
+      {
+        bool selected;
+        bool highlighted;
+      };
+
+      auto symbols = std::map<std::string, SymbolState>{};
+
       for (auto symbol_idx = std::size_t{};
            symbol_idx < cyk_step.at(y).at(x).size(); ++symbol_idx)
       {
-        auto& elem = cyk_step.at(y).at(x).at(symbol_idx);
-        auto symbol_string = elem.getRoot().getIdentifier();
+        auto name = cyk_step.at(y).at(x).at(symbol_idx).getRoot().getIdentifier();
 
         auto highlighted =
             std::find(highlighted_symbols.begin(), highlighted_symbols.end(),
@@ -143,14 +148,27 @@ GUIVisualisationInterface::Table GUIVisualisationVisitor::to_gui_table(
         auto selected =
             selected_cell && std::array<std::size_t, 3>{y, x, symbol_idx} ==
                                  selected_cell.value();
-        cell_highlighted |= highlighted || selected;
-        cell_selected |= selected;
-        if (selected)
+
+        symbols[name].highlighted |= highlighted;
+        symbols[name].selected |= selected;
+      }
+
+      auto text = std::string{};
+      auto cell_selected = false;
+      auto cell_highlighted = false;
+      for (const auto& [name, state]: symbols)
+      {
+        cell_highlighted |= state.highlighted || state.selected;
+        cell_selected |= state.selected;
+
+        auto symbol_string = name;
+        if (state.selected)
           symbol_string = "‣" + symbol_string;
-        else if (highlighted)
+        else if (state.highlighted)
           symbol_string = "›" + symbol_string + "‹";
         text += symbol_string + ",";
       }
+
       if (!text.empty())
         text.pop_back();
 
