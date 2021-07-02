@@ -150,7 +150,10 @@ void STNode::stupid_dump()
   for (size_t i = 1; i < this->getMaxDepth(); i++)
   {
     std::cout << "Level " << i << ": ";
-    dump_level(i);
+    for (size_t j = 0; j < this->children.size(); j++)
+    {
+      rec_dump_level(this->children.at(j), i, 1);
+    }
     std::cout << "\n";
   }
   std::cout << "Syntax Tree dump end\n";

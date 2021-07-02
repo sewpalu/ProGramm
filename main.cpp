@@ -48,8 +48,8 @@ int main(int argc, char** argv)
   
   std::cout << "Test word: ";
   //Word test_word = test_handler.generate_included_word_with_length(test, 5);
-  Word test_word = Word({*p, *e, *p, *e, *p});
-  //Word test_word({*p, *p, *j, *p, *e, *p, *e, *p, *j, *j});
+  //Word test_word = Word({*p, *e, *p, *e, *p});
+  Word test_word({*p, *p, *j, *p, *e, *p, *e, *p, *j, *j});
   //Word test_word = Word({*j});
 
   for (size_t i = 0; i < test_word.getSize(); i++)
@@ -63,6 +63,7 @@ int main(int argc, char** argv)
   std::cout << "Vectors: " << result.size() << "\n";
   for (size_t i = 0; i < result.size(); i++)
   {
+    std::cout << "Tree " << i << "\n";
     result.at(i).getRoot().stupid_dump();
   }
 
