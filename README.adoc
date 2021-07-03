@@ -1,0 +1,35 @@
+= ProGramm - Exploration tool for Chomsky type 2 grammars.
+
+== Building
+
+=== Windows
+
+* Install a recent version of Visual Studio 2019 or later (hereafter called VS).
+* After starting VS, select "Clone a repository".
+* Enter `https://github.com/sewpalu/ProGramm.git` as the repository location.
+* Wait for the repository to be cloned and the CMake cache to be built.
+  The output window (set to "CMake" output) should show the line `CMake generation finished.`
+* Select "GUI" as the startup item in the green play-button-widget at the top.
+* Click the play-button-widget to build and run.
+
+=== Linux
+
+[source,sh]
+----
+git clone --recurse-submodules https://github.com/sewpalu/ProGramm.git
+cd ProGramm
+
+# Build and run
+make run
+# Or: Build only
+make build
+----
+
+=== Mac OS
+
+TODO
+
+== Prebuilt binaries
+
+TODO
+
