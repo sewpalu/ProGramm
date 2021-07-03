@@ -1,5 +1,5 @@
-#ifndef GUI_VISUALISATION_VISITOR_H
-#define GUI_VISUALISATION_VISITOR_H
+#ifndef GUI_VISUALISATION_VISITOR_HPP
+#define GUI_VISUALISATION_VISITOR_HPP
 
 #include <optional>
 
@@ -22,7 +22,11 @@ public:
 private:
   static GUIVisualisationInterface::Table to_gui_table(
       const std::vector<std::vector<std::vector<CYKLink>>>& cyk_step,
-      std::optional<GUIVisualisationInterface::Coord> highlighted_cell = {});
+      std::optional<std::array<std::size_t, 3>> highlighted_cell = {});
+
+  static GUIVisualisationInterface::Coord apply_cyk_layout(
+      const GUIVisualisationInterface::Coord& coord,
+      const GUIVisualisationInterface::Coord max_coord);
 };
 
-#endif /* GUI_VISUALISATION_VISITOR_H */
+#endif /* GUI_VISUALISATION_VISITOR_HPP */

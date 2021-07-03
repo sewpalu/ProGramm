@@ -14,7 +14,7 @@ public:
 
 private:
   std::string m_text;
-  std::optional<Coord> m_highlighted_cell = {{0, 0, 0}};
+  std::optional<Coord> m_highlighted_cell = {};
 
 public:
   void visitCYKVisualiser(const CYKVisualiser& visualiser) override;
