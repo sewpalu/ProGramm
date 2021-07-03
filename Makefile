@@ -3,7 +3,7 @@
 default: build
 
 run: build
-	build/form_lang gui
+	build/pro_gramm gui
 
 build: config
 	$(MAKE) -C build
@@ -19,13 +19,13 @@ clean:
 	rm -rf build
 
 justrun:
-	GTK_THEME=Sweet-Mars build/form_lang gui # >/dev/null
+	GTK_THEME=Sweet-Mars build/pro_gramm gui # >/dev/null
 
 gdb:
-	gdb --args build/form_lang gui
+	gdb --args build/pro_gramm gui
 
 gdb-gtk:
-	G_DEBUG=fatal-warnings gdb --args build/form_lang gui
+	G_DEBUG=fatal-warnings gdb --args build/pro_gramm gui
 
 i18n-de:
 	build/lib/wxrc -g -o .supp_messages resources/gui.xrc
