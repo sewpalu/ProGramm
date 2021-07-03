@@ -6,6 +6,7 @@
 
 class SimpleWordParser : public GrammarParser
 {
+public:
   virtual std::unique_ptr<GrammarParser> clone() const override
   {
     return std::make_unique<SimpleWordParser>(*this);

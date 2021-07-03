@@ -1,35 +1,44 @@
 #include "CLIActions.hpp"
 
-#include <algorithm>
-#include <iostream>
-#include <memory>
-
-#include "TextVisualisationVisitor.hpp"
 #include "CYKAlgorithm.hpp"
-#include "DummyGrammarParser.hpp"
+#include "EngineFacade.hpp"
+#include "GUIApplication.hpp"
+#include "SimpleWordParser.hpp"
+#include "TextVisualisationVisitor.hpp"
+#include "SyntaxTrees.hpp"
 
-void CLIActions::visualiseProduction(const std::string& word)
+void CLIActions::launch_gui(int argc, char** argv) const
 {
-  std::cout << "Syntax productions" << std::endl;
+  GUIApplication::run(argc, argv);
+}
 
-  m_engine.setGrammarParser(std::make_unique<DummyGrammarParser>());
+void CLIActions::visualise_st(const std::string& word,
+                              const FormalGrammar& grammar,
+                              std::ostream& os) const
+{
+  auto engine = EngineFacade{std::make_unique<SimpleWordParser>()};
+  engine.setGrammar(grammar);
 
   auto cyk = CYKAlgorithm{};
-  const auto syntax_trees = m_engine.parseWord(cyk, word);
-  const auto& visualiser = cyk.visualiser();
+  auto visualisable = SyntaxTrees{engine.parseWord(cyk, word)};
 
-  auto visualisation = std::make_unique<TextVisualisationVisitor>();
-  visualiser.accept(*visualisation);
+  auto visitor = TextVisualisationVisitor{};
+  visualisable.visualiser().accept(visitor);
 
-  std::cout << "---" << std::endl;
-  std::cout << visualisation->toString() << std::endl;
+  os << visitor.toString();
+}
 
-  //for (const auto& syntax_tree : m_engine.parseWord({}, word))
-  //{
-  //  auto visualisation = std::make_unique<TextVisualisationVisitor>();
-  //  syntax_tree.visualiser().accept(*visualisation);
+void CLIActions::visualise_cyk(const std::string& word, const FormalGrammar& grammar,
+                               std::ostream& os) const
+{
+  auto engine = EngineFacade{std::make_unique<SimpleWordParser>()};
+  engine.setGrammar(grammar);
 
-  //  std::cout << "---" << std::endl;
-  //  std::cout << visualisation->toString() << std::endl;
-  //}
+  auto cyk = CYKAlgorithm{};
+  engine.parseWord(cyk, word);
+
+  auto visitor = TextVisualisationVisitor{};
+  cyk.visualiser().accept(visitor);
+
+  os << visitor.toString();
 }
