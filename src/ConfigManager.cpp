@@ -72,9 +72,15 @@ ConfigManager::ConfigManager() : wxFrame(NULL, wxID_ANY, "Settings", wxDefaultPo
   }
 
   wxButton* save_button =
-      new wxButton(this, wxID_ANY, "save", wxDefaultPosition, wxDefaultSize);
+      new wxButton(this, wxID_ANY, "Speichern!", wxDefaultPosition, wxDefaultSize);
   save_button->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED, &ConfigManager::save, this);
   this->table->Add(save_button, wxEXPAND, wxCENTER);
+
+  wxButton* reset_button =
+      new wxButton(this, wxID_ANY, "Standardwerte wiederherstellen!", wxDefaultPosition, wxDefaultSize);
+  //reset_button->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED, &ConfigManager::load_default,
+  //                     this);
+  this->table->Add(reset_button, wxEXPAND, wxCENTER);
 
   this->SetSizer(this->table);
   this->Show();
