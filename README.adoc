@@ -25,6 +25,8 @@ make run
 make build
 ----
 
+NOTE: gcc-10 (or later) or clang-11 (or later) are required to build the application. On Ubuntu 20.04 these can be installed using `sudo apt install clang-11`, for example. If the appropriate compiler isn't automatically used (i.e. there are compile errors) prepend `CXX=<specific gcc or clang executable>` to the make calls. For example: `CXX=clang-11 make run` 
+
 === Mac OS
 
 TODO
