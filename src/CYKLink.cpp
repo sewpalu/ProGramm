@@ -53,3 +53,38 @@ bool CYKLink::isEmpty()
     }
     return result;
 }
+
+bool CYKLink::equals(CYKLink compare)
+{
+  bool equals = this->root.getIdentifier() == compare.getRoot().getIdentifier();
+
+  if (!equals)
+    return false;
+
+  equals = this->getProductions().size() == compare.getProductions().size();
+
+  if (!equals)
+    return false;
+
+  for (size_t i = 0; i < this->productions.size(); i++)
+  {
+    if (!(this->productions.at(i).second.equals(
+          compare.getProductions().at(i).second)))
+    {
+      return false;
+    }
+
+    if (!(this->productions.at(i).first.second ==
+               compare.getProductions().at(i).first.second))
+    {
+      return false;
+    }
+
+    if (!(this->productions.at(i).second.equals(compare.getProductions().at(i).second)))
+    {
+      return false;
+    }
+  }
+
+  return true;
+}

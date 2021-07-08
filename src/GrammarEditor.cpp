@@ -79,7 +79,10 @@ void GrammarEditor::on_change(wxCommandEvent&)
 void GrammarEditor::notify_visualisation()
 {
   for (auto* tab : m_visualisation_tabs)
-    tab->update_input(m_grammar, m_word_input->GetValue().ToStdString());
+  {
+    if (tab)
+      tab->update_input(m_grammar, m_word_input->GetValue().ToStdString());
+  }
 }
 
 void GrammarEditor::load_visualisation_tabs()
