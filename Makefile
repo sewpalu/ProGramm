@@ -1,4 +1,4 @@
-.PHONY := default run build test config clean justrun gdb gdb-gtk i18n-de
+.PHONY := default run build test config clean justrun gdb gdb-gtk i18n-de docker_build docker_run
 
 default: build
 
@@ -19,7 +19,7 @@ clean:
 	rm -rf build
 
 justrun:
-	GTK_THEME=Sweet-Mars build/pro_gramm gui # >/dev/null
+	GTK_THEME=Yaru-dark build/pro_gramm gui # >/dev/null
 
 gdb:
 	gdb --args build/pro_gramm gui
@@ -32,4 +32,10 @@ i18n-de:
 	xgettext -C -n -k_ src/* include/* .supp_messages -p i18n/de -o pro_gramm.pot
 	msgmerge -U i18n/de/pro_gramm.po i18n/de/pro_gramm.pot
 	poedit i18n/de/pro_gramm.po
+
+docker_build:
+	docker build -t pro_gramm docker
+
+docker_run:
+	./docker.sh
 
