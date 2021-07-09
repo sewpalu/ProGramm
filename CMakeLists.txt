@@ -4,6 +4,8 @@ project(pro_gramm VERSION 0.1)
 
 set(CMAKE_CXX_STANDARD 20)
 
+set(wxBUILD_SHARED OFF)
+
 add_subdirectory(${PROJECT_SOURCE_DIR}/depend/docopt)
 add_subdirectory(${PROJECT_SOURCE_DIR}/depend/wxWidgets)
 add_subdirectory(${PROJECT_SOURCE_DIR}/depend/nlohmann_json)
