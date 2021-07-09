@@ -5,8 +5,10 @@ default: build
 run: build
 	build/form_lang gui
 
-build: config
+build_:
 	$(MAKE) -C build
+
+build: build_
 
 test: build
 	$(MAKE) -C build test
@@ -17,9 +19,6 @@ config:
 
 clean:
 	rm -rf build
-
-justrun:
-	GTK_THEME=Sweet-Mars build/form_lang gui # >/dev/null
 
 gdb:
 	gdb --args build/form_lang gui
