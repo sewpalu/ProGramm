@@ -17,6 +17,14 @@
 				</object>
 			</object>
 			<object class="sizeritem">
+				<option>0</option>
+				<flag>wxEXPAND|wxRIGHT|wxLEFT</flag>
+				<border>5</border>
+				<object class="wxStaticLine" name="m_staticline3">
+					<style>wxLI_VERTICAL</style>
+				</object>
+			</object>
+			<object class="sizeritem">
 				<option>3</option>
 				<flag>wxEXPAND | wxALL</flag>
 				<border>5</border>
