@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <sstream> //Necessary on windows
 #include <memory>
 
 #include "CLIActions.hpp"

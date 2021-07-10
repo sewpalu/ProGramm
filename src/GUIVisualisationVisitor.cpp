@@ -88,9 +88,9 @@ GUIVisualisationInterface::Table GUIVisualisationVisitor::to_gui_table(
   if (selected_cell)
     try
     {
-      auto productions = cyk_step.at(selected_cell.value()[0])
-                             .at(selected_cell.value()[1])
-                             .at(selected_cell.value()[2])
+      auto productions = cyk_step.at(selected_cell.value().at(0))
+                             .at(selected_cell.value().at(1))
+                             .at(selected_cell.value().at(2))
                              .getProductions();
       highlighted_symbols.push_back(*selected_cell);
       std::transform(

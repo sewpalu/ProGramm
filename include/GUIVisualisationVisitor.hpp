@@ -3,6 +3,9 @@
 
 #include <optional>
 
+#include <array>
+#include <cstddef>
+
 #include "CYKLink.hpp"
 #include "GUIVisualisationInterface.hpp"
 #include "VisualisationVisitor.hpp"
