@@ -10,6 +10,7 @@
 
 #include "nlohmann/json.hpp"
 #include "wx/string.h"
+#include "wx/stdpaths.h"
 
 class ConfigLoader
 {
@@ -28,5 +29,8 @@ public:
   nlohmann::json get_content();
   
 private:
-  std::string config_file_name = "config.json";
+  std::string config_file_name =
+      "\proGramm_config.json"; //wxStandardPaths::Get().GetDocumentsDir() + 
+  //nlohmann::json standard_settings = "{ \"Sprache\": englisch, \"max_rhs\": 2 }"_json;
+  ;
 };

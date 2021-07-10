@@ -22,7 +22,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
     {
       if (grammar.rules.at(rule).rhs().size() == 0)
       {
-        if (grammar.rules.at(rule).lhs().isStartSymbol())
+        if (grammar.rules.at(rule).lhs().getIdentifier() == grammar.start.getIdentifier())
         {
           std::cout << "Wort enthalten!\n";
           cykVisSolution->saveStep();

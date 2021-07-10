@@ -24,18 +24,28 @@ int ConfigLoader::load_int_parameter(std::string identifier)
   catch (...)
   {
     std::cout << "Cannot open the file" << this->config_file_name << "\n";
+
   }
 
   try
   {
-    std::cout << "Loaded parameter: " << identifier << " with value "
-              << config_data[identifier] << "\n";
+    //std::cout << "Loaded parameter: " << identifier << " with value "
+    //          << config_data[identifier] << "\n";
 
     return config_data[identifier];
   }
   catch (...)
   {
-    std::cout << "Couldn't load " << identifier << " from config file\n";
+    try
+    {
+      //this->set_string_parameter(identifier,
+      //                           this->standard_settings[identifier]);
+      //return this->standard_settings[identifier];
+    }
+    catch (...)
+    {
+      return 5;
+    }
     return 2;
   }
 }
