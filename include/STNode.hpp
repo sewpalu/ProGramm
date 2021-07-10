@@ -12,8 +12,8 @@ public:
   std::vector<STNode> children;
   std::unique_ptr<Symbol> value;
 
-  STNode();
-  ~STNode();
+  STNode() = delete;
+  ~STNode() = default;
   explicit STNode(std::unique_ptr<Symbol> value_input);
   STNode(std::unique_ptr<Symbol> value_input, std::vector<STNode> children);
 

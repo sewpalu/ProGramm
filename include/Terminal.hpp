@@ -12,8 +12,8 @@ public:
     std::string value;
 
     Terminal(std::string identifier_input, std::string value_input);
-    Terminal();
-    ~Terminal();
+    Terminal() = delete;
+    virtual ~Terminal() = default;
 
     std::unique_ptr<Symbol> clone() //override
     {
