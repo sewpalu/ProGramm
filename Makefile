@@ -1,4 +1,4 @@
-.PHONY := default run build test config clean justrun gdb gdb-gtk i18n-de
+.PHONY := default run build test config clean justrun gdb gdb-gtk i18n-de package
 
 default: build
 
@@ -32,4 +32,12 @@ i18n-de:
 	xgettext -C -n -k_ src/* include/* .supp_messages -p i18n/de -o pro_gramm.pot
 	msgmerge -U i18n/de/pro_gramm.po i18n/de/pro_gramm.pot
 	poedit i18n/de/pro_gramm.po
+
+package: package_
+
+package_:
+	ln -s package pro_gramm
+	rm -f pro_gramm.zip
+	zip -r pro_gramm.zip pro_gramm
+	rm pro_gramm
 
