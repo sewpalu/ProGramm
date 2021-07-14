@@ -15,14 +15,18 @@
 
 #include <wx/dataview.h>
 
-class ConfigManager : public wxFrame
+class ConfigManager : public wxScrolledWindow
 {
 public:
   ConfigManager();
   ~ConfigManager();
 
 private:
+  void on_create(wxWindowCreateEvent& evt);
+
   void save_values(wxCommandEvent& evt);
+
+  void load_default(wxCommandEvent& evt);
 
   void on_refresh(wxPaintEvent& evt);
 
@@ -35,6 +39,10 @@ private:
   //For each item the name is stored as wxStaticText and the value is stored as wxTextCtrl
   //The data type is stored as string
   std::vector<std::pair<wxStaticText*, std::pair<wxTextCtrl*, std::string>>> content;
+
+  
+  wxButton* save_button;
+  wxButton* reset_button;
 
   const wxString property_title = wxString("Eigenschaft");
   const wxString value_title = wxString("Wert");
