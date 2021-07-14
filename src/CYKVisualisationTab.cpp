@@ -10,6 +10,7 @@
 #include "EngineFacade.hpp"
 #include "SimpleWordParser.hpp"
 #include "StepsDisplay.hpp"
+#include "ConfigLoader.hpp"
 
 FORCE_LINK_ME(CYKVisualisationTab);
 
@@ -139,28 +140,27 @@ void CYKVisualisationTab::render_input()
     }
   }
 
-  int k_runtime = (m_current_word->size() ^ 3) * (m_current_grammar->rules.size() ^ 2) * terminal_identifiers.size() / nonterminal_identifiers.size()^2;
+  //Factors are written multiple times to avoid potency use in c++
+  int k_runtime =
+      m_current_word->size() * m_current_word->size() * m_current_word->size() *
+          m_current_grammar->rules.size() *
+          m_current_grammar->rules.size()*
+                  terminal_identifiers.size() / (100 * nonterminal_identifiers.size() *
+                  nonterminal_identifiers.size());
+  
+  ConfigLoader loader = ConfigLoader();
 
-  std::cout << "K runtime: " << k_runtime << "\n";
-
-  if (k_runtime > 100)
+  if (k_runtime > loader.load_int_parameter("max_k_runtime"))
   {
-    std::string msg_box_text = "Die Kombination aus Grammatik und Eingabewort "
-                               "weißt eine Laufzeitkennzahl von " +
-                               k_runtime;
-    msg_box_text += " auf. Bei einem Wert von über 100, können eröhte Laufzeiten nicht ausgeschlossen werden. Möchten Sie fortfahren?\n";
-
-    wxMessageDialog* parse_word =
-        new wxMessageDialog(this, wxString::FromUTF8(msg_box_text), "Caption",
-                            wxYES_NO | wxCENTER, wxDefaultPosition);
-    if (!parse_word->ShowModal() == wxID_YES)
+    wxMessageDialog* parse_word_dialog = new wxMessageDialog(this, _("For this combination of grammar and test word, an increased execution time might occur. Do you want to proceed?"), _("Error!"),
+                            wxYES_NO , wxDefaultPosition);
+    if (parse_word_dialog->ShowModal() == wxID_YES)
     {
-      return;
+      engine.parseWord(dynamic_cast<CYKAlgorithm&>(*m_visualised_thing),
+                       *m_current_word);
     }
   }
-
-  engine.parseWord(dynamic_cast<CYKAlgorithm&>(*m_visualised_thing),
-                   *m_current_word);
+  
   steps.at(2).highlight = true;
 
   if (auto& cyk_visualiser =
