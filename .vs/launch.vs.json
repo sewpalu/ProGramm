@@ -5,8 +5,8 @@
     {
       "type": "default",
       "project": "CMakeLists.txt",
-      "projectTarget": "form_lang.exe (Debug\\form_lang.exe)",
-      "name": "GUI",
+      "projectTarget": "pro_gramm.exe (Debug\\pro_gramm.exe)",
+      "name": "pro_gramm.exe",
       "args": [
         "gui"
       ],
