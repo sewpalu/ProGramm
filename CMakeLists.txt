@@ -4,11 +4,20 @@ project(pro_gramm VERSION 0.1)
 
 set(CMAKE_CXX_STANDARD 20)
 
+set(wxBUILD_SHARED OFF)
+set(wxUSE_LIBSDL OFF)
+
 add_subdirectory(${PROJECT_SOURCE_DIR}/depend/docopt)
 add_subdirectory(${PROJECT_SOURCE_DIR}/depend/wxWidgets)
 add_subdirectory(${PROJECT_SOURCE_DIR}/depend/nlohmann_json)
 
 set(VS_DEBUGGER_WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+
+if (UNIX)
+  # Make exe portable to other UNIXs that don't have older
+  # standard library implementations.
+  set(CMAKE_EXE_LINKER_FLAGS "-static-libstdc++ -static-libgcc")
+endif()
 
 file(GLOB ${PROJECT_NAME}_src "src/*")
 
