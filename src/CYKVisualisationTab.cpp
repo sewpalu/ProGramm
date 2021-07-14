@@ -97,6 +97,68 @@ void CYKVisualisationTab::render_input()
   auto engine = EngineFacade{std::make_unique<SimpleWordParser>()};
   engine.setGrammar(*m_current_grammar);
   m_visualised_thing = std::make_unique<CYKAlgorithm>();
+
+  //Vectors to get number of terminals and nonterminals in the current grammar
+  std::vector<std::string> terminal_identifiers;
+  std::vector<std::string> nonterminal_identifiers;
+
+  for (size_t i = 0; i < m_current_grammar->rules.size(); i++)
+  {
+    if (m_current_grammar->rules.at(i).rhs().size() == 1)
+    {
+      bool exists = false;
+      for (size_t j = 0; j < terminal_identifiers.size(); j++)
+      {
+        if (terminal_identifiers.at(j) == m_current_grammar->rules.at(i).rhs().at(0)->getIdentifier())
+        {
+          exists = true;
+          break;
+        }
+      }
+      if (!exists)
+      {
+        terminal_identifiers.push_back(
+            m_current_grammar->rules.at(i).rhs().at(0)->getIdentifier());
+      }
+    }
+
+    bool exists = false;
+    for (size_t j = 0; j < nonterminal_identifiers.size(); j++)
+    {
+      if (nonterminal_identifiers.at(j) ==
+          m_current_grammar->rules.at(i).lhs().getIdentifier())
+      {
+        exists = true;
+        break;
+      }
+    }
+    if (!exists)
+    {
+      nonterminal_identifiers.push_back(
+          m_current_grammar->rules.at(i).rhs().at(0)->getIdentifier());
+    }
+  }
+
+  int k_runtime = (m_current_word->size() ^ 3) * (m_current_grammar->rules.size() ^ 2) * terminal_identifiers.size() / nonterminal_identifiers.size()^2;
+
+  std::cout << "K runtime: " << k_runtime << "\n";
+
+  if (k_runtime > 100)
+  {
+    std::string msg_box_text = "Die Kombination aus Grammatik und Eingabewort "
+                               "weißt eine Laufzeitkennzahl von " +
+                               k_runtime;
+    msg_box_text += " auf. Bei einem Wert von über 100, können eröhte Laufzeiten nicht ausgeschlossen werden. Möchten Sie fortfahren?\n";
+
+    wxMessageDialog* parse_word =
+        new wxMessageDialog(this, wxString::FromUTF8(msg_box_text), "Caption",
+                            wxYES_NO | wxCENTER, wxDefaultPosition);
+    if (!parse_word->ShowModal() == wxID_YES)
+    {
+      return;
+    }
+  }
+
   engine.parseWord(dynamic_cast<CYKAlgorithm&>(*m_visualised_thing),
                    *m_current_word);
   steps.at(2).highlight = true;

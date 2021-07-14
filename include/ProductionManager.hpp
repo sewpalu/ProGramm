@@ -25,8 +25,12 @@
 #include "wx/dcbuffer.h"
 #include "wx/spinctrl.h"
 
+#include "ConfigLoader.hpp"
+
 #include "FormalGrammar.hpp"
 #include "Terminal.hpp"
+
+#include "ConfigManager.hpp"
 
 class ProductionManager : public wxScrolledWindow
 {
@@ -52,6 +56,7 @@ private:
 
   std::vector<FormalGrammar> loadedGrammars;
 
+  ConfigLoader loader = ConfigLoader();
 
   std::vector<Nonterminal*> nonterminal_alphabet;
   std::vector<Terminal*> terminal_alphabet;

@@ -194,6 +194,14 @@
 							<scrollrate>5,5</scrollrate>
 						</object>
 					</object>
+            <object class="notebookpage">
+                <label>Settings</label>
+                <selected>1</selected>
+                <object class="wxScrolledWindow" name="manager_overview_tab" subclass="ConfigManager">
+                    <style>wxVSCROLL</style>
+                    <scrollrate>5,5</scrollrate>
+                </object>
+            </object>
 				</object>
 			</object>
 			<object class="sizeritem">
