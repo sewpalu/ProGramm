@@ -8,16 +8,6 @@ SyntaxTree::SyntaxTree(STNode root_input)
 {
 }
 
-SyntaxTree::~SyntaxTree()
-{
-}
-
-SyntaxTree::SyntaxTree()
-    : Visualisable(std::make_unique<STVisualiser>(std::make_shared<STNode>())),
-      root(dynamic_cast<const STVisualiser&>(visualiser()).root_node)
-{
-}
-
 std::vector<STNode> SyntaxTree::getChildren() const
 {
   return this->root->children;

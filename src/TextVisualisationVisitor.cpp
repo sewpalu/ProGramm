@@ -1,29 +1,51 @@
 #include "TextVisualisationVisitor.hpp"
 
 #include <algorithm>
+#include <string>
 
 #include "CYKVisualiser.hpp"
+#include "Nonterminal.hpp"
 #include "STNode.hpp"
 #include "STVisualiser.hpp"
 #include "STreesVisualiser.hpp"
+#include "Terminal.hpp"
 
-#include <iostream>
-
-template <typename ContainerT, typename ElementT>
-static ContainerT repeat(const ElementT& item, const std::size_t count)
+namespace
 {
-  auto container = ContainerT{};
-  auto item_container = ContainerT{item};
+
+/**
+ * Concatenates strings and characters
+ *
+ * \tparam ContainerT
+ * \tparam ElementT Needs to be convertible to std::string
+ *
+ * \param item
+ * \param count
+ *
+ * \return A container containing `count` copies of `item`
+ */
+template <typename ElementT>
+std::string repeat(const ElementT& item, const std::size_t count)
+{
+  auto container = std::string{};
   for (auto i = std::size_t{}; i < count; ++i)
-    container.insert(container.end(), item_container.begin(),
-                     item_container.end());
+    container += item;
   return container;
 }
 
-static std::string pretty_grid_string(const std::string& begin,
-                                      const std::string& mid,
-                                      const std::string& end,
-                                      const std::vector<std::string>& spacings)
+/**
+ * Puts strings in a sequence of decorators
+ *
+ * \param begin Beginning decorator
+ * \param mid   Interleaved decorator
+ * \param end   Ending decorator
+ * \param spacings Space between decorators (content)
+ *
+ * \return The string
+ */
+std::string pretty_grid_string(const std::string& begin, const std::string& mid,
+                               const std::string& end,
+                               const std::vector<std::string>& spacings)
 {
   auto result = begin;
 
@@ -37,6 +59,49 @@ static std::string pretty_grid_string(const std::string& begin,
 
   return result;
 }
+
+/**
+ * Prints a syntax tree in a recursive fashion
+ *
+ * \param node The tree
+ * \param pre_indentation String to print as the indentation for the root node
+ * \param indentation     String to print as the indentation for child nodes
+ * \param last Whether this is the last tree node in the greater context
+ *
+ * \return The tree as a string
+ */
+std::string subtree_printer(const STNode& node,
+                            const std::string pre_indentation = {},
+                            const std::string indentation = {},
+                            const bool last = false)
+{
+  using namespace std::literals;
+
+  auto label = std::string{};
+  if (auto* nonterminal = dynamic_cast<Nonterminal*>(node.value.get());
+      nonterminal)
+    label = nonterminal->identifier;
+  else if (auto* terminal = dynamic_cast<Terminal*>(node.value.get()); terminal)
+    label = terminal->identifier + "(" + terminal->value + ")";
+
+  auto result =
+      (indentation.empty() ? ""s : pre_indentation + (last ? "└──"s : "├──"s)) +
+      label + "\n";
+
+  if (node.children.empty())
+    return result;
+
+  auto rtail = decltype(node.children){node.children.begin(),
+                                       std::prev(node.children.end())};
+  for (const auto& child : rtail)
+    result += subtree_printer(child, indentation, indentation + "│  "s);
+
+  result += subtree_printer(node.children.back(), indentation,
+                            indentation + "   "s, true);
+
+  return result;
+}
+}  // namespace
 
 void TextVisualisationVisitor::visitCYKVisualiser(
     const CYKVisualiser& visualiser)
@@ -69,7 +134,8 @@ void TextVisualisationVisitor::visitCYKVisualiser(
     {
       auto cell = ""s;
       for (const auto& highlighted_cell : highlighted_cells)
-        if (highlighted_cell.first.first == m && highlighted_cell.first.second == n)
+        if (highlighted_cell.first.first == m &&
+            highlighted_cell.first.second == n)
           cell += "* "s;
       for (const auto& symbol : matrix[m][n])
       {
@@ -122,36 +188,15 @@ void TextVisualisationVisitor::visitCYKVisualiser(
   m_text += pretty_grid_string(grid_top, grid_mid, grid_bot, grid_rows);
 }
 
-static std::string subtree_printer(const STNode& node,
-                                   const std::string pre_indentation = {},
-                                   const std::string indentation = {},
-                                   const bool last = false)
-{
-  using namespace std::literals;
-  auto result =
-      (indentation.empty() ? ""s : pre_indentation + (last ? "└──"s : "├──"s)) +
-      node.value->identifier + "\n";
-  if (node.children.empty())
-    return result;
-
-  auto rtail = decltype(node.children){node.children.begin(),
-                                       std::prev(node.children.end())};
-  for (const auto& child : rtail)
-    result += subtree_printer(child, indentation, indentation + "│  "s);
-  result += subtree_printer(node.children.back(), indentation,
-                            indentation + "   "s, true);
-
-  return result;
-}
-
 void TextVisualisationVisitor::visitSTVisualiser(const STVisualiser& visualiser)
 {
   m_text = subtree_printer(*visualiser.root_node);
 }
 
-void TextVisualisationVisitor::visitSTreesVisualiser(const STreesVisualiser& visualiser)
+void TextVisualisationVisitor::visitSTreesVisualiser(
+    const STreesVisualiser& visualiser)
 {
   m_text = {};
-  for (const auto& st: *visualiser.trees)
+  for (const auto& st : *visualiser.trees)
     m_text += subtree_printer(st.getRoot());
 }

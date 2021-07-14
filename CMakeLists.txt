@@ -45,6 +45,6 @@ if (BUILD_TESTS)
   enable_testing()
   include(GoogleTest)
 
-  form_lang_add_test(dummy_test)
+  form_lang_add_test(TextVisualisationVisitorTest)
 endif()
 

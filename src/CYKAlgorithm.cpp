@@ -27,7 +27,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
   std::cout << "Vorher: " << cykVisSolution->matrix.at(0).at(0).size()
             << "\n\n\n";
 
-  Terminal testTerminal;
+  Terminal testTerminal{"", ""};
 
   // Iterate through Terminals that make up the input word
   for (unsigned int wordPos = 0; wordPos < input.getSize(); wordPos++)

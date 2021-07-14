@@ -14,9 +14,9 @@ private:
   std::shared_ptr<const STNode> root;
 
 public:
+  SyntaxTree() = delete;
+  ~SyntaxTree() = default;
   explicit SyntaxTree(STNode root_input);
-  ~SyntaxTree();
-  SyntaxTree();
 
   std::vector<STNode> getChildren() const;
 

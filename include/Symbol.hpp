@@ -9,10 +9,10 @@ class Symbol
 {
 
 public:
-  std::string identifier;
+  std::string identifier = "";
 
-  Symbol();
-  ~Symbol();
+  Symbol() = delete;
+  virtual ~Symbol() = default;
   Symbol(std::string identifier_input);
 
   auto operator<=>(const Symbol& other) const = default;
