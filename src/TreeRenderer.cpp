@@ -47,6 +47,13 @@ void TreeRenderer::render()
 void TreeRenderer::render_subtree(STNode subtree, int radius,
                                   std::size_t depth, int parentX, int parentY)
 {
+  int font_size = radius / this->maxStringLength;
+
+  wxFont temp_font = wxFont();
+  temp_font.SetPointSize(font_size);
+
+  m_dc.SetFont(temp_font);
+
   // If the number of nodes on the current level hasn't been saved yet, do so
   // now
   if (this->m_numberOfNodesOnLevel.size() <= depth)
@@ -120,9 +127,10 @@ void TreeRenderer::render_subtree(STNode subtree, int radius,
   // Draw the label for the current node
   m_dc.DrawLabel(
       subtree.value->getIdentifier(),
-      wxRect(wxPoint(xCoord - (radius / sqrt(2)),
-                     yCoord - (radius / sqrt(2) / this->maxStringLength)),
-             wxSize(radius * sqrt(2), radius * sqrt(2))));
+      wxRect(wxPoint(xCoord - (radius),
+                     yCoord - (radius / 1.1 / this->maxStringLength)),
+             wxSize(radius * 2, radius * 2)),
+      wxALIGN_CENTRE_HORIZONTAL);
 
   // Set the outline back to black for the next node
   m_dc.SetPen(wxPen(wxColor(70, 70, 70), 2));  // 2-pixels-thick black outline

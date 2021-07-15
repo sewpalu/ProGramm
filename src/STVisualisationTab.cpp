@@ -36,8 +36,6 @@ void STVisualisationTab::mouseMoved(wxMouseEvent& evt)
 {
   if (evt.LeftIsDown())
   {
-    std::cout << "Dragging: " << evt.m_x << " | " << evt.m_y << "\n";
-
     // Get time since last position entry
     // If last entry is too old, it might not correspond to the current click
     std::chrono::duration<double, std::milli> time_span =
