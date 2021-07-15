@@ -34,7 +34,6 @@ public:
   void set_defaults();
 
 private:
-  std::string config_file_name = wxStandardPaths::Get().GetDocumentsDir();
+  std::string config_file_name = wxStandardPaths::Get().GetDocumentsDir().ToStdString();
   //nlohmann::json standard_settings = "{ \"Sprache\": englisch, \"max_rhs\": 2 }"_json;
-  ;
 };

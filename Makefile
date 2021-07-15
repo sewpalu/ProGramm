@@ -19,7 +19,7 @@ clean:
 	rm -rf build
 
 justrun:
-	GTK_THEME=Sweet-Mars build/pro_gramm gui # >/dev/null
+	build/pro_gramm gui # >/dev/null
 
 gdb:
 	gdb --args build/pro_gramm gui
