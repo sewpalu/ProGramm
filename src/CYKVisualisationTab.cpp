@@ -160,6 +160,11 @@ void CYKVisualisationTab::render_input()
                        *m_current_word);
     }
   }
+  else
+  {
+    engine.parseWord(dynamic_cast<CYKAlgorithm&>(*m_visualised_thing),
+                     *m_current_word);  
+  }
   
   steps.at(2).highlight = true;
 
