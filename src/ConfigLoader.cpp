@@ -210,7 +210,10 @@ void ConfigLoader::set_defaults()
     // These are some standard values, they can be changed in the GUI
     this->default_values["max_rhs"] = 2;
     this->default_values["execution_time_constant"] = 100;
-    this->default_values["Sprache"] = "Deutsch";
+
+    // Loading language from config is not yet implemented.
+    // Also, the choice should probably be an enumeration
+    //this->default_values["Sprache"] = "Deutsch";
 
     output_file << this->default_values << std::endl;
     output_file.close();
