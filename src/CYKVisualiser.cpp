@@ -282,7 +282,6 @@ void CYKVisualiser::dumpContent(unsigned int coordinate1,
 std::vector<SyntaxTree> CYKVisualiser::convertToSyntaxTrees(
     FormalGrammar grammar)
 {
-  //std::cout << "Converting to SyntaxTree: \n";
   // Important to keep track of how often the functions need to be called
   std::size_t wordLength = this->matrix.size();
 
@@ -310,14 +309,9 @@ std::vector<SyntaxTree> CYKVisualiser::convertToSyntaxTrees(
   for (unsigned int startPosCounter = 0;
        startPosCounter < startPositions.size(); startPosCounter++)
   {
-    /*std::cout
-        << "Hello from the loop ----------------------------- (iteration: "
-        << startPosCounter << ") \n";*/
     CYKLink startPosition = this->matrix.at(wordLength - 1)
                                 .at(0)
                                 .at(startPositions.at(startPosCounter));
-    /*std::cout << "Start position: " << startPosition.getRoot().getIdentifier()
-              << "\n";*/
     STNode treeRoot(
         std::make_unique<Nonterminal>(startPosition.getRoot().getIdentifier()));
 
@@ -339,39 +333,17 @@ std::vector<STNode> CYKVisualiser::addChildrenFromLink(CYKLink inputLink)
 {
   std::vector<STNode> children;
 
-  // std::cout << "Kinder gefunden: " << inputLink.getProductions().size() <<
-  // "\n";
-  /*std::cout << "Child counter: " << inputLink.getProductions().size() << "\n";
-  std::cout << "children: \n";
-  for (unsigned int i = 0; i < inputLink.getProductions().size(); i++)
-  {
-    std::cout
-        << inputLink.getProductions().at(i).second.getRoot().getIdentifier()
-        << "   ";
-  }
-  std::cout << "\n";*/
   for (unsigned int childCounter = 0;
        childCounter < inputLink.getProductions().size(); childCounter++)
   {
-    // std::cout << "Funktionsaufruf aus Schleife!\n";
     STNode child(std::make_unique<Nonterminal>(inputLink.getProductions()
                      .at(childCounter)
                      .second.getRoot()
                      .getIdentifier()));
     child.addChildren(addChildrenFromLink(
         inputLink.getProductions().at(childCounter).second));
-    // STNode(Symbol value_input, std::vector<STNode> children);
-    // std::cout << "Kind: " << child.value.getIdentifier() << "\n";
     children.push_back(child);
   }
-
-  /*if (children.size() > 2)
-  {
-      std::cout << "Converter Error";
-  }*/
-
-  // if (children.size() == 0) std::cout << "Letzter Wert: " <<
-  // inputLink.getRoot().getIdentifier() << "\n\n";
 
   return children;
 }

@@ -59,7 +59,7 @@ int ConfigLoader::load_int_parameter(std::string identifier)
   }
   catch (...)
   {
-    std::cout << "Cannot find identifier: " << identifier << "\n";
+    std::cerr << "Cannot find identifier: " << identifier << "\n";
     return 0;
   }
 }
@@ -90,7 +90,7 @@ void ConfigLoader::set_int_parameter(std::string identifier, int value)
   }
   catch (...)
   {
-    std::cout << "Cannot open the file" << this->config_file_name << "\n";
+    std::cerr << "Cannot open the file" << this->config_file_name << "\n";
   }
 
   for (auto& element : old_data.items())
@@ -124,7 +124,7 @@ std::string ConfigLoader::load_string_parameter(std::string identifier)
   }
   catch (...)
   {
-    std::cout << "Cannot open the file" << this->config_file_name << "\n";
+    std::cerr << "Cannot open the file" << this->config_file_name << "\n";
   }
 
   return config_data[identifier];
@@ -156,7 +156,7 @@ void ConfigLoader::set_string_parameter(std::string identifier,
   }
   catch (...)
   {
-    std::cout << "Cannot open the file" << this->config_file_name << "\n";
+    std::cerr << "Cannot open the file" << this->config_file_name << "\n";
   }
 
   for (auto& element : old_data.items())
@@ -188,7 +188,7 @@ nlohmann::json ConfigLoader::get_content()
   }
   catch (...)
   {
-    std::cout << "Cannot open the file" << this->config_file_name << "\n";
+    std::cerr << "Cannot open the file" << this->config_file_name << "\n";
   }
   return output;
 }
@@ -210,13 +210,16 @@ void ConfigLoader::set_defaults()
     // These are some standard values, they can be changed in the GUI
     this->default_values["max_rhs"] = 2;
     this->default_values["execution_time_constant"] = 100;
-    this->default_values["Sprache"] = "Deutsch";
+
+    // Loading language from config is not yet implemented.
+    // Also, the choice should probably be an enumeration
+    //this->default_values["Sprache"] = "Deutsch";
 
     output_file << this->default_values << std::endl;
     output_file.close();
   }
   catch (...)
   {
-    std::cout << "Could not open file to set defaults\n";
+    std::cerr << "Could not open file to set defaults\n";
   }
 }

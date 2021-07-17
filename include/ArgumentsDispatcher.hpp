@@ -22,8 +22,8 @@ private:
   static constexpr auto s_usage = R"(Formal Grammars.
 
 Usage:
-  form_lang gui [options]
-  form_lang parse (-f <word_file> | <word>) (-g <grammar_file> | <grammar>) (st|cyk)
+  pro_gramm gui [options]
+  pro_gramm parse (-f <word_file> | <word>) (-g <grammar_file> | <grammar>) (st|cyk)
                   [-v text] [-o <output_file>] [options]
 
 Options:

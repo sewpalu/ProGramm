@@ -98,74 +98,8 @@ void CYKVisualisationTab::render_input()
   auto engine = EngineFacade{std::make_unique<SimpleWordParser>()};
   engine.setGrammar(*m_current_grammar);
   m_visualised_thing = std::make_unique<CYKAlgorithm>();
-
-  //Vectors to get number of terminals and nonterminals in the current grammar
-  std::vector<std::string> terminal_identifiers;
-  std::vector<std::string> nonterminal_identifiers;
-
-  for (size_t i = 0; i < m_current_grammar->rules.size(); i++)
-  {
-    if (m_current_grammar->rules.at(i).rhs().size() == 1)
-    {
-      bool exists = false;
-      for (size_t j = 0; j < terminal_identifiers.size(); j++)
-      {
-        if (terminal_identifiers.at(j) == m_current_grammar->rules.at(i).rhs().at(0)->getIdentifier())
-        {
-          exists = true;
-          break;
-        }
-      }
-      if (!exists)
-      {
-        terminal_identifiers.push_back(
-            m_current_grammar->rules.at(i).rhs().at(0)->getIdentifier());
-      }
-    }
-
-    bool exists = false;
-    for (size_t j = 0; j < nonterminal_identifiers.size(); j++)
-    {
-      if (nonterminal_identifiers.at(j) ==
-          m_current_grammar->rules.at(i).lhs().getIdentifier())
-      {
-        exists = true;
-        break;
-      }
-    }
-    if (!exists)
-    {
-      nonterminal_identifiers.push_back(
-          m_current_grammar->rules.at(i).rhs().at(0)->getIdentifier());
-    }
-  }
-
-  //Factors are written multiple times to avoid potency use in c++
-  int k_runtime =
-      m_current_word->size() * m_current_word->size() * m_current_word->size() *
-          m_current_grammar->rules.size() *
-          m_current_grammar->rules.size()*
-                  terminal_identifiers.size() / (100 * nonterminal_identifiers.size() *
-                  nonterminal_identifiers.size());
-  
-  ConfigLoader loader = ConfigLoader();
-
-  if (k_runtime > loader.load_int_parameter("max_k_runtime"))
-  {
-    wxMessageDialog* parse_word_dialog = new wxMessageDialog(this, _("For this combination of grammar and test word, an increased execution time might occur. Do you want to proceed?"), _("Error!"),
-                            wxYES_NO , wxDefaultPosition);
-    if (parse_word_dialog->ShowModal() == wxID_YES)
-    {
-      engine.parseWord(dynamic_cast<CYKAlgorithm&>(*m_visualised_thing),
-                       *m_current_word);
-    }
-  }
-  else
-  {
-    engine.parseWord(dynamic_cast<CYKAlgorithm&>(*m_visualised_thing),
-                     *m_current_word);  
-  }
-  
+  engine.parseWord(dynamic_cast<CYKAlgorithm&>(*m_visualised_thing),
+                   *m_current_word);
   steps.at(2).highlight = true;
 
   if (auto& cyk_visualiser =

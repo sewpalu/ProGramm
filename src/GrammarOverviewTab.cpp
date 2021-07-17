@@ -149,7 +149,6 @@ void GrammarOverviewTab::set_terminal_alphabet(std::vector<Terminal*> terminals)
 
 void GrammarOverviewTab::save_grammar(wxCommandEvent& evt)
 {
-  std::cout << "Saving grammar\n";
   std::string grammar_name;
   grammar_name = this->grammar_name_entry->GetValue();
   if (!this->grammar_name_entry->IsModified())
@@ -164,7 +163,6 @@ void GrammarOverviewTab::save_grammar(wxCommandEvent& evt)
       std::string msg_box_text =
           _("The grammar with the name '").ToStdString() + grammar_name;
       msg_box_text += _("' already exists. Do you wish to override it?");
-      std::cout << "Constructing parent\n";
 
       wxMessageDialog* overwrite_grammar_dialog = new wxMessageDialog(
           this, wxString::FromUTF8(msg_box_text), _("Confirmation"),
@@ -185,7 +183,6 @@ void GrammarOverviewTab::save_grammar(wxCommandEvent& evt)
 
 void GrammarOverviewTab::load_grammar(wxCommandEvent& evt)
 {
-  std::cout << "'Loading'\n";
   std::vector<std::string> grammar_names;
   for (int i = this->grammars_display->GetCount() - 1; i >= 0; i--)
   {
@@ -195,8 +192,6 @@ void GrammarOverviewTab::load_grammar(wxCommandEvent& evt)
           this->grammars_display->GetString(i).ToStdString());
     }
   }
-
-  std::cout << "Selected grammar names: " << grammar_names.size() << "\n";
 
   if (grammar_names.size() == 0)
   {
@@ -234,13 +229,10 @@ void GrammarOverviewTab::load_grammar(wxCommandEvent& evt)
 
 void GrammarOverviewTab::delete_grammars(wxCommandEvent& evt)
 {
-  std::cout << "Deleting\n";
   for (int i = this->grammars_display->GetCount() - 1; i >= 0; i--)
   {
     if (this->grammars_display->IsChecked(i))
     {
-      std::cout << "Checked grammar: "
-                << this->grammars_display->GetString(i).ToStdString() << "\n";
       this->converter.delete_grammar(
           this->grammars_display->GetString(i).ToStdString());
     }

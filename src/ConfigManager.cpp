@@ -33,7 +33,6 @@ void ConfigManager::on_create(wxWindowCreateEvent& evt)
   int rows = data.size();
 
   this->table = new wxGridSizer(rows + 1, collumns, 5, 5);
-  this->SetBackgroundColour(wxColour(wxString("white")));
 
   for (auto& element : data.items())
   {
@@ -80,13 +79,13 @@ void ConfigManager::on_create(wxWindowCreateEvent& evt)
     this->content.push_back(temp);
   }
 
-  this->save_button = new wxButton(this, wxID_ANY, "Speichern!",
+  this->save_button = new wxButton(this, wxID_ANY, _("Save!"),
                                        wxDefaultPosition, wxDefaultSize);
   save_button->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED, &ConfigManager::save, this);
   this->table->Add(save_button, wxEXPAND, wxALIGN_LEFT);
 
   this->reset_button =
-      new wxButton(this, wxID_ANY, "Standardwerte wiederherstellen!",
+      new wxButton(this, wxID_ANY, _("Reset!"),
                    wxDefaultPosition, wxDefaultSize);
    reset_button->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED,
    &ConfigManager::load_default,
@@ -97,7 +96,11 @@ void ConfigManager::on_create(wxWindowCreateEvent& evt)
 
   this->table->SetSizeHints(this);
 
-  this->SetSizer(this->table, wxALL | 10);
+  auto container = new wxBoxSizer{wxVERTICAL};
+  container->AddStretchSpacer();
+  container->Add(table, wxSizerFlags{}.Centre().Border(wxALL, 5));
+  container->AddStretchSpacer();
+  this->SetSizer(container);
 
   this->FitInside();
   this->SetScrollRate(1, 1);
@@ -157,8 +160,6 @@ void ConfigManager::load_default(wxCommandEvent& evt)
   int collumns = 2;
   int rows = data.size();
 
-  this->SetBackgroundColour(wxColour(wxString("white")));
-
   for (auto& element : data.items())
   {
     std::pair<wxStaticText*, std::pair<wxTextCtrl*, std::string>> temp;
@@ -216,6 +217,8 @@ void ConfigManager::load_default(wxCommandEvent& evt)
                        &ConfigManager::load_default, this);
 
   this->table->Add(reset_button, wxEXPAND, wxALIGN_LEFT);
+
+  Layout();
 }
 
 ConfigManager::~ConfigManager()
