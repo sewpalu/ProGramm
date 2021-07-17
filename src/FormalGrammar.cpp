@@ -13,7 +13,7 @@ FormalGrammar FormalGrammar::choose_startsymbol(
   {
     if (nonterminals.at(i)->isStartSymbol())
     {
-      start = Nonterminal(nonterminals.at(i)->getIdentifier());
+      start = Nonterminal(nonterminals.at(i)->identifier);
       break;
     }
   }

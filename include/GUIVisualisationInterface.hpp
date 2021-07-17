@@ -11,6 +11,14 @@
 
 #include "SyntaxTree.hpp"
 
+/**
+ * Interface for GUI functionality.
+ *
+ * This serves decoupling the GUI implementation from the Visualisation.
+ *
+ * Implementors may provide an empty implementation for those member functions
+ * that are not expected to be called.
+ */
 class GUIVisualisationInterface
 {
 public:
@@ -65,13 +73,40 @@ public:
     Callback on_click;
   };
 
+  /**
+   * Draws a tree.
+   *
+   * In the future this should take a GUIVisualisationInterface::Tree instead of
+   * a SyntaxTree, in order to allow more generic usage, as well as handling
+   * on_click events, etc. .
+   */
   virtual void draw_tree(const SyntaxTree& tree) = 0;
-  // virtual void draw_tree(Tree* tree) = 0;
+
+  /**
+   * Draws a table.
+   */
   virtual void draw_table(const Table& table) = 0;
+
+  /**
+   * Clears what is currently drawn.
+   */
   virtual void draw_empty() = 0;
 
+  /**
+   * Assigns a function to the specified button.
+   *
+   * \param label     New button label.
+   * \param on_click  Callback for the click event.
+   * \param position  Selects which button to assign a function.
+   */
   virtual void set_button(const std::string& label, Callback on_click,
                           Position position = Position::left) = 0;
+
+  /**
+   * Provides a list of options for the user to choose from.
+   *
+   * Selection is handled by the callback specified in the respective Option.
+   */
   virtual void set_options(const std::vector<Option>& options) = 0;
 };
 

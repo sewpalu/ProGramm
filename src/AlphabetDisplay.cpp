@@ -57,7 +57,7 @@ void AlphabetDisplay::set_alphabet(std::vector<Nonterminal*> nonterminals,
   std::vector<wxString> wx_terminals;
   for (Terminal* temp_terminal : this->m_terminals)
   {
-    wx_terminals.push_back(wxString(temp_terminal->getIdentifier()));
+    wx_terminals.push_back(wxString(temp_terminal->identifier));
   }
   this->m_terminal_display->Append(wx_terminals);
 
@@ -65,7 +65,7 @@ void AlphabetDisplay::set_alphabet(std::vector<Nonterminal*> nonterminals,
   std::vector<wxString> wx_nonterminals;
   for (Nonterminal* temp_nonterminal : this->m_nonterminals)
   {
-    wx_nonterminals.push_back(wxString(temp_nonterminal->getIdentifier()));
+    wx_nonterminals.push_back(wxString(temp_nonterminal->identifier));
   }
   this->m_nonterminal_display->Append(wx_nonterminals);
 

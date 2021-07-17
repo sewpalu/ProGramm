@@ -66,7 +66,7 @@ void CYKVisualiser::dumpContent()
                                       .at(colCount)
                                       .at(elementCount)
                                       .getRoot()
-                                      .getIdentifier()) != std::string::npos))
+                                      .identifier) != std::string::npos))
           {
             if (displayPlace.size() > 0)
             {
@@ -76,7 +76,7 @@ void CYKVisualiser::dumpContent()
                                               .at(colCount)
                                               .at(elementCount)
                                               .getRoot()
-                                              .getIdentifier();
+                                              .identifier;
           }
         }
         catch (...)
@@ -113,7 +113,7 @@ void CYKVisualiser::dumpAll()
         try
         {
           // if
-          // (!(displayPlace.find(this->matrix.at(i).at(j).at(k).getRoot().getIdentifier())
+          // (!(displayPlace.find(this->matrix.at(i).at(j).at(k).getRoot().identifier)
           // != std::string::npos)) {
           if (displayPlace.size() > 0)
           {
@@ -121,10 +121,10 @@ void CYKVisualiser::dumpAll()
           }
           displayPlace =
               displayPlace +
-              this->matrix.at(i).at(j).at(k).getRoot().getIdentifier() +
+              this->matrix.at(i).at(j).at(k).getRoot().identifier +
               std::to_string(
                   this->matrix.at(i).at(j).at(k).getProductions().size());
-          if (this->matrix.at(i).at(j).at(k).getRoot().getIdentifier() == "")
+          if (this->matrix.at(i).at(j).at(k).getRoot().identifier == "")
           {
             displayPlace = displayPlace + "EmptyNonterminal";
           }
@@ -179,7 +179,7 @@ void CYKVisualiser::dumpContent(unsigned int coordinate1,
             .at(coordinate2)
             .at(i)
             .getRoot()
-            .getIdentifier() == nonterminalIdentifier)
+            .identifier == nonterminalIdentifier)
     {
       std::cout << "Successful if for: " << nonterminalIdentifier << "\n";
       dependency1Coordinates.first = this->matrix.at(coordinate1)
@@ -239,7 +239,7 @@ void CYKVisualiser::dumpContent(unsigned int coordinate1,
         try
         {
           if (!(displayPlace.find(
-                    this->matrix.at(i).at(j).at(k).getRoot().getIdentifier()) !=
+                    this->matrix.at(i).at(j).at(k).getRoot().identifier) !=
                 std::string::npos))
           {
             if (displayPlace.size() > 0)
@@ -248,7 +248,7 @@ void CYKVisualiser::dumpContent(unsigned int coordinate1,
             }
             displayPlace =
                 displayPlace +
-                this->matrix.at(i).at(j).at(k).getRoot().getIdentifier();
+                this->matrix.at(i).at(j).at(k).getRoot().identifier;
           }
         }
         catch (...)
@@ -287,8 +287,8 @@ std::vector<SyntaxTree> CYKVisualiser::convertToSyntaxTrees(
        i++)
   {
     // Write all starting positions to vector
-    if (this->matrix.at(wordLength - 1).at(0).at(i).getRoot().getIdentifier() ==
-        grammar.start.getIdentifier())
+    if (this->matrix.at(wordLength - 1).at(0).at(i).getRoot().identifier ==
+        grammar.start.identifier)
       startPositions.push_back(i);
   }
 
@@ -308,10 +308,10 @@ std::vector<SyntaxTree> CYKVisualiser::convertToSyntaxTrees(
     CYKLink startPosition = this->matrix.at(wordLength - 1)
                                 .at(0)
                                 .at(startPositions.at(startPosCounter));
-    std::cout << "Start position: " << startPosition.getRoot().getIdentifier()
+    std::cout << "Start position: " << startPosition.getRoot().identifier
               << "\n";
     STNode treeRoot(
-        std::make_unique<Nonterminal>(startPosition.getRoot().getIdentifier()));
+        std::make_unique<Nonterminal>(startPosition.getRoot().identifier));
 
     treeRoot.addChildren(this->addChildrenFromLink(startPosition));
 
@@ -338,7 +338,7 @@ std::vector<STNode> CYKVisualiser::addChildrenFromLink(CYKLink inputLink)
   for (unsigned int i = 0; i < inputLink.getProductions().size(); i++)
   {
     std::cout
-        << inputLink.getProductions().at(i).second.getRoot().getIdentifier()
+        << inputLink.getProductions().at(i).second.getRoot().identifier
         << "   ";
   }
   std::cout << "\n";
@@ -349,11 +349,11 @@ std::vector<STNode> CYKVisualiser::addChildrenFromLink(CYKLink inputLink)
     STNode child(std::make_unique<Nonterminal>(inputLink.getProductions()
                      .at(childCounter)
                      .second.getRoot()
-                     .getIdentifier()));
+                     .identifier));
     child.addChildren(addChildrenFromLink(
         inputLink.getProductions().at(childCounter).second));
     // STNode(Symbol value_input, std::vector<STNode> children);
-    // std::cout << "Kind: " << child.value.getIdentifier() << "\n";
+    // std::cout << "Kind: " << child.value.identifier << "\n";
     children.push_back(child);
   }
 
@@ -363,7 +363,7 @@ std::vector<STNode> CYKVisualiser::addChildrenFromLink(CYKLink inputLink)
   }*/
 
   // if (children.size() == 0) std::cout << "Letzter Wert: " <<
-  // inputLink.getRoot().getIdentifier() << "\n\n";
+  // inputLink.getRoot().identifier << "\n\n";
 
   return children;
 }

@@ -114,12 +114,12 @@ void TreeRenderer::render_subtree(STNode subtree, int radius,
   m_dc.DrawCircle(wxPoint(xCoord, yCoord), radius);
 
   // If the current string length is larger than the previous maximum, update it
-  if (subtree.value->getIdentifier().length() > this->maxStringLength)
-    this->maxStringLength = subtree.value->getIdentifier().length();
+  if (subtree.value->identifier.length() > this->maxStringLength)
+    this->maxStringLength = subtree.value->identifier.length();
 
   // Draw the label for the current node
   m_dc.DrawLabel(
-      subtree.value->getIdentifier(),
+      subtree.value->identifier,
       wxRect(wxPoint(xCoord - (radius / sqrt(2)),
                      yCoord - (radius / sqrt(2) / this->maxStringLength)),
              wxSize(radius * sqrt(2), radius * sqrt(2))));

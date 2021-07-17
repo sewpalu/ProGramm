@@ -5,6 +5,11 @@
 
 #include <iostream>
 
+/**
+ * Class representing a nonterminal
+ *
+ * For convenience the class may also know, whether it is a start symbol.
+ */
 class Nonterminal :
     public Symbol
 {
@@ -20,6 +25,9 @@ public:
     void setStartSymbol(bool startSymbolStatus);
 
 
+    /**
+     * Allows copying of the dynamic type
+     */
     std::unique_ptr<Symbol> clone() override
     {
       return std::make_unique<Nonterminal>(*this);

@@ -10,6 +10,11 @@
 #include "GUIVisualisationInterface.hpp"
 #include "VisualisationVisitor.hpp"
 
+/**
+ * Visualisation visitor for GUI visualisation.
+ *
+ * Has to be provided an object implementing the GUIVisualisationInterface.
+ */
 class GUIVisualisationVisitor : public VisualisationVisitor
 {
 private:

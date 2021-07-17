@@ -30,7 +30,7 @@ void GrammarEditor::set_grammar(const FormalGrammar& grammar)
   m_grammar = grammar;
   m_productions_display->set_productions(m_grammar.rules);
   m_startsymbol_display->SetLabel(
-      wxString::FromUTF8(m_grammar.start.getIdentifier()));
+      wxString::FromUTF8(m_grammar.start.identifier));
   notify_visualisation();
 }
 

@@ -11,6 +11,15 @@
 #include "SyntaxTree.hpp"
 #include "WordParser.hpp"
 
+/**
+ * Facade class for interacting with the engine.
+ *
+ * Currently it doesn't serve much function, but should be used to simplify
+ * working with
+ * - the datamodel
+ * - visualisation
+ * - the various algorithms
+ */
 class EngineFacade
 {
 private:
@@ -28,6 +37,11 @@ public:
     *this = other;
   }
 
+  /**
+   * Copy assignment operator
+   *
+   * Copies GrammarParser according to its dynamic type
+   */
   EngineFacade& operator=(const EngineFacade& other)
   {
     m_grammar = other.m_grammar;
@@ -37,27 +51,21 @@ public:
     return *this;
   }
 
-  void setGrammarParser(std::unique_ptr<GrammarParser> grammar_parser)
-  {
-    m_grammar_parser = std::move(grammar_parser);
-
-    // FIXME Temporary
-    m_grammar = m_grammar_parser->parseGrammar({});
-  }
-  
+  /**
+   * Convenience function for setting the grammar.
+   *
+   * This should in the future not be done directly.
+   */
   void setGrammar(const FormalGrammar& grammar)
   {
     m_grammar = grammar;
   }
 
-  void addProduction(const std::string& production)
-  {
-    (void)production;
-    throw std::runtime_error{"Parsing productions not implemented yet"};
-  }
-
-  std::vector<SyntaxTree> parseWord(
-      WordParser& word_parser, const std::string& word) const
+  /**
+   * Parses a word with the configured grammar
+   */
+  std::vector<SyntaxTree> parseWord(WordParser& word_parser,
+                                    const std::string& word) const
   {
     if (m_grammar)
       return word_parser.parse(*m_grammar, m_grammar_parser->parseWord(word));

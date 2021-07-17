@@ -5,6 +5,11 @@ class CYKVisualiser;
 class STVisualiser;
 class STreesVisualiser;
 
+/**
+ * Base class for visualisation visitors.
+ *
+ * These convert Visualiser objects to their respective output format.
+ */
 class VisualisationVisitor
 {
 public:

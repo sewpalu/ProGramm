@@ -28,10 +28,6 @@ Production& Production::operator=(const Production& other)
   return *this;
 }
 
-Production::~Production()
-{
-}
-
 const Nonterminal& Production::lhs() const
 {
   return m_lhs;
@@ -64,7 +60,7 @@ std::string Production::to_string() const
   auto result = "'" + m_lhs.identifier + "' →";
   for (const auto& symbol : m_rhs)
   {
-    result += " '" + symbol->getIdentifier() + "'";
+    result += " '" + symbol->identifier + "'";
   }
   return result;
 }

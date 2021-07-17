@@ -14,6 +14,12 @@
 
 #include "VisualisationTab.hpp"
 
+/**
+ * wxPanel for visualising a CYK Matrix
+ *
+ * This includes the matrix itself, as well as controls for skipping through
+ * steps of its development.
+ */
 class CYKVisualisationTab : public VisualisationTab
 {
 private:
@@ -23,6 +29,7 @@ private:
   std::map<Coord, Callback> m_cell_click_handlers = {};
 
 public:
+
   CYKVisualisationTab();
 
   /// GUIVisualisationInterface implementation

@@ -42,7 +42,7 @@ void ProductionManager::on_create(wxWindowCreateEvent& evt)
   for (unsigned int i = 0; i < this->nonterminal_alphabet.size(); i++)
   {
     this->lhs_selector->Append(
-        this->nonterminal_alphabet.at(i)->getIdentifier());
+        this->nonterminal_alphabet.at(i)->identifier);
   }
 
   this->number_of_rhs_symbols_selector = dynamic_cast<wxSpinCtrl*>(
@@ -74,13 +74,13 @@ void ProductionManager::on_create(wxWindowCreateEvent& evt)
   for (unsigned int i = 0; i < this->terminal_alphabet.size(); i++)
   {
     this->rhs_selectors.at(0)->Append(
-        this->terminal_alphabet.at(i)->getIdentifier());
+        this->terminal_alphabet.at(i)->identifier);
   }
 
   for (unsigned int i = 0; i < this->nonterminal_alphabet.size(); i++)
   {
     this->rhs_selectors.at(0)->Append(
-        this->nonterminal_alphabet.at(i)->getIdentifier());
+        this->nonterminal_alphabet.at(i)->identifier);
   }
 
   wxButton* production_entry_button =
@@ -126,12 +126,12 @@ void ProductionManager::update_controls()
     for (unsigned int i = 0; i < this->productions.size(); i++)
     {
       std::string production_string =
-          "'" + this->productions.at(i).lhs().getIdentifier() + "'";
+          "'" + this->productions.at(i).lhs().identifier + "'";
       production_string += " → ";
       for (unsigned int j = 0; j < this->productions.at(i).rhs().size(); j++)
       {
         production_string +=
-            "'" + this->productions.at(i).rhs().at(j)->getIdentifier() + "' ";
+            "'" + this->productions.at(i).rhs().at(j)->identifier + "' ";
       }
       this->production_display->Append(wxString::FromUTF8(production_string));
     }
@@ -159,7 +159,7 @@ void ProductionManager::add_production(wxCommandEvent& evt)
   for (unsigned int i = 0; i < this->nonterminal_alphabet.size(); i++)
   {
     if (this->lhs_selector->GetValue().ToStdString() ==
-        this->nonterminal_alphabet.at(i)->getIdentifier())
+        this->nonterminal_alphabet.at(i)->identifier)
       lhs_exists = true;
   }
 
@@ -190,13 +190,13 @@ void ProductionManager::add_production(wxCommandEvent& evt)
     for (unsigned int j = 0; j < this->nonterminal_alphabet.size(); j++)
     {
       std::cout << this->rhs_selectors.at(i)->GetValue().ToStdString()
-                << " vs. " << this->nonterminal_alphabet.at(j)->getIdentifier();
+                << " vs. " << this->nonterminal_alphabet.at(j)->identifier;
       if (this->rhs_selectors.at(i)->GetValue().ToStdString() ==
-          this->nonterminal_alphabet.at(j)->getIdentifier())
+          this->nonterminal_alphabet.at(j)->identifier)
       {
         std::cout << "Pushing back\n";
         rhs.push_back(
-            new Nonterminal(this->nonterminal_alphabet.at(j)->getIdentifier()));
+            new Nonterminal(this->nonterminal_alphabet.at(j)->identifier));
         exists_in_alphabet = true;
       }
       std::cout << "\n";
@@ -204,11 +204,11 @@ void ProductionManager::add_production(wxCommandEvent& evt)
     for (unsigned int j = 0; j < this->terminal_alphabet.size(); j++)
     {
       if (this->rhs_selectors.at(i)->GetValue().ToStdString() ==
-          this->terminal_alphabet.at(j)->getIdentifier())
+          this->terminal_alphabet.at(j)->identifier)
       {
         rhs.push_back(
-            new Terminal(this->terminal_alphabet.at(j)->getIdentifier(),
-                         this->terminal_alphabet.at(j)->getIdentifier()));
+            new Terminal(this->terminal_alphabet.at(j)->identifier,
+                         this->terminal_alphabet.at(j)->identifier));
         exists_in_alphabet = true;
       }
     }
@@ -225,13 +225,13 @@ void ProductionManager::add_production(wxCommandEvent& evt)
   }
 
   productions.push_back(Production(lhs, rhs));
-  std::cout << "Added production: " << lhs.getIdentifier() << " -> ";
+  std::cout << "Added production: " << lhs.identifier << " -> ";
 
   for (unsigned int i = 0;
        i < productions.at(productions.size() - 1).rhs().size(); i++)
   {
     std::cout
-        << productions.at(productions.size() - 1).rhs().at(i)->getIdentifier();
+        << productions.at(productions.size() - 1).rhs().at(i)->identifier;
   }
   std::cout << "\n";
 
@@ -281,7 +281,7 @@ void ProductionManager::update_symbol_selectors()
     for (unsigned int i = 0; i < this->nonterminal_alphabet.size(); i++)
     {
       this->lhs_selector->Append(
-          this->nonterminal_alphabet.at(i)->getIdentifier());
+          this->nonterminal_alphabet.at(i)->identifier);
     }
   }
 
@@ -294,12 +294,12 @@ void ProductionManager::update_symbol_selectors()
       for (unsigned int j = 0; j < this->nonterminal_alphabet.size(); j++)
       {
         this->rhs_selectors.at(i)->Append(
-            this->nonterminal_alphabet.at(j)->getIdentifier());
+            this->nonterminal_alphabet.at(j)->identifier);
       }
       for (unsigned int j = 0; j < this->terminal_alphabet.size(); j++)
       {
         this->rhs_selectors.at(i)->Append(
-            this->terminal_alphabet.at(j)->getIdentifier());
+            this->terminal_alphabet.at(j)->identifier);
       }
     }
   }
@@ -315,13 +315,13 @@ void ProductionManager::update_symbol_selectors()
       for (unsigned int j = 0; j < this->terminal_alphabet.size(); j++)
       {
         this->rhs_selectors.back()->Append(
-            this->terminal_alphabet.at(j)->getIdentifier());
+            this->terminal_alphabet.at(j)->identifier);
       }
 
       for (unsigned int j = 0; j < this->nonterminal_alphabet.size(); j++)
       {
         this->rhs_selectors.back()->Append(
-            this->nonterminal_alphabet.at(j)->getIdentifier());
+            this->nonterminal_alphabet.at(j)->identifier);
       }
     }
   }

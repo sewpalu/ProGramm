@@ -9,8 +9,12 @@
 #include "docopt.h"
 
 #include "EngineFacade.hpp"
-#include "Settings.hpp"
 
+/**
+ * Class for handling command line arguments.
+ *
+ * Parses the arguments and executes the corresponding actions.
+ */
 class ArgumentsDispatcher
 {
 private:
@@ -43,11 +47,27 @@ Options:
                                       "-" means standard output. [default: "-"])";
 
 public:
+  /**
+   * Constructor
+   *
+   * Supply with the c-style arguments from main, or something that is compatible
+   */
   ArgumentsDispatcher(int argc, char** argv);
+
+  /**
+   * Executes the actions that correspond to the provided arguments.
+   */
   void dispatch() const;
 
 private:
+  /**
+   * Dispatch for the "gui" cli verb.
+   */
   void dispatch_gui(const docopt::Options& args) const;
+
+  /**
+   * Dispatch for the "parse" cli verb.
+   */
   void dispatch_parse(const docopt::Options& args) const;
 };
 

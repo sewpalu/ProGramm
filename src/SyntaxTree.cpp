@@ -8,17 +8,12 @@ SyntaxTree::SyntaxTree(STNode root_input)
 {
 }
 
-std::vector<STNode> SyntaxTree::getChildren() const
-{
-  return this->root->children;
-}
-
 int SyntaxTree::getNumberOfLeaves() const
 {
   return this->root->getNumberOfLeaves();
 }
 
-STNode SyntaxTree::getRoot() const
+const STNode& SyntaxTree::getRoot() const
 {
   return *this->root;
 }

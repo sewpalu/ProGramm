@@ -4,9 +4,15 @@
 #include "GrammarParser.hpp"
 #include <stdexcept>
 
+/**
+ * GrammarParser that can't parse grammars but only words.
+ */
 class SimpleWordParser : public GrammarParser
 {
 public:
+  /**
+   * Allows copying the dynamic type.
+   */
   virtual std::unique_ptr<GrammarParser> clone() const override
   {
     return std::make_unique<SimpleWordParser>(*this);
@@ -26,6 +32,11 @@ public:
     return {.rules = {}, .start = Nonterminal{""}};
   }
 
+  /**
+   * Converts a string to a Word.
+   *
+   * Each character in the string is assumed to be a single Terminal.
+   */
   virtual Word parseWord(const std::string& input) const final
   {
     auto word = Word{};

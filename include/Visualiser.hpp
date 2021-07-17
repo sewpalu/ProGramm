@@ -4,6 +4,12 @@
 #include "VisualisationVisitor.hpp"
 #include <memory>
 
+/**
+ * Contains the data necessary for visualisation.
+ *
+ * Can be visited by a VisualisationVisitor, which will then use that data for
+ * its visualisation.
+ */
 class Visualiser
 {
 public:

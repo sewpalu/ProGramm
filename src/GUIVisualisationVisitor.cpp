@@ -139,7 +139,7 @@ GUIVisualisationInterface::Table GUIVisualisationVisitor::to_gui_table(
       for (auto symbol_idx = std::size_t{};
            symbol_idx < cyk_step.at(y).at(x).size(); ++symbol_idx)
       {
-        auto name = cyk_step.at(y).at(x).at(symbol_idx).getRoot().getIdentifier();
+        auto name = cyk_step.at(y).at(x).at(symbol_idx).getRoot().identifier;
 
         auto highlighted =
             std::find(highlighted_symbols.begin(), highlighted_symbols.end(),

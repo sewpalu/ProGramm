@@ -8,6 +8,9 @@
 
 #include "MainWindow.hpp"
 
+/**
+ * Main entry for the GUI. Opens the main window.
+ */
 class GUIApplication : public wxApp
 {
 private:
@@ -16,7 +19,11 @@ private:
 
 public:
   /**
-   * Runs the application
+   * Runs the application.
+   *
+   * \param argc  Should be 1, unless argv contains parameters to be parsed by
+   *              wxWidgets
+   * \param argv  Should at least contain the application name (argument $0)
    */
   static void run(int argc, char* argv[]);
 

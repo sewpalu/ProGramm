@@ -46,13 +46,13 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
       if (grammar.rules.at(rulePos).rhs().size() == 1)
       {
         // See Symbol (it's known this is a Terminal) has same Terminal in word
-        if (grammar.rules.at(rulePos).rhs().at(0)->getIdentifier() ==
-            testTerminal.getIdentifier())
+        if (grammar.rules.at(rulePos).rhs().at(0)->identifier ==
+            testTerminal.identifier)
         {
           // Generate CYKLink to represent lowermost link in CYK Matrix - This
           // has no productions
           CYKLink bottomCYKLink(Nonterminal(
-              grammar.rules.at(rulePos).rhs().at(0)->getIdentifier()));
+              grammar.rules.at(rulePos).rhs().at(0)->identifier));
           // Push the info to the productions vector
           productions.push_back({{rulePos, wordPos}, bottomCYKLink});
           // Create the final CYKLink
@@ -154,12 +154,12 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                  numberOfLeftNonterminal++)
             {
               // std::cout << "Comparison left Nonterminal: " <<
-              // grammar.rules.at(prodCounter).rhs().at(0).getIdentifier() << "
+              // grammar.rules.at(prodCounter).rhs().at(0).identifier << "
               // vs. " <<
-              // searchSymbolLeft.at(numberOfLeftNonterminal).getIdentifier() <<
+              // searchSymbolLeft.at(numberOfLeftNonterminal).identifier <<
               // "\n";
-              if (grammar.rules.at(prodCounter).rhs().at(0)->getIdentifier() ==
-                  searchSymbolLeft.at(numberOfLeftNonterminal).getIdentifier())
+              if (grammar.rules.at(prodCounter).rhs().at(0)->identifier ==
+                  searchSymbolLeft.at(numberOfLeftNonterminal).identifier)
               {
                 // std::cout << " - left equal! \n";
                 // Loop through possible Nonterminals on right side
@@ -168,24 +168,24 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                      numberOfRightNonterminal++)
                 {
                   // std::cout << "Comparison right Nonterminal: " <<
-                  // grammar.rules.at(prodCounter).rhs().at(1).getIdentifier() <<
+                  // grammar.rules.at(prodCounter).rhs().at(1).identifier <<
                   // " vs. " <<
-                  // searchSymbolRight.at(numberOfRightNonterminal).getIdentifier()
+                  // searchSymbolRight.at(numberOfRightNonterminal).identifier
                   // << "\n";
                   if (grammar.rules.at(prodCounter)
                           .rhs().at(1)
-                          ->getIdentifier() ==
+                          ->identifier ==
                       searchSymbolRight.at(numberOfRightNonterminal)
-                          .getIdentifier())
+                          .identifier)
                   {
                     // std::cout << "Inside: \n";
                     // std::cout <<
                     // cykVisSolution.matrix.at(cykLine).at(cykCol).size() <<
                     // "\n"; std::wcout << " - right equal! \n";
                     CYKLink tempResult(grammar.rules.at(prodCounter).lhs());
-                    // if (tempResult.getRoot().getIdentifier() == "") std::cout
+                    // if (tempResult.getRoot().identifier == "") std::cout
                     // << "Root Alarm IIIIIIIIIIIIIIIIIIIIIIIIIIIII"; std::cout
-                    // << tempResult.getRoot().getIdentifier(); Get the exact
+                    // << tempResult.getRoot().identifier; Get the exact
                     // CYKLink(s) being referenced in the CYK Matrix
                     
                     std::vector<CYKLink> links;
@@ -194,10 +194,10 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                          i < cykVisSolution->matrix.at(combination).at(cykCol).size();
                          i++)
                     {
-                      if (grammar.rules.at(prodCounter).rhs().at(0)->getIdentifier() ==
+                      if (grammar.rules.at(prodCounter).rhs().at(0)->identifier ==
                           cykVisSolution->matrix.at(combination)
                               .at(cykCol)
-                              .at(i).getRoot().getIdentifier())
+                              .at(i).getRoot().identifier)
                       {
                         links.push_back(cykVisSolution->matrix.at(combination)
                                             .at(cykCol)
@@ -212,10 +212,10 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                     {
                       if (grammar.rules.at(prodCounter)
                               .rhs().at(1)
-                              ->getIdentifier() ==
+                              ->identifier ==
                           cykVisSolution->matrix.at(cykLine - combination - 1)
                               .at(cykCol + combination + 1)
-                              .at(i).getRoot().getIdentifier())
+                              .at(i).getRoot().identifier)
                       {
                         links.push_back(
                             cykVisSolution->matrix.at(cykLine - combination - 1)
@@ -224,10 +224,10 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                       }
                     }
 
-                    if (!(links.at(0).getRoot().getIdentifier() == ""))
+                    if (!(links.at(0).getRoot().identifier == ""))
                       tempResult.addProduction(
                           {{combination, cykCol}, links.at(0)});
-                    if (!(links.at(1).getRoot().getIdentifier() == ""))
+                    if (!(links.at(1).getRoot().identifier == ""))
                       tempResult.addProduction({{cykLine - combination - 1,
                                                  cykCol + combination + 1},
                                                 links.at(1)});
@@ -250,7 +250,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                   << "----------------------------------------\n";
         for (unsigned int i = 0; i < tempProductions.size(); i++)
         {
-          std::cout << tempProductions.at(i).getRoot().getIdentifier()
+          std::cout << tempProductions.at(i).getRoot().identifier
                     << " ::: ";
         }
         std::cout << "\n Inspection----------------------------------------\n";
@@ -264,7 +264,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                   << " und Spalte " << cykCol << "\n";
         for (unsigned int i = 0; i < tempProductions.size(); i++)
         {
-          std::cout << tempProductions.at(i).getRoot().getIdentifier() << ", ";
+          std::cout << tempProductions.at(i).getRoot().identifier << ", ";
         }
 
         std::cout << "\n";
@@ -276,7 +276,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                            .at(cykLine)
                            .at(i)
                            .getRoot()
-                           .getIdentifier()
+                           .identifier
                     << ", ";
         }
 
@@ -299,7 +299,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
             .at(0)
             .at(nonterminalCounter)
             .getRoot()
-            .getIdentifier() == grammar.start.getIdentifier())
+            .identifier == grammar.start.identifier)
     {
       included = true;
     }

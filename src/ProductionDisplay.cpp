@@ -50,11 +50,11 @@ void ProductionDisplay::set_productions(std::vector<Production> productions)
   for (Production production : this->m_productions)
   {
     std::string production_string =
-        "'" + production.lhs().getIdentifier() + "' -> ";
+        "'" + production.lhs().identifier + "' -> ";
 
     for (size_t i = 0; i < production.rhs().size(); i++)
     {
-      production_string += "'" + production.rhs().at(i)->getIdentifier() + "'";
+      production_string += "'" + production.rhs().at(i)->identifier + "'";
     }
     wx_productions.push_back(wxString(production_string));
   }

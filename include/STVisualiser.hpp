@@ -6,6 +6,11 @@
 
 class STNode;
 
+/**
+ * Visualiser for a single SyntaxTree.
+ *
+ * Holds a pointer to the tree to be visualised.
+ */
 class STVisualiser : public Visualiser
 {
 public:

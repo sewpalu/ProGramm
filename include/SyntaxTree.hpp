@@ -7,20 +7,19 @@
 #include "STVisualiser.hpp"
 #include "Visualisable.hpp"
 
+/**
+ * Wrapper class for the root STNode.
+ */
 class SyntaxTree : public Visualisable
 {
 
 private:
-  std::shared_ptr<const STNode> root;
+  const std::shared_ptr<const STNode> root;
 
 public:
-  SyntaxTree() = delete;
-  ~SyntaxTree() = default;
   explicit SyntaxTree(STNode root_input);
 
-  std::vector<STNode> getChildren() const;
-
-  STNode getRoot() const;
+  const STNode& getRoot() const;
 
   int getNumberOfLeaves() const;
 };
