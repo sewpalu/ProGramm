@@ -51,13 +51,13 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
       if (grammar.rules.at(rulePos).rhs().size() == 1)
       {
         // See Symbol (it's known this is a Terminal) has same Terminal in word
-        if (grammar.rules.at(rulePos).rhs().at(0)->getIdentifier() ==
-            testTerminal.getIdentifier())
+        if (grammar.rules.at(rulePos).rhs().at(0)->identifier ==
+            testTerminal.identifier)
         {
           // Generate CYKLink to represent lowermost link in CYK Matrix - This
           // has no productions
           CYKLink bottomCYKLink(Nonterminal(
-              grammar.rules.at(rulePos).rhs().at(0)->getIdentifier()));
+              grammar.rules.at(rulePos).rhs().at(0)->identifier));
           // Create the final CYKLink
           CYKLink terminalLink(grammar.rules.at(rulePos).lhs(), {{{rulePos, wordPos}, bottomCYKLink}});
           // Multiple rules are possible (!), if there are multiple rules producing
@@ -149,10 +149,10 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                  numberOfLeftNonterminal < searchSymbolsLeft.size();
                  numberOfLeftNonterminal++)
             {
-              if (grammar.rules.at(prodCounter).rhs().at(0)->getIdentifier() ==
+              if (grammar.rules.at(prodCounter).rhs().at(0)->identifier ==
                   searchSymbolsLeft.at(numberOfLeftNonterminal)
                       .getRoot()
-                      .getIdentifier())
+                      .identifier)
               {
                 // Loop through possible Nonterminals on right side
                 for (unsigned int numberOfRightNonterminal = 0;
@@ -162,10 +162,10 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                   if (grammar.rules.at(prodCounter)
                           .rhs()
                           .at(1)
-                          ->getIdentifier() ==
+                          ->identifier ==
                       searchSymbolsRight.at(numberOfRightNonterminal)
                           .getRoot()
-                          .getIdentifier())
+                          .identifier)
                   {
                     CYKLink link(grammar.rules.at(prodCounter).lhs());
 
@@ -173,7 +173,6 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                                         cykVisSolution->matrix.at(combination)
                                             .at(cykCol)
                                             .at(numberOfLeftNonterminal)});
-
                     link.addProduction(
                         {{cykLine - combination - 1, cykCol + combination + 1},
                          cykVisSolution->matrix.at(cykLine - combination - 1)
@@ -194,29 +193,6 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
       if (tempProductions.size() > 0)
       {
         cykVisSolution->setResult({cykLine, cykCol}, tempProductions);
-        /*for (size_t i = 0; i < tempProductions.size(); i++)
-        {
-          bool exists = false;
-          for (size_t j = 0; j <
-        cykVisSolution->matrix.at(cykLine).at(cykCol).size(); j++)
-          {
-            if
-        (cykVisSolution->matrix.at(cykLine).at(cykCol).at(j).equals(tempProductions.at(i)))
-            {
-              exists = true;
-              break;
-            }
-          }
-          if (!exists)
-          {
-            cykVisSolution->matrix.at(cykLine).at(cykCol).push_back(
-                tempProductions.at(i));
-          }
-        }*/
-      }
-      if (!(tempProductions.size() ==
-            cykVisSolution->matrix.at(cykLine).at(cykCol).size()))
-      {
       }
       cykVisSolution->saveStep();
     }
@@ -233,7 +209,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
             .at(0)
             .at(nonterminalCounter)
             .getRoot()
-            .getIdentifier() == grammar.start.getIdentifier())
+            .identifier == grammar.start.identifier)
     {
       included = true;
     }

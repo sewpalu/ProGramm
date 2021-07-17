@@ -8,6 +8,11 @@
 #include "Visualisable.hpp"
 #include "Word.hpp"
 
+/**
+ * Base class for classes parsing a word, given a formal grammar.
+ *
+ * Used for the strategy pattern.
+ */
 class WordParser : public Visualisable
 {
 

@@ -15,6 +15,13 @@
 #include "ProductionDisplay.hpp"
 #include "VisualisationTab.hpp"
 
+/**
+ * wxPanel for displaying the input grammar and allowing entering the input
+ * word.
+ *
+ * Originally intended for editing the grammar as well, hence the name, but that
+ * functionality was exported to the ManagerTab.
+ */
 class GrammarEditor : public wxPanel
 {
 private:
@@ -28,6 +35,9 @@ private:
 public:
   GrammarEditor();
 
+  /**
+   * Updates the displayed grammar and the visualisations
+   */
   void set_grammar(const FormalGrammar& grammar);
 
 private:
@@ -39,8 +49,17 @@ private:
 
   void on_change(wxCommandEvent& evt);
 
+  /**
+   * Updates the visualisations with the currently set input grammar and word.
+   */
   void notify_visualisation();
 
+  /**
+   * Loads the pointers to the visualisation tabs.
+   *
+   * Automatically detects, whether they are already loaded.
+   * Should be called before accessing the tabs.
+   */
   void load_visualisation_tabs();
 
   long runtime_prediction() const;

@@ -9,6 +9,11 @@
 #include "wx/wx.h"
 #endif
 
+/**
+ * Class for displaying several steps in a line.
+ *
+ * Individual steps can be highlighted and clickable.
+ */
 class StepsDisplay : public wxPanel
 {
   public:
@@ -25,6 +30,9 @@ class StepsDisplay : public wxPanel
 public:
   StepsDisplay();
 
+  /**
+   * Displays the provided steps
+   */
   void show_steps(const std::vector<Step>& steps);
 
 private:

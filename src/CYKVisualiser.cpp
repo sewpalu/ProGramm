@@ -73,7 +73,7 @@ void CYKVisualiser::dumpContent()
                                       .at(colCount)
                                       .at(elementCount)
                                       .getRoot()
-                                      .getIdentifier()) != std::string::npos))
+                                      .identifier) != std::string::npos))
           {
             if (displayPlace.size() > 0)
             {
@@ -83,7 +83,7 @@ void CYKVisualiser::dumpContent()
                                               .at(colCount)
                                               .at(elementCount)
                                               .getRoot()
-                                              .getIdentifier();
+                                              .identifier;
           }
         }
         catch (...)
@@ -120,23 +120,17 @@ void CYKVisualiser::dumpAll()
       {
         try
         {
-          // if
-          // (!(displayPlace.find(this->matrix.at(i).at(j).at(k).getRoot().getIdentifier())
-          // != std::string::npos)) {
           if (displayPlace.size() > 0)
           {
             displayPlace = displayPlace + ", ";
           }
           displayPlace =
               displayPlace +
-              this->matrix.at(i).at(j).at(k).getRoot().getIdentifier()/* +
-              std::to_string(
-                  this->matrix.at(i).at(j).at(k).getProductions().size())*/;
-          if (this->matrix.at(i).at(j).at(k).getRoot().getIdentifier() == "")
+              this->matrix.at(i).at(j).at(k).getRoot().identifier;
+          if (this->matrix.at(i).at(j).at(k).getRoot().identifier == "")
           {
             displayPlace = displayPlace + "EmptyNonterminal";
           }
-          //}
         }
         catch (...)
         {
@@ -187,7 +181,7 @@ void CYKVisualiser::dumpContent(unsigned int coordinate1,
             .at(coordinate2)
             .at(i)
             .getRoot()
-            .getIdentifier() == nonterminalIdentifier)
+            .identifier == nonterminalIdentifier)
     {
       std::cout << "Successful if for: " << nonterminalIdentifier << "\n";
       dependency1Coordinates.first = this->matrix.at(coordinate1)
@@ -247,7 +241,7 @@ void CYKVisualiser::dumpContent(unsigned int coordinate1,
         try
         {
           if (!(displayPlace.find(
-                    this->matrix.at(i).at(j).at(k).getRoot().getIdentifier()) !=
+                    this->matrix.at(i).at(j).at(k).getRoot().identifier) !=
                 std::string::npos))
           {
             if (displayPlace.size() > 0)
@@ -256,7 +250,7 @@ void CYKVisualiser::dumpContent(unsigned int coordinate1,
             }
             displayPlace =
                 displayPlace +
-                this->matrix.at(i).at(j).at(k).getRoot().getIdentifier();
+                this->matrix.at(i).at(j).at(k).getRoot().identifier;
           }
         }
         catch (...)
@@ -294,8 +288,8 @@ std::vector<SyntaxTree> CYKVisualiser::convertToSyntaxTrees(
        i++)
   {
     // Write all starting positions to vector
-    if (this->matrix.at(wordLength - 1).at(0).at(i).getRoot().getIdentifier() ==
-        grammar.start.getIdentifier())
+    if (this->matrix.at(wordLength - 1).at(0).at(i).getRoot().identifier ==
+        grammar.start.identifier)
       startPositions.push_back(i);
   }
 
@@ -313,7 +307,7 @@ std::vector<SyntaxTree> CYKVisualiser::convertToSyntaxTrees(
                                 .at(0)
                                 .at(startPositions.at(startPosCounter));
     STNode treeRoot(
-        std::make_unique<Nonterminal>(startPosition.getRoot().getIdentifier()));
+        std::make_unique<Nonterminal>(startPosition.getRoot().identifier));
 
     treeRoot.addChildren(this->addChildrenFromLink(startPosition));
 
@@ -339,7 +333,7 @@ std::vector<STNode> CYKVisualiser::addChildrenFromLink(CYKLink inputLink)
     STNode child(std::make_unique<Nonterminal>(inputLink.getProductions()
                      .at(childCounter)
                      .second.getRoot()
-                     .getIdentifier()));
+                     .identifier));
     child.addChildren(addChildrenFromLink(
         inputLink.getProductions().at(childCounter).second));
     children.push_back(child);

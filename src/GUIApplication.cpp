@@ -8,8 +8,6 @@
 #include "wx/xrc/xmlres.h"
 
 #include "MainWindow.hpp"
-#include "SplashScreen.hpp"
-#include "TimerDelay.hpp"
 
 void GUIApplication::run(int argc, char* argv[])
 {

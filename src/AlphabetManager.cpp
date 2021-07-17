@@ -145,7 +145,7 @@ void AlphabetManager::add_symbol(wxCommandEvent& evt)
 
   for (unsigned int i = 0; i < this->nonterminal_alphabet.size(); i++)
   {
-    if (this->nonterminal_alphabet.at(i)->getIdentifier() ==
+    if (this->nonterminal_alphabet.at(i)->identifier ==
         this->symbol_value_entry->GetValue())
     {
       wxMessageBox(_("There already exists a symbol with the value '") +
@@ -155,7 +155,7 @@ void AlphabetManager::add_symbol(wxCommandEvent& evt)
   }
   for (unsigned int i = 0; i < this->terminal_alphabet.size(); i++)
   {
-    if (this->terminal_alphabet.at(i)->getIdentifier() ==
+    if (this->terminal_alphabet.at(i)->identifier ==
         this->symbol_value_entry->GetValue())
     {
       wxMessageBox(_("There already exists a symbol with the value '") +
@@ -196,7 +196,7 @@ void AlphabetManager::delete_symbol(wxCommandEvent& evt)
     {
       for (unsigned int j = 0; j < this->terminal_alphabet.size(); j++)
       {
-        if (std::strcmp(this->terminal_alphabet.at(j)->getIdentifier().c_str(),
+        if (std::strcmp(this->terminal_alphabet.at(j)->identifier.c_str(),
                         this->terminal_display->GetString(i).c_str()) == 0)
         {
           this->terminal_alphabet.erase(this->terminal_alphabet.begin() + j);
@@ -214,7 +214,7 @@ void AlphabetManager::delete_symbol(wxCommandEvent& evt)
       for (unsigned int j = 0; j < this->nonterminal_alphabet.size(); j++)
       {
         if (std::strcmp(
-                this->nonterminal_alphabet.at(j)->getIdentifier().c_str(),
+                this->nonterminal_alphabet.at(j)->identifier.c_str(),
                 this->nonterminal_display->GetString(i).c_str()) == 0)
         {
           this->nonterminal_alphabet.erase(this->nonterminal_alphabet.begin() +
@@ -240,7 +240,7 @@ void AlphabetManager::on_refresh(wxPaintEvent& evt)
     for (unsigned int i = 0; i < this->terminal_alphabet.size(); i++)
     {
       this->terminal_display->AppendString(
-          this->terminal_alphabet.at(i)->getIdentifier());
+          this->terminal_alphabet.at(i)->identifier);
     }
   }
 
@@ -251,7 +251,7 @@ void AlphabetManager::on_refresh(wxPaintEvent& evt)
     for (unsigned int i = 0; i < this->nonterminal_alphabet.size(); i++)
     {
       this->nonterminal_display->AppendString(
-          this->nonterminal_alphabet.at(i)->getIdentifier());
+          this->nonterminal_alphabet.at(i)->identifier);
     }
   }
 }
@@ -272,7 +272,7 @@ Nonterminal AlphabetManager::get_start_symbol()
   {
     if (this->nonterminal_alphabet.at(i)->isStartSymbol())
     {
-      return Nonterminal(this->nonterminal_alphabet.at(i)->getIdentifier());
+      return Nonterminal(this->nonterminal_alphabet.at(i)->identifier);
     }
   }
 

@@ -6,6 +6,11 @@
 
 #include <SyntaxTree.hpp>
 
+/**
+ * Visualiser for multiple SyntaxTrees
+ *
+ * Needed for the visualisation visitor pattern.
+ */
 class STreesVisualiser : public Visualiser
 {
 public:

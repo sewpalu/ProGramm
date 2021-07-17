@@ -6,6 +6,11 @@
 #include "wx/wx.h"
 #endif
 
+/**
+ * Main window of the application.
+ *
+ * Automagically loads the UI from the XRC resource file.
+ */
 class MainWindow : public wxFrame
 {
 public:

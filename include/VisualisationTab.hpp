@@ -18,6 +18,9 @@
 class StepsDisplay;
 class VisualisationWidget;
 
+/**
+ * Superclass for tabs containing visualisations.
+ */
 class VisualisationTab : public wxPanel, public GUIVisualisationInterface
 {
 public:
@@ -38,6 +41,9 @@ protected:
 public:
   virtual ~VisualisationTab() = default;
 
+  /**
+   * Updates the visualisation according to the provided input.
+   */
   void update_input(const FormalGrammar& grammar, const std::string& word);
 
   ///

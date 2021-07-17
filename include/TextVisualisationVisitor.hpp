@@ -7,6 +7,11 @@
 
 #include "VisualisationVisitor.hpp"
 
+/**
+ * Visitor for textual visualisation.
+ *
+ * The text can be read as a string after applying the visitor pattern.
+ */
 class TextVisualisationVisitor : public VisualisationVisitor
 {
 public:

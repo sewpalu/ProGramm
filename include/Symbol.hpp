@@ -5,19 +5,22 @@
 
 #include <iostream>
 
-class Symbol
+/**
+ * Class representing a symbol, i.e. a terminal or non-terminal.
+ *
+ * Is identified by its name (member `identifier`).
+ *
+ * This is a struct on the grounds of C++ Core Guideline C.2
+ * See: http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Rc-struct
+ */
+struct Symbol
 {
-
-public:
   std::string identifier = "";
 
-  Symbol() = delete;
+  explicit Symbol(const std::string& identifier_input);
   virtual ~Symbol() = default;
-  Symbol(std::string identifier_input);
 
   auto operator<=>(const Symbol& other) const = default;
-
-  std::string getIdentifier() const;
 
   virtual std::unique_ptr<Symbol> clone() = 0;
 };
