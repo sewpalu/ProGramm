@@ -97,7 +97,6 @@ int STNode::getMaxDepth() const
 
   for (unsigned int i = 0; i < depths.size(); i++)
   {
-    // std::cout << "Iteration: " << i << " - " << depths.at(i) << "\n";
     if (maxDepth < depths.at(i))
       maxDepth = depths.at(i);
   }

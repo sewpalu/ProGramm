@@ -24,7 +24,6 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
         if (grammar.rules.at(rule).lhs().getIdentifier() ==
             grammar.start.getIdentifier())
         {
-          std::cout << "Wort enthalten!\n";
           cykVisSolution->saveStep();
           return {SyntaxTree(STNode(
               std::make_unique<Nonterminal>(grammar.rules.at(rule).lhs())))};
@@ -32,7 +31,6 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
       }
     }
     cykVisSolution->error = "Empty word cannot be produced by the grammar";
-    std::cout << "Wort nicht enthalten!\n";
     return {};
   }
 
@@ -81,8 +79,6 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
   std::vector<std::pair<std::pair<unsigned, unsigned int>, CYKLink>>
       tempPositions;
 
-  // std::cout << "Test im Algorithmus: \n\n\n";
-
   // Loop to go through CYK Lines from bottom to top
   // Go through line of CYK matrix, start in second (1 in vector) row
   for (unsigned int cykLine = 1; cykLine < input.getSize(); cykLine++)
@@ -91,15 +87,12 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
     // With each line up, there's one column less
     for (unsigned int cykCol = 0; cykCol < input.getSize() - cykLine; cykCol++)
     {
-      // std::cout << "Checking: (" << cykLine << "/" << cykCol << ") ------\n";
-
       tempProductions.clear();
 
       // Iterate through all possible combinations for Nonterminals on the
       // rightside of the possible production rule
       for (unsigned int combination = 0; combination < cykLine; combination++)
       {
-        // std::cout << "Checking Combination " << combination << "\n";
         // Clear for each iteration
         searchSymbolsLeft.clear();
         searchSymbolsRight.clear();
@@ -156,18 +149,11 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
                  numberOfLeftNonterminal < searchSymbolsLeft.size();
                  numberOfLeftNonterminal++)
             {
-              // std::cout << "Comparison left Nonterminal: " <<
-              // grammar.rules.at(prodCounter).rhs().at(0).getIdentifier() << "
-              // vs. " <<
-              // searchSymbolsLeft.at(numberOfLeftNonterminal).getIdentifier()
-              // <<
-              // "\n";
               if (grammar.rules.at(prodCounter).rhs().at(0)->getIdentifier() ==
                   searchSymbolsLeft.at(numberOfLeftNonterminal)
                       .getRoot()
                       .getIdentifier())
               {
-                // std::cout << " - left equal! \n";
                 // Loop through possible Nonterminals on right side
                 for (unsigned int numberOfRightNonterminal = 0;
                      numberOfRightNonterminal < searchSymbolsRight.size();
@@ -198,23 +184,12 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
 
                     // Output the currently found link that's been added to the
                     // cyk matrix
-                    /*std::cout << "'" << link.getRoot().getIdentifier() << "->"
-                              << link.getProductions()
-                                     .at(0)
-                                     .second.getRoot()
-                                     .getIdentifier()
-                              << link.getProductions()
-                                     .at(1)
-                                     .second.getRoot()
-                                     .getIdentifier()
-                              << "', ";*/
                   }
                 }
               }
             }
           }
         }
-        // std::cout << "\n";
       }
       if (tempProductions.size() > 0)
       {
@@ -239,54 +214,13 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
           }
         }*/
       }
-      if ((cykLine == 1) && (cykCol == 1))
-      {
-        /*std::cout << "\n Inspection with " << tempProductions.size()
-                  << "----------------------------------------\n";
-        for (unsigned int i = 0; i < tempProductions.size(); i++)
-        {
-          std::cout << tempProductions.at(i).getRoot().getIdentifier()
-                    << " ::: ";
-        }
-        std::cout << "\n
-        Inspection----------------------------------------\n";*/
-      }
-      // std::cout << "Post comparison: " << tempProductions.size() << " vs. "
-      // << cykVisSolution->matrix.at(cykLine).at(cykCol).size() << "\n";
       if (!(tempProductions.size() ==
             cykVisSolution->matrix.at(cykLine).at(cykCol).size()))
       {
-        /*std::cout << "Missverhaeltnis (temp vs. matrix) in Zeile " << cykCol
-                  << " und Spalte " << cykCol << "\n";
-        for (unsigned int i = 0; i < tempProductions.size(); i++)
-        {
-          std::cout << tempProductions.at(i).getRoot().getIdentifier() << ", ";
-        }*/
-
-        // std::cout << "\n";
-
-        /*for (unsigned int i = 0;
-             i < cykVisSolution->matrix.at(cykCol).at(cykLine).size(); i++)
-        {
-          std::cout << cykVisSolution->matrix.at(cykCol)
-                           .at(cykLine)
-                           .at(i)
-                           .getRoot()
-                           .getIdentifier()
-                    << ", ";
-        }
-
-        std::cout << "\n\n";*/
       }
-      // std::cout << "Checked: " << cykLine << " | " << cykCol << "\n";
-      // cykVisSolution->dumpAll();
       cykVisSolution->saveStep();
     }
   }
-
-  // cykVisSolution->dumpAll();
-
-  // std::cout << "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII\n\n\n";
 
   bool included = false;
 
@@ -305,13 +239,8 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
     }
   }
 
-  if (included)
+  if (!included)
   {
-    std::cout << "Wort enthalten!\n";
-  }
-  else
-  {
-    std::cout << "Wort nicht enthalten!\n";
     cykVisSolution->error = "Word is not in grammar";
   }
 

@@ -147,7 +147,6 @@ void ProductionManager::update_controls()
 
 void ProductionManager::add_production(wxCommandEvent& evt)
 {
-  std::cout << "Adding production.\n";
   if (this->lhs_selector->GetValue().ToStdString() == "")
   {
 
@@ -191,17 +190,13 @@ void ProductionManager::add_production(wxCommandEvent& evt)
     bool exists_in_alphabet = false;
     for (unsigned int j = 0; j < this->nonterminal_alphabet.size(); j++)
     {
-      std::cout << this->rhs_selectors.at(i)->GetValue().ToStdString()
-                << " vs. " << this->nonterminal_alphabet.at(j)->getIdentifier();
       if (this->rhs_selectors.at(i)->GetValue().ToStdString() ==
           this->nonterminal_alphabet.at(j)->getIdentifier())
       {
-        std::cout << "Pushing back\n";
         rhs.push_back(
             new Nonterminal(this->nonterminal_alphabet.at(j)->getIdentifier()));
         exists_in_alphabet = true;
       }
-      std::cout << "\n";
     }
     for (unsigned int j = 0; j < this->terminal_alphabet.size(); j++)
     {
@@ -227,15 +222,6 @@ void ProductionManager::add_production(wxCommandEvent& evt)
   }
 
   productions.push_back(Production(lhs, rhs));
-  std::cout << "Added production: " << lhs.getIdentifier() << " -> ";
-
-  for (unsigned int i = 0;
-       i < productions.at(productions.size() - 1).rhs().size(); i++)
-  {
-    std::cout
-        << productions.at(productions.size() - 1).rhs().at(i)->getIdentifier();
-  }
-  std::cout << "\n";
 
   update_controls();
 
@@ -258,7 +244,6 @@ void ProductionManager::set_nonterminal_alphabet(
 
 void ProductionManager::draw_arrow(wxBufferedPaintDC* dc)
 {
-  std::cout << "Defining edge points\n";
   wxPoint arrow_edges[] = {
       wxPoint(0, this->production_arrow->GetSize().y * 0.8),
       wxPoint(this->production_arrow->GetSize().x * 0.8,
@@ -271,7 +256,6 @@ void ProductionManager::draw_arrow(wxBufferedPaintDC* dc)
       wxPoint(this->production_arrow->GetSize().x * 0.8,
               this->production_arrow->GetSize().y * 0.2),
       wxPoint(0, this->production_arrow->GetSize().y * 0.2)};
-  std::cout << "Drawing spline\n";
   dc->SetPen(wxPen(wxColor(255, 0, 0), 5, wxPENSTYLE_SOLID));
   dc->DrawSpline(7, arrow_edges);
 }
@@ -280,7 +264,6 @@ void ProductionManager::update_symbol_selectors()
 {
   if (this->lhs_selector->GetCount() != this->nonterminal_alphabet.size())
   {
-    std::cout << "Clearing in update symbol selectors\n";
     this->lhs_selector->Clear();
     for (unsigned int i = 0; i < this->nonterminal_alphabet.size(); i++)
     {
@@ -365,9 +348,6 @@ void ProductionManager::on_rhs_change(wxSpinEvent& evt)
 
 void ProductionManager::delete_production(wxCommandEvent& evt)
 {
-  std::cout << "production_display->GetCount() = "
-            << this->production_display->GetCount() << "\n";
-  std::cout << "productions.size() = " << this->productions.size() << "\n";
   for (int i = this->production_display->GetCount() - 1; i >= 0; i--)
   {
     if (this->production_display->IsChecked(i))

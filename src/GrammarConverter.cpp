@@ -24,17 +24,11 @@ GrammarConverter::GrammarStruct GrammarConverter::load_grammar_from_std_file(
 
       input_file.close();
     }
-    else
-    {
-      std::cout << "Not open!\n";
-    }
   }
   catch (...)
   {
-    std::cout << "Cannot open the file" << this->grammar_file_name << "\n";
+    std::cerr << "Cannot open the file" << this->grammar_file_name << "\n";
   }
-
-  std::cout << "Loading grammar: " << grammar_name << "\n";
 
   GrammarStruct output_grammar;
 
@@ -43,7 +37,6 @@ GrammarConverter::GrammarStruct GrammarConverter::load_grammar_from_std_file(
   {
     if (grammars_data.at(grammar_number)["name"] == grammar_name)
     {
-      std::cout << "Grammar found\n";
       try
       {
         if (!(grammars_data.at(grammar_number)["alphabet"]["startsymbol"] == ""))
@@ -125,10 +118,10 @@ GrammarConverter::GrammarStruct GrammarConverter::load_grammar_from_std_file(
           }
           else
           {
-            std::cout << "The grammar contains a symbol that is not part of "
+            std::cerr << "The grammar contains a symbol that is not part of "
                          "its alphabet: "
                       << symbol_identifier << "\n";
-            std::cout << "This leads to incomplete loaded rules\n";
+            std::cerr << "This leads to incomplete loaded rules\n";
           }
         }
         productions.push_back(Production(lhs_symbol, rhs_symbols));
@@ -207,15 +200,10 @@ void GrammarConverter::save_grammar_to_std_file(
 
       input_file.close();
     }
-    else
-    {
-      std::cout << "Not open!\n";
-      // old_data
-    }
   }
   catch (...)
   {
-    std::cout << "Cannot open the file" << this->grammar_file_name << "\n";
+    std::cerr << "Cannot open the file" << this->grammar_file_name << "\n";
   }
 
   for (unsigned int i = 0; i < old_data.size(); i++)
@@ -247,14 +235,10 @@ bool GrammarConverter::grammar_exists(std::string grammar_name)
 
       input_file.close();
     }
-    else
-    {
-      std::cout << "Not open!\n";
-    }
   }
   catch (...)
   {
-    std::cout << "Cannot open the file" << this->grammar_file_name << "\n";
+    std::cerr << "Cannot open the file" << this->grammar_file_name << "\n";
   }
 
   for (unsigned int i = 0; i < old_data.size(); i++)
@@ -282,14 +266,10 @@ std::vector<wxString> GrammarConverter::get_grammar_names()
 
       input_file.close();
     }
-    else
-    {
-      std::cout << "Not open!\n";
-    }
   }
   catch (...)
   {
-    std::cout << "Cannot open the file" << this->grammar_file_name << "\n";
+    std::cerr << "Cannot open the file" << this->grammar_file_name << "\n";
   }
 
   std::vector<wxString> grammar_names;
@@ -320,14 +300,10 @@ bool GrammarConverter::delete_grammar(std::string grammar_name)
 
       input_file.close();
     }
-    else
-    {
-      std::cout << "Not open!\n";
-    }
   }
   catch (...)
   {
-    std::cout << "Cannot open the file" << this->grammar_file_name << "\n";
+    std::cerr << "Cannot open the file" << this->grammar_file_name << "\n";
     return false;
   }
 

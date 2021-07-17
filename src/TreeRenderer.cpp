@@ -13,8 +13,6 @@ TreeRenderer::TreeRenderer(SyntaxTree* tree, wxDC& parent, wxSize size,
 
   this->m_size.x *= (double)this->m_zoom_percent / 100;
   this->m_size.y *= (double)this->m_zoom_percent / 100;
-
-  //std::cout << "Tree Renderer Constructed\n";
 }
 
 void TreeRenderer::render()
@@ -31,7 +29,6 @@ void TreeRenderer::render()
 
   int numberOfLeaves = m_tree->getNumberOfLeaves();
   int radius = (m_size.x / numberOfLeaves / 2) * 0.8;
-  //std::cout << "Radius: " << radius << "\n";
 
   int verticalRadius = (m_size.y / m_tree->getRoot().getMaxDepth() / 2) * 0.8;
 
