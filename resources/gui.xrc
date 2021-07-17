@@ -61,7 +61,7 @@
 									</object>
 								</object>
 								<object class="notebookpage">
-									<label>Grammar manager</label>
+									<label>Manager</label>
 									<selected>1</selected>
 									<object class="wxPanel" name="manager_tab" subclass="ManagerTab">
 										<style>wxTAB_TRAVERSAL</style>
@@ -194,14 +194,14 @@
 							<scrollrate>5,5</scrollrate>
 						</object>
 					</object>
-            <object class="notebookpage">
-                <label>Settings</label>
-                <selected>1</selected>
-                <object class="wxScrolledWindow" name="manager_overview_tab" subclass="ConfigManager">
-                    <style>wxVSCROLL</style>
-                    <scrollrate>5,5</scrollrate>
-                </object>
-            </object>
+					<object class="notebookpage">
+						<label>Settings</label>
+						<selected>0</selected>
+						<object class="wxScrolledWindow" name="manager_settings_tab" subclass="ConfigManager">
+							<style>wxVSCROLL</style>
+							<scrollrate>5,5</scrollrate>
+						</object>
+					</object>
 				</object>
 			</object>
 			<object class="sizeritem">
