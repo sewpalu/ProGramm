@@ -31,6 +31,7 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
         }
       }
     }
+    cykVisSolution->error = "Empty word cannot be produced by the grammar";
     std::cout << "Wort nicht enthalten!\n";
     return {};
   }
