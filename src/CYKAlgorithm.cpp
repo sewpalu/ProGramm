@@ -21,8 +21,8 @@ std::vector<SyntaxTree> CYKAlgorithm::parse(FormalGrammar grammar, Word input)
     {
       if (grammar.rules.at(rule).rhs().size() == 0)
       {
-        if (grammar.rules.at(rule).lhs().getIdentifier() ==
-            grammar.start.getIdentifier())
+        if (grammar.rules.at(rule).lhs().identifier ==
+            grammar.start.identifier)
         {
           cykVisSolution->saveStep();
           return {SyntaxTree(STNode(

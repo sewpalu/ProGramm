@@ -138,7 +138,7 @@ std::string STNode::getText() const
 void STNode::stupid_dump()
 {
   std::cout << "SyntaxTree stupid dump: \n";
-  std::cout << "Level 0: " << this->value->getIdentifier() << "\n";
+  std::cout << "Level 0: " << this->value->identifier << "\n";
   for (size_t i = 1; i < this->getMaxDepth(); i++)
   {
     std::cout << "Level " << i << ": ";

@@ -279,10 +279,10 @@ void GrammarOverviewTab::check_grammar(wxCommandEvent& evt)
     {
       if (i != j)
       {
-        if (symbols.at(i)->getIdentifier() == symbols.at(j)->getIdentifier())
+        if (symbols.at(i)->identifier == symbols.at(j)->identifier)
         {
           duplicate_symbol_identifiers.push_back(
-              symbols.at(i)->getIdentifier());
+              symbols.at(i)->identifier);
         }
       }
     }
@@ -309,15 +309,15 @@ void GrammarOverviewTab::check_grammar(wxCommandEvent& evt)
     {
       if (i != j)
       {
-        if (this->productions.at(i).lhs().getIdentifier() ==
-            this->productions.at(j).lhs().getIdentifier())
+        if (this->productions.at(i).lhs().identifier ==
+            this->productions.at(j).lhs().identifier)
         {
           bool rhs_equal = this->productions.at(i).rhs().size() ==
                            this->productions.at(j).rhs().size();
           for (size_t k = 0; k < this->productions.at(i).rhs().size(); k++)
           {
-            if (this->productions.at(i).rhs().at(k)->getIdentifier() !=
-                this->productions.at(j).rhs().at(k)->getIdentifier())
+            if (this->productions.at(i).rhs().at(k)->identifier !=
+                this->productions.at(j).rhs().at(k)->identifier)
             {
               rhs_equal = false;
               break;

@@ -56,7 +56,7 @@ bool CYKLink::isEmpty()
 
 bool CYKLink::equals(CYKLink compare)
 {
-  bool equals = this->root.getIdentifier() == compare.getRoot().getIdentifier();
+  bool equals = this->root.identifier == compare.getRoot().identifier;
 
   if (!equals)
     return false;

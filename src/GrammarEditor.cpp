@@ -149,7 +149,7 @@ long GrammarEditor::runtime_prediction() const
       for (size_t j = 0; j < terminal_identifiers.size(); j++)
       {
         if (terminal_identifiers.at(j) ==
-            m_grammar.rules.at(i).rhs().at(0)->getIdentifier())
+            m_grammar.rules.at(i).rhs().at(0)->identifier)
         {
           exists = true;
           break;
@@ -158,7 +158,7 @@ long GrammarEditor::runtime_prediction() const
       if (!exists)
       {
         terminal_identifiers.push_back(
-            m_grammar.rules.at(i).rhs().at(0)->getIdentifier());
+            m_grammar.rules.at(i).rhs().at(0)->identifier);
       }
     }
 
@@ -166,7 +166,7 @@ long GrammarEditor::runtime_prediction() const
     for (size_t j = 0; j < nonterminal_identifiers.size(); j++)
     {
       if (nonterminal_identifiers.at(j) ==
-          m_grammar.rules.at(i).lhs().getIdentifier())
+          m_grammar.rules.at(i).lhs().identifier)
       {
         exists = true;
         break;
@@ -175,7 +175,7 @@ long GrammarEditor::runtime_prediction() const
     if (!exists)
     {
       nonterminal_identifiers.push_back(
-          m_grammar.rules.at(i).rhs().at(0)->getIdentifier());
+          m_grammar.rules.at(i).rhs().at(0)->identifier);
     }
   }
 
