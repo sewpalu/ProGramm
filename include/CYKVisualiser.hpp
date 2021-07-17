@@ -25,6 +25,8 @@ public:
 
   void setResult(std::pair<unsigned int, unsigned int> position,
                  std::vector<CYKLink> production);
+  void addResult(std::pair<unsigned int, unsigned int> position,
+                 CYKLink production);
 
   void dumpContent();
 

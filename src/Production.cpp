@@ -57,7 +57,7 @@ bool Production::is_cnf() const
 
 std::string Production::to_string() const
 {
-  auto result = "'" + m_lhs.identifier + "' →";
+  auto result = "'" + m_lhs.identifier + "' ->";
   for (const auto& symbol : m_rhs)
   {
     result += " '" + symbol->identifier + "'";

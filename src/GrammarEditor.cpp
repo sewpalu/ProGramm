@@ -9,6 +9,7 @@
 
 #include "CYKVisualisationTab.hpp"
 #include "STVisualisationTab.hpp"
+#include "ConfigLoader.hpp"
 
 FORCE_LINK_ME(GrammarEditor);
 
@@ -80,8 +81,17 @@ void GrammarEditor::on_create(wxWindowCreateEvent& evt)
 
 void GrammarEditor::on_change(wxCommandEvent&)
 {
+  if (runtime_prediction() >
+          ConfigLoader{}.load_int_parameter("execution_time_constant") &&
+      !ask_continue())
+  {
+    m_word_input->Clear();
+    return;
+  }
+
   notify_visualisation();
 }
+
 void GrammarEditor::notify_visualisation()
 {
   load_visualisation_tabs();
@@ -118,4 +128,71 @@ void GrammarEditor::load_visualisation_tabs()
   if (auto* st = dynamic_cast<STVisualisationTab*>(FindWindowByName("st_tab"));
       st)
     m_visualisation_tabs[1] = st;
+}
+
+long GrammarEditor::runtime_prediction() const
+{
+  auto word = m_word_input->GetValue();
+
+  if (word.empty() || m_grammar.rules.empty())
+    return 0;
+
+  // Vectors to get number of terminals and nonterminals in the current grammar
+  std::vector<std::string> terminal_identifiers;
+  std::vector<std::string> nonterminal_identifiers;
+
+  for (size_t i = 0; i < m_grammar.rules.size(); i++)
+  {
+    if (m_grammar.rules.at(i).rhs().size() == 1)
+    {
+      bool exists = false;
+      for (size_t j = 0; j < terminal_identifiers.size(); j++)
+      {
+        if (terminal_identifiers.at(j) ==
+            m_grammar.rules.at(i).rhs().at(0)->getIdentifier())
+        {
+          exists = true;
+          break;
+        }
+      }
+      if (!exists)
+      {
+        terminal_identifiers.push_back(
+            m_grammar.rules.at(i).rhs().at(0)->getIdentifier());
+      }
+    }
+
+    bool exists = false;
+    for (size_t j = 0; j < nonterminal_identifiers.size(); j++)
+    {
+      if (nonterminal_identifiers.at(j) ==
+          m_grammar.rules.at(i).lhs().getIdentifier())
+      {
+        exists = true;
+        break;
+      }
+    }
+    if (!exists)
+    {
+      nonterminal_identifiers.push_back(
+          m_grammar.rules.at(i).rhs().at(0)->getIdentifier());
+    }
+  }
+
+  // Factors are written multiple times to avoid exponentiation in C++
+  return word.size() * word.size() *
+         word.size() * m_grammar.rules.size() *
+         m_grammar.rules.size() * terminal_identifiers.size() /
+         (100 * nonterminal_identifiers.size() *
+          nonterminal_identifiers.size());
+}
+
+bool GrammarEditor::ask_continue()
+{
+  wxMessageDialog* parse_word_dialog = new wxMessageDialog(
+      this,
+      _("For this combination of grammar and test word, an increased execution "
+        "time might occur. Do you want to proceed?"),
+      _("Warning!"), wxYES_NO, wxDefaultPosition);
+  return parse_word_dialog->ShowModal() == wxID_YES;
 }

@@ -60,9 +60,13 @@ struct STNode
    */
   int getNumberOfNodesOnLevel(int level) const;
 
+  void stupid_dump();
+
   std::string getText() const;
 
 private:
   int recursiveGetMaxDepth(STNode workingNode, int previousDepth) const;
   int recursiveNodesOnLevel(int wipLevel, int level, STNode workingNode) const;
+  void dump_level(int level);
+  void rec_dump_level(STNode working_node, int goal_level, int current_level);
 };

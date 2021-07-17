@@ -31,5 +31,7 @@ public:
 	void addProduction(std::pair<std::pair<unsigned int, unsigned int>, CYKLink> production_input);
 	void emptyProductions();
 
+	bool equals(CYKLink compare);
+
 	bool isEmpty();
 };

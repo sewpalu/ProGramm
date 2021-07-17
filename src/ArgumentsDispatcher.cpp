@@ -3,7 +3,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
-#include <sstream> //Necessary on windows
+#include <sstream>
 #include <memory>
 
 #include "CLIActions.hpp"
@@ -38,9 +38,6 @@ ArgumentsDispatcher::ArgumentsDispatcher(int argc, char** argv)
 void ArgumentsDispatcher::dispatch() const
 {
   auto args = docopt::docopt(s_usage, m_argv);
-
-  for (const auto& [name, value] : args)
-    std::cout << name << ": " << value << '\n';
 
   if (args["gui"].asBool())
     dispatch_gui(args);

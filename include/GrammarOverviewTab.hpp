@@ -64,6 +64,7 @@ private:
 
   void load_grammar(wxCommandEvent& evt);
   void delete_grammars(wxCommandEvent& evt);
+  void check_grammar(wxCommandEvent& evt);
 
   void update_displays();
 

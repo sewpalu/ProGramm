@@ -97,7 +97,6 @@ int STNode::getMaxDepth() const
 
   for (unsigned int i = 0; i < depths.size(); i++)
   {
-    // std::cout << "Iteration: " << i << " - " << depths.at(i) << "\n";
     if (maxDepth < depths.at(i))
       maxDepth = depths.at(i);
   }
@@ -134,4 +133,44 @@ int STNode::recursiveGetMaxDepth(STNode workingNode, int previousDepth) const
 std::string STNode::getText() const
 {
   return this->value->identifier;
+}
+
+void STNode::stupid_dump()
+{
+  std::cout << "SyntaxTree stupid dump: \n";
+  std::cout << "Level 0: " << this->value->getIdentifier() << "\n";
+  for (size_t i = 1; i < this->getMaxDepth(); i++)
+  {
+    std::cout << "Level " << i << ": ";
+    for (size_t j = 0; j < this->children.size(); j++)
+    {
+      rec_dump_level(this->children.at(j), i, 1);
+    }
+    std::cout << "\n";
+  }
+  std::cout << "Syntax Tree dump end\n";
+}
+
+void STNode::dump_level(int level)
+{
+  for (size_t i = 0; i < this->children.size(); i++)
+  {
+    rec_dump_level(this->children.at(i), level, 1);
+  }
+}
+
+void STNode::rec_dump_level(STNode working_node, int goal_level, int current_level)
+{
+  if (goal_level == current_level)
+  {
+    std::cout << working_node.getText() << " | ";
+  }
+  else
+  {
+    for (size_t i = 0; i < working_node.children.size(); i++)
+    {
+      rec_dump_level(working_node.children.at(i), goal_level,
+                     current_level + 1);
+    }
+  }
 }

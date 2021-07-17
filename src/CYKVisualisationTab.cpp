@@ -10,6 +10,7 @@
 #include "EngineFacade.hpp"
 #include "SimpleWordParser.hpp"
 #include "StepsDisplay.hpp"
+#include "ConfigLoader.hpp"
 
 FORCE_LINK_ME(CYKVisualisationTab);
 

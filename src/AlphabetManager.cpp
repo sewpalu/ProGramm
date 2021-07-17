@@ -34,6 +34,7 @@ void AlphabetManager::on_create(wxWindowCreateEvent& evt)
   sizer->Add(panel, wxSizerFlags{}.Expand().Border(wxALL, 5).Proportion(1));
   SetSizer(sizer);
 
+  //Drop down menu, to select the type of the symbol (terminal/nonterminal)
   this->symbol_type_selector = dynamic_cast<wxComboBox*>(
       FindWindowByName("alphabet_symbol_type_selector"));
   if (!this->symbol_type_selector)
@@ -43,6 +44,7 @@ void AlphabetManager::on_create(wxWindowCreateEvent& evt)
     return;
   }
 
+  //Simple text field to enter the symbol value
   this->symbol_value_entry = dynamic_cast<wxTextCtrl*>(
       FindWindowByName("alphabet_symbol_value_entry"));
   if (!this->symbol_value_entry)
@@ -52,6 +54,7 @@ void AlphabetManager::on_create(wxWindowCreateEvent& evt)
     return;
   }
 
+  //Checkbox wether the new symbol should be a start symbol
   this->start_symbol_selector = dynamic_cast<wxCheckBox*>(
       FindWindowByName("alphabet_start_symbol_selector"));
   if (!this->start_symbol_selector)
@@ -61,6 +64,7 @@ void AlphabetManager::on_create(wxWindowCreateEvent& evt)
     return;
   }
 
+  //Button to add the symbol to the alphabet
   auto* symbol_entry_button =
       dynamic_cast<wxButton*>(FindWindowByName("alphabet_symbol_entry_button"));
   if (!symbol_entry_button)
@@ -72,6 +76,7 @@ void AlphabetManager::on_create(wxWindowCreateEvent& evt)
   symbol_entry_button->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED,
                               &AlphabetManager::add_symbol, this);
 
+  //Displays for the alphabet content
   this->nonterminal_display = dynamic_cast<wxCheckListBox*>(
       FindWindowByName("alphabet_nonterminal_display"));
   if (!this->nonterminal_display)
@@ -89,6 +94,7 @@ void AlphabetManager::on_create(wxWindowCreateEvent& evt)
     return;
   }
 
+  //Button to delete selected symbols
   auto* symbol_deletion_button = dynamic_cast<wxButton*>(
       FindWindowByName("alphabet_symbol_deletion_button"));
   if (!symbol_deletion_button)
@@ -108,6 +114,8 @@ void AlphabetManager::add_symbol(wxCommandEvent& evt)
 {
   bool isNonterminal;
 
+  //Get all input important for a symbol
+  //Start dialogs if the different input types don't align (e.g. terminal as start symbol)
   if (this->symbol_type_selector->GetValue() == _("Nonterminal"))
   {
     isNonterminal = true;
@@ -225,6 +233,7 @@ void AlphabetManager::delete_symbol(wxCommandEvent& evt)
 
 void AlphabetManager::on_refresh(wxPaintEvent& evt)
 {
+  //If the number of items in the display has changed, refresh it. But this is very unlikely
   if (this->terminal_display->GetCount() != this->terminal_alphabet.size())
   {
     this->terminal_display->Clear();

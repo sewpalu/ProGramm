@@ -1,4 +1,5 @@
 = ProGramm - Exploration tool for Chomsky type 2 grammars.
+:gpp: g++
 
 == Building
 
@@ -25,7 +26,7 @@ make run
 make build
 ----
 
-NOTE: g++-10 or later is required to build the application. On Ubuntu 20.04 it can be installed using `sudo apt install g++-10`. If the appropriate compiler isn't automatically used (i.e. there are compile errors) prepend `CXX=<specific g++ executable>` to the make calls. For example: `make clean; CXX=g++-10 make run`.
+NOTE: {gpp}-10 or later is required to build the application. On Ubuntu 20.04 it can be installed using `sudo apt install {gpp}-10`. If the appropriate compiler isn't automatically used (i.e. there are compile errors) prepend `CXX=<specific {gpp} executable>` to the make calls. For example: `make clean; CXX={gpp}-10 make run`.
 
 === Mac OS
 

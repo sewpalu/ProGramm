@@ -54,6 +54,8 @@ void GrammarOverviewTab::on_create(wxWindowCreateEvent& evt)
     std::cerr << "Unable to load check button in Manager - Overview tab.\n";
     return;
   }
+  check_grammar_button->Bind<>(wxEVT_COMMAND_BUTTON_CLICKED,
+                               &GrammarOverviewTab::check_grammar, this);
 
   this->grammar_name_entry =
       dynamic_cast<wxTextCtrl*>(FindWindowByName("overview_name_entry"));
@@ -147,7 +149,6 @@ void GrammarOverviewTab::set_terminal_alphabet(std::vector<Terminal*> terminals)
 
 void GrammarOverviewTab::save_grammar(wxCommandEvent& evt)
 {
-  std::cout << "Saving grammar\n";
   std::string grammar_name;
   grammar_name = this->grammar_name_entry->GetValue();
   if (!this->grammar_name_entry->IsModified())
@@ -162,7 +163,6 @@ void GrammarOverviewTab::save_grammar(wxCommandEvent& evt)
       std::string msg_box_text =
           _("The grammar with the name '").ToStdString() + grammar_name;
       msg_box_text += _("' already exists. Do you wish to override it?");
-      std::cout << "Constructing parent\n";
 
       wxMessageDialog* overwrite_grammar_dialog = new wxMessageDialog(
           this, wxString::FromUTF8(msg_box_text), _("Confirmation"),
@@ -183,7 +183,6 @@ void GrammarOverviewTab::save_grammar(wxCommandEvent& evt)
 
 void GrammarOverviewTab::load_grammar(wxCommandEvent& evt)
 {
-  std::cout << "'Loading'\n";
   std::vector<std::string> grammar_names;
   for (int i = this->grammars_display->GetCount() - 1; i >= 0; i--)
   {
@@ -193,8 +192,6 @@ void GrammarOverviewTab::load_grammar(wxCommandEvent& evt)
           this->grammars_display->GetString(i).ToStdString());
     }
   }
-
-  std::cout << "Selected grammar names: " << grammar_names.size() << "\n";
 
   if (grammar_names.size() == 0)
   {
@@ -232,13 +229,10 @@ void GrammarOverviewTab::load_grammar(wxCommandEvent& evt)
 
 void GrammarOverviewTab::delete_grammars(wxCommandEvent& evt)
 {
-  std::cout << "Deleting\n";
   for (int i = this->grammars_display->GetCount() - 1; i >= 0; i--)
   {
     if (this->grammars_display->IsChecked(i))
     {
-      std::cout << "Checked grammar: "
-                << this->grammars_display->GetString(i).ToStdString() << "\n";
       this->converter.delete_grammar(
           this->grammars_display->GetString(i).ToStdString());
     }
@@ -261,4 +255,96 @@ std::vector<Nonterminal*> GrammarOverviewTab::get_nonterminal_alphabet()
 std::vector<Terminal*> GrammarOverviewTab::get_terminal_alphabet()
 {
   return this->terminal_alphabet;
+}
+
+void GrammarOverviewTab::check_grammar(wxCommandEvent& evt)
+{
+  std::string concluding_message =
+      "Die vorliegende Grammatik hat die vorliegenden Eigenschaften:\n";
+
+  std::vector<Symbol*> symbols;
+  std::vector<std::string> duplicate_symbol_identifiers;
+  for (size_t i = 0; i < this->nonterminal_alphabet.size(); i++)
+  {
+    symbols.push_back(this->nonterminal_alphabet.at(i));
+  }
+  for (size_t i = 0; i < this->terminal_alphabet.size(); i++)
+  {
+    symbols.push_back(this->terminal_alphabet.at(i));
+  }
+
+  for (size_t i = 0; i < symbols.size(); i++)
+  {
+    for (size_t j = 0; j < symbols.size(); j++)
+    {
+      if (i != j)
+      {
+        if (symbols.at(i)->getIdentifier() == symbols.at(j)->getIdentifier())
+        {
+          duplicate_symbol_identifiers.push_back(
+              symbols.at(i)->getIdentifier());
+        }
+      }
+    }
+  }
+
+  if (duplicate_symbol_identifiers.size() == 0)
+  {
+    concluding_message += "- Es gibt keine doppelten Symbole.\n";
+  }
+  else
+  {
+    concluding_message += "- Die folgenden Symbole kommen mehrfach vor: ";
+    for (size_t i = 0; i < duplicate_symbol_identifiers.size(); i++)
+    {
+      concluding_message += duplicate_symbol_identifiers.at(i) + ", ";
+    }
+    concluding_message += "\n";
+  }
+
+  std::vector<Production> duplicate_productions;
+  for (size_t i = 0; i < this->productions.size(); i++)
+  {
+    for (size_t j = 0; j < this->productions.size(); j++)
+    {
+      if (i != j)
+      {
+        if (this->productions.at(i).lhs().getIdentifier() ==
+            this->productions.at(j).lhs().getIdentifier())
+        {
+          bool rhs_equal = this->productions.at(i).rhs().size() ==
+                           this->productions.at(j).rhs().size();
+          for (size_t k = 0; k < this->productions.at(i).rhs().size(); k++)
+          {
+            if (this->productions.at(i).rhs().at(k)->getIdentifier() !=
+                this->productions.at(j).rhs().at(k)->getIdentifier())
+            {
+              rhs_equal = false;
+              break;
+            }
+          }
+          if (rhs_equal)
+          {
+            duplicate_productions.push_back(this->productions.at(i));
+          }
+        }
+      }
+    }
+  }
+
+  if (duplicate_productions.size() == 0)
+  {
+    concluding_message += "- Es gibt keine doppelten Produktionsregeln.\n";
+  }
+  else
+  {
+    concluding_message += "- Die folgenden Produktionen kommen mehrfach vor: ";
+    for (size_t i = 0; i < duplicate_productions.size(); i++)
+    {
+      concluding_message += duplicate_productions.at(i).to_string() + ", ";
+    }
+    concluding_message += "\n";
+  }
+
+  wxMessageBox(wxString::FromUTF8(concluding_message));
 }
