@@ -43,6 +43,9 @@ private:
 
   void load_visualisation_tabs();
 
+  long runtime_prediction() const;
+  bool ask_continue();
+
   wxDECLARE_DYNAMIC_CLASS(GrammarEditor);
   wxDECLARE_EVENT_TABLE();
 };
