@@ -1,5 +1,6 @@
 = ProGramm - Exploration tool for Chomsky type 2 grammars.
 :gpp: g++
+:cpp: C++
 
 == Building
 
@@ -28,11 +29,9 @@ make build
 
 NOTE: {gpp}-10 or later is required to build the application. On Ubuntu 20.04 it can be installed using `sudo apt install {gpp}-10`. If the appropriate compiler isn't automatically used (i.e. there are compile errors) prepend `CXX=<specific {gpp} executable>` to the make calls. For example: `make clean; CXX={gpp}-10 make run`.
 
-=== Mac OS
-
-TODO
+NOTE: It is necessary that CMake, a {cpp} compiler and the development library for GTK+ 3 are installed to build the application. On Ubuntu, for example, this command may be executed in order to install them: `sudo apt install -y cmake {gpp}-10 libgtk-3-dev`.
 
 == Prebuilt binaries
 
-TODO
+Prebuilt binaries are available via the releases on this https://github.com/sewpalu/ProGramm[GitHub] repository. Simply unzip them and start the GUI via the `pro_gramm_gui.bat` (Windows) or `pro_gramm_gui.sh` (Linux) script, or use the CLI directly. As of now, the working directory of the application has to be the unzipped directory.
 
